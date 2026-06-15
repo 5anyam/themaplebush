@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const WOOCOMMERCE_CONFIG = {
-  BASE_URL: process.env.API_BASE || 'https://cms.tap2buy.in',
+  BASE_URL: process.env.API_BASE || 'https://cms.kdbookbazaar.com',
   CONSUMER_KEY: process.env.CONSUMER_KEY || '',
   CONSUMER_SECRET: process.env.CONSUMER_SECRET || '',
 };

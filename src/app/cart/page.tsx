@@ -25,12 +25,12 @@ export default function CartPage() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <div className="bg-[#1B2A4A] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#1a1a1a] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-6xl mx-auto px-4 py-10 relative z-10">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="w-9 h-9 bg-[#ff3131] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
               <ShoppingBag className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight">Shopping Cart</h1>
@@ -57,7 +57,7 @@ export default function CartPage() {
             </p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-7 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="inline-flex items-center gap-2 px-7 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               <ShoppingBag className="w-4 h-4" />
               Continue Shopping
@@ -79,7 +79,7 @@ export default function CartPage() {
                 return (
                   <div
                     key={item.id}
-                    className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+                    className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300"
                   >
                     <div className="flex gap-4">
                       {/* Image */}
@@ -125,7 +125,7 @@ export default function CartPage() {
                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (item.quantity > 1) decrement(item.id); }}
                               disabled={item.quantity <= 1}
                               aria-label="Decrease quantity"
-                              className="px-3 py-2 hover:bg-orange-50 hover:text-[#FF6B00] disabled:opacity-40 disabled:cursor-not-allowed transition-colors touch-manipulation"
+                              className="px-3 py-2 hover:bg-red-50 hover:text-[#ff3131] disabled:opacity-40 disabled:cursor-not-allowed transition-colors touch-manipulation"
                             >
                               <Minus className="w-3.5 h-3.5" />
                             </button>
@@ -136,7 +136,7 @@ export default function CartPage() {
                               type="button"
                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); increment(item.id); }}
                               aria-label="Increase quantity"
-                              className="px-3 py-2 hover:bg-orange-50 hover:text-[#FF6B00] transition-colors touch-manipulation"
+                              className="px-3 py-2 hover:bg-red-50 hover:text-[#ff3131] transition-colors touch-manipulation"
                             >
                               <Plus className="w-3.5 h-3.5" />
                             </button>
@@ -165,7 +165,7 @@ export default function CartPage() {
               {/* Continue shopping */}
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 text-sm text-[#FF6B00] font-semibold hover:underline mt-2"
+                className="inline-flex items-center gap-2 text-sm text-[#ff3131] font-semibold hover:underline mt-2"
               >
                 ← Continue Shopping
               </Link>
@@ -223,14 +223,14 @@ export default function CartPage() {
                   <div className="space-y-3">
                     <Link
                       href="/checkout"
-                      className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200"
+                      className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200"
                     >
                       Proceed to Checkout
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                     <Link
                       href="/shop"
-                      className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+                      className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
                     >
                       Continue Shopping
                     </Link>
@@ -244,7 +244,7 @@ export default function CartPage() {
                       '7-day easy returns',
                     ].map((item, i) => (
                       <div key={i} className="flex items-center gap-2 text-xs text-gray-500">
-                        <CheckCircle className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                        <CheckCircle className="w-3.5 h-3.5 text-[#ff3131] flex-shrink-0" />
                         {item}
                       </div>
                     ))}

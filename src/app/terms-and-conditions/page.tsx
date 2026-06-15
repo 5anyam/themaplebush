@@ -54,7 +54,7 @@ const termsSections: TermsSection[] = [
       <div className="space-y-3">
         <p className="text-sm text-gray-600 leading-relaxed">
           Returns and replacements apply strictly to items verified as defective or damaged due to manufacturing faults, reported within{' '}
-          <span className="font-semibold text-[#FF6B00]">7 days of delivery</span> with valid proof or documented evidence.
+          <span className="font-semibold text-[#ff3131]">7 days of delivery</span> with valid proof or documented evidence.
         </p>
         <ul className="space-y-2">
           {[
@@ -64,7 +64,7 @@ const termsSections: TermsSection[] = [
             'Returns due to incorrect product selection or buyer remorse are not accepted',
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+              <span className="w-1.5 h-1.5 bg-[#ff3131] rounded-full flex-shrink-0 mt-2" />
               {item}
             </li>
           ))}
@@ -86,7 +86,7 @@ const termsSections: TermsSection[] = [
     title: 'Intellectual Property Rights',
     content: (
       <p className="text-sm text-gray-600 leading-relaxed">
-        All creative assets, including brand logos, product visuals, digital content, and layout designs, are the intellectual property of Tap2Buy or their rightful owners. Any unauthorized use, reproduction, or distribution constitutes a legal violation and may invite immediate legal proceedings.
+        All creative assets, including brand logos, product visuals, digital content, and layout designs, are the intellectual property of KD Book Bazaar or their rightful owners. Any unauthorized use, reproduction, or distribution constitutes a legal violation and may invite immediate legal proceedings.
       </p>
     ),
   },
@@ -123,7 +123,7 @@ const termsSections: TermsSection[] = [
             'Customer service communications',
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+              <span className="w-1.5 h-1.5 bg-[#ff3131] rounded-full flex-shrink-0 mt-2" />
               {item}
             </li>
           ))}
@@ -163,7 +163,7 @@ const relatedPolicies: PolicyLink[] = [
   },
   {
     title: 'Cancellation Policy',
-    description: 'Learn when and how you can cancel an order on Tap2Buy.',
+    description: 'Learn when and how you can cancel an order on KD Book Bazaar.',
     link: '/cancellation-policy',
     icon: Scale,
   },
@@ -174,19 +174,19 @@ export default function TermsOfService() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="bg-[#1a1a1a] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-            <Scale className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <Scale className="w-3.5 h-3.5 text-[#ff3131]" />
             <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Legal Agreement</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
             Terms & Conditions
           </h1>
           <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
-            Welcome to Tap2Buy. By using our platform or making a purchase, you agree to the terms and conditions that govern your use of our services.
+            Welcome to KD Book Bazaar. By using our platform or making a purchase, you agree to the terms and conditions that govern your use of our services.
           </p>
         </div>
       </section>
@@ -197,8 +197,8 @@ export default function TermsOfService() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed">
             By engaging with our website at{' '}
-            <a href="https://www.tap2buy.in" className="text-[#FF6B00] font-medium hover:underline">
-              www.tap2buy.in
+            <a href="https://www.kdbookbazaar.com" className="text-[#ff3131] font-medium hover:underline">
+              www.kdbookbazaar.com
             </a>{' '}
             or making a purchase, you acknowledge, understand, and accept the terms and conditions that govern your use of our services. Please read these carefully before proceeding.
           </p>
@@ -208,11 +208,11 @@ export default function TermsOfService() {
         {termsSections.map((section, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              <div className="w-11 h-11 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#ff3131]" />
               </div>
               <div className="flex-1">
                 <h2 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
@@ -229,8 +229,8 @@ export default function TermsOfService() {
         {/* Contact — Section 11 */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <div className="flex items-start gap-4 mb-5">
-            <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Mail className="w-5 h-5 text-[#FF6B00]" />
+            <div className="w-11 h-11 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Mail className="w-5 h-5 text-[#ff3131]" />
             </div>
             <div>
               <h2 className="text-sm font-bold text-gray-900 mb-1 uppercase tracking-wide">
@@ -242,16 +242,16 @@ export default function TermsOfService() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { icon: Mail, label: 'Email', value: 'support@tap2buy.in', href: 'mailto:support@tap2buy.in' },
+              { icon: Mail, label: 'Email', value: 'support@kdbookbazaar.com', href: 'mailto:support@kdbookbazaar.com' },
               { icon: Phone, label: 'Phone / WhatsApp', value: '+91 9911636888', href: 'tel:+919911636888' },
             ].map((item, i) => (
               <a
                 key={i}
                 href={item.href}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#FF6B00]/30 hover:bg-orange-50/30 transition-all duration-200 group"
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#ff3131]/30 hover:bg-red-50/30 transition-all duration-200 group"
               >
-                <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center group-hover:bg-[#FF6B00] transition-colors">
-                  <item.icon className="w-4 h-4 text-[#FF6B00] group-hover:text-white transition-colors" />
+                <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-[#ff3131] transition-colors">
+                  <item.icon className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
@@ -262,13 +262,13 @@ export default function TermsOfService() {
           </div>
 
           <div className="mt-4 flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
-            <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0">
-              <MapPin className="w-4 h-4 text-[#FF6B00]" />
+            <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+              <MapPin className="w-4 h-4 text-[#ff3131]" />
             </div>
             <div>
               <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Office Address</p>
               <address className="text-sm text-gray-700 not-italic leading-relaxed">
-                Tap2Buy, Sector 15, Rohini<br />
+                KD Book Bazaar, Sector 15, Rohini<br />
                 New Delhi, Delhi 110089, India
               </address>
             </div>
@@ -280,10 +280,10 @@ export default function TermsOfService() {
         </div>
 
         {/* Closing Statement */}
-        <div className="bg-[#1B2A4A] rounded-2xl p-7 text-white text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-[#1a1a1a] rounded-2xl p-7 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
           <p className="relative z-10 text-sm text-blue-200 leading-relaxed max-w-2xl mx-auto">
-            By using the Tap2Buy website, you acknowledge that you have{' '}
+            By using the KD Book Bazaar website, you acknowledge that you have{' '}
             <span className="text-white font-semibold">read, understood, and agreed</span>{' '}
             to these Terms & Conditions. If you do not agree, please discontinue use of our platform.
           </p>
@@ -295,15 +295,15 @@ export default function TermsOfService() {
           <p className="text-sm text-gray-500 mb-5">Our support team is happy to clarify anything.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="mailto:support@tap2buy.in"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              href="mailto:support@kdbookbazaar.com"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               <Mail className="w-4 h-4" />
               Email Support
             </a>
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
             >
               Back to Home
             </Link>
@@ -318,18 +318,18 @@ export default function TermsOfService() {
               <Link
                 key={index}
                 href={policy.link}
-                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF6B00] transition-colors duration-300">
-                    <policy.icon className="w-5 h-5 text-[#FF6B00] group-hover:text-white transition-colors duration-300" />
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#ff3131] transition-colors duration-300">
+                    <policy.icon className="w-5 h-5 text-[#ff3131] group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#FF6B00] transition-colors">
+                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#ff3131] transition-colors">
                       {policy.title}
                     </h3>
                     <p className="text-xs text-gray-500 leading-relaxed mb-2">{policy.description}</p>
-                    <div className="flex items-center gap-1 text-[#FF6B00] text-xs font-semibold">
+                    <div className="flex items-center gap-1 text-[#ff3131] text-xs font-semibold">
                       Read More
                       <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -341,10 +341,10 @@ export default function TermsOfService() {
         </div>
 
         <p className="text-xs text-gray-400 text-center pb-4">
-          © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
-          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">Privacy Policy</Link>
+          © {new Date().getFullYear()} KD Book Bazaar. All rights reserved. &nbsp;·&nbsp;{' '}
+          <Link href="/privacy-policy" className="text-[#ff3131] hover:underline">Privacy Policy</Link>
           {' '}&nbsp;·&nbsp;{' '}
-          <Link href="/disclaimer" className="text-[#FF6B00] hover:underline">Disclaimer</Link>
+          <Link href="/disclaimer" className="text-[#ff3131] hover:underline">Disclaimer</Link>
         </p>
       </div>
     </main>

@@ -34,12 +34,12 @@ export default function LoginPage() {
 
         {/* Logo / Brand */}
         <div className="text-center">
-          <div className="w-14 h-14 bg-[#FF6B00] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200">
+          <div className="w-14 h-14 bg-[#ff3131] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200">
             <ShoppingBag className="w-7 h-7 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome Back</h1>
           <p className="text-sm text-gray-500">
-            Login to your <span className="text-[#FF6B00] font-semibold">Tap2Buy</span> account
+            Login to your <span className="text-[#ff3131] font-semibold">KD Book Bazaar</span> account
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export default function LoginPage() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 focus:bg-white transition-all placeholder:text-gray-400"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400"
                   placeholder="Enter username or email"
                   required
                 />
@@ -82,7 +82,7 @@ export default function LoginPage() {
                 </label>
                 <Link
                   href="/forgot-password"
-                  className="text-xs text-[#FF6B00] hover:underline font-medium"
+                  className="text-xs text-[#ff3131] hover:underline font-medium"
                 >
                   Forgot password?
                 </Link>
@@ -93,7 +93,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 focus:bg-white transition-all placeholder:text-gray-400"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400"
                   placeholder="Enter password"
                   required
                 />
@@ -104,7 +104,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#FF6B00] hover:bg-[#e55f00] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-[#ff3131] hover:bg-[#cc0000] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (
                 <>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                 </>
               ) : (
                 <>
-                  Login to Tap2Buy
+                  Login to KD Book Bazaar
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -123,14 +123,14 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-gray-100" />
-            <span className="text-xs text-gray-400 font-medium">New to Tap2Buy?</span>
+            <span className="text-xs text-gray-400 font-medium">New to KD Book Bazaar?</span>
             <div className="flex-1 h-px bg-gray-100" />
           </div>
 
           {/* Register link */}
           <Link
             href="/register"
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
           >
             Create an Account
           </Link>
@@ -139,11 +139,11 @@ export default function LoginPage() {
         {/* Trust note */}
         <p className="text-center text-xs text-gray-400">
           By logging in, you agree to our{' '}
-          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">
+          <Link href="/terms-and-conditions" className="text-[#ff3131] hover:underline">
             Terms & Conditions
           </Link>{' '}
           and{' '}
-          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">
+          <Link href="/privacy-policy" className="text-[#ff3131] hover:underline">
             Privacy Policy
           </Link>
         </p>

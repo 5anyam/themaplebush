@@ -108,7 +108,7 @@ export default function CategoryClient({
 
   // ── Skeleton ──
   const SkeletonCard = () => (
-    <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 animate-pulse">
+    <div className="bg-white  overflow-hidden border border-gray-100 animate-pulse">
       <div className="aspect-square bg-gray-100" />
       <div className="p-4 space-y-2">
         <div className="h-3 bg-gray-100 rounded w-3/4" />
@@ -125,7 +125,7 @@ export default function CategoryClient({
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center gap-1.5 text-xs text-gray-500">
-            <button onClick={() => router.push('/')} className="hover:text-[#FF6B00] transition-colors">
+            <button onClick={() => router.push('/')} className="hover:text-[#ff3131] transition-colors">
               Home
             </button>
             <ChevronRight className="w-3 h-3 text-gray-300" />
@@ -135,9 +135,9 @@ export default function CategoryClient({
       </div>
 
       {/* ── CATEGORY BANNER ── */}
-      <div className="bg-gradient-to-r from-[#1B2A4A] to-[#2d3f6b] text-white">
+      <div className="bg-gradient-to-r from-[#ff3131] to-[#cc0000] text-white">
         <div className="max-w-7xl mx-auto px-4 py-10 md:py-14">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-orange-300 mb-2 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-red-200 mb-2 block">
             Browse Collection
           </span>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{categoryName}</h1>
@@ -160,7 +160,7 @@ export default function CategoryClient({
             {/* Filter (mobile only) */}
             <button
               onClick={() => setShowFilters(true)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-[#FF6B00]/50 hover:text-[#FF6B00] transition-colors bg-white"
+              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-200  text-sm font-medium text-gray-700 hover:border-[#ff3131]/50 hover:text-[#ff3131] transition-colors bg-white"
             >
               <SlidersHorizontal className="w-4 h-4" /> Filter
             </button>
@@ -169,20 +169,20 @@ export default function CategoryClient({
             <div className="relative">
               <button
                 onClick={() => setShowSortMenu(!showSortMenu)}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-[#FF6B00]/50 hover:text-[#FF6B00] transition-colors bg-white"
+                className="flex items-center gap-2 px-4 py-2 border border-gray-200  text-sm font-medium text-gray-700 hover:border-[#ff3131]/50 hover:text-[#ff3131] transition-colors bg-white"
               >
                 <ArrowUpDown className="w-4 h-4" />
                 {SORT_LABELS[sortBy]}
               </button>
               {showSortMenu && (
-                <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-gray-100 rounded-xl shadow-xl py-2 z-30">
+                <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-gray-100  shadow-xl py-2 z-30">
                   {(Object.keys(SORT_LABELS) as SortOption[]).map((key) => (
                     <button
                       key={key}
                       onClick={() => { setSortBy(key); setShowSortMenu(false) }}
                       className={`w-full text-left px-4 py-2.5 text-sm flex items-center justify-between transition-colors
                         ${sortBy === key
-                          ? 'text-[#FF6B00] bg-orange-50 font-medium'
+                          ? 'text-[#ff3131] bg-red-50 font-medium'
                           : 'text-gray-700 hover:bg-gray-50'}`}
                     >
                       {SORT_LABELS[key]}
@@ -199,7 +199,7 @@ export default function CategoryClient({
 
           {/* ── SIDEBAR FILTERS (Desktop) ── */}
           <aside className="hidden lg:block w-60 flex-shrink-0">
-            <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm sticky top-24">
+            <div className="bg-white  border border-gray-100 p-5 shadow-sm sticky top-24">
               <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-5">
                 Filters
               </h3>
@@ -208,7 +208,7 @@ export default function CategoryClient({
                 <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">
                   Max Price
                 </label>
-                <p className="text-lg font-bold text-[#FF6B00] mb-3">
+                <p className="text-lg font-bold text-[#ff3131] mb-3">
                   ₹{ceiling.toLocaleString('en-IN')}
                 </p>
                 <input
@@ -217,7 +217,7 @@ export default function CategoryClient({
                   max={maxPrice}
                   value={ceiling}
                   onChange={(e) => setPriceMax(Number(e.target.value))}
-                  className="w-full accent-[#FF6B00]"
+                  className="w-full accent-[#ff3131]"
                 />
                 <div className="flex justify-between text-[11px] text-gray-400 mt-1">
                   <span>₹0</span>
@@ -228,7 +228,7 @@ export default function CategoryClient({
               <div className="mt-5 pt-5 border-t border-gray-100">
                 <button
                   onClick={() => setPriceMax(null)}
-                  className="text-xs text-[#FF6B00] hover:underline font-medium"
+                  className="text-xs text-[#ff3131] hover:underline font-medium"
                 >
                   Clear All Filters
                 </button>
@@ -244,8 +244,8 @@ export default function CategoryClient({
               </div>
             ) : filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mb-5">
-                  <Package className="w-10 h-10 text-[#FF6B00]" />
+                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-5">
+                  <Package className="w-10 h-10 text-[#ff3131]" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 mb-2">No Products Found</h2>
                 <p className="text-sm text-gray-500 mb-6 max-w-xs">
@@ -253,7 +253,7 @@ export default function CategoryClient({
                 </p>
                 <button
                   onClick={() => setPriceMax(null)}
-                  className="px-6 py-3 bg-[#FF6B00] text-white text-sm font-semibold rounded-xl hover:bg-[#e55f00] transition-colors shadow-md"
+                  className="px-6 py-3 bg-[#ff3131] text-white text-sm font-semibold  hover:bg-[#cc0000] transition-colors shadow-md"
                 >
                   Clear Filters
                 </button>
@@ -273,7 +273,7 @@ export default function CategoryClient({
                     <Link
                       key={product.id}
                       href={`/product/${product.slug}`}
-                      className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-[#FF6B00]/30 hover:shadow-lg transition-all duration-300"
+                      className="group bg-white  overflow-hidden border border-gray-100 hover:border-[#ff3131]/30 hover:shadow-lg transition-all duration-300"
                     >
                       {/* Image */}
                       <div className="relative aspect-square overflow-hidden bg-gray-50">
@@ -292,7 +292,7 @@ export default function CategoryClient({
                         {/* Sale badge */}
                         {hasSale && discount > 0 && (
                           <div className="absolute top-2 left-2">
-                            <span className="bg-[#FF6B00] text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                            <span className="bg-[#ff3131] text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
                               <Tag className="w-2.5 h-2.5" /> {discount}% OFF
                             </span>
                           </div>
@@ -301,12 +301,12 @@ export default function CategoryClient({
                         {/* Wishlist */}
                         <button
                           onClick={(e) => toggleWishlist(product.id, e)}
-                          className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#FF6B00]/30 transition-all opacity-0 group-hover:opacity-100"
+                          className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#ff3131]/30 transition-all opacity-0 group-hover:opacity-100"
                           aria-label="Wishlist"
                         >
                           <Heart
                             className={`w-3.5 h-3.5 transition-colors ${
-                              isWishlisted ? 'fill-[#FF6B00] text-[#FF6B00]' : 'text-gray-400'
+                              isWishlisted ? 'fill-[#ff3131] text-[#ff3131]' : 'text-gray-400'
                             }`}
                           />
                         </button>
@@ -314,7 +314,7 @@ export default function CategoryClient({
                         {/* Quick Add */}
                         <button
                           onClick={(e) => handleAddToCart(product, e)}
-                          className="absolute bottom-2 left-2 right-2 bg-[#FF6B00] text-white text-xs font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-md"
+                          className="absolute bottom-2 left-2 right-2 bg-[#ff3131] text-white text-xs font-bold py-2  flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-md"
                         >
                           {isAdding ? (
                             <><Check className="w-3.5 h-3.5" /> Added!</>
@@ -329,12 +329,12 @@ export default function CategoryClient({
                         <p className="text-[11px] text-gray-400 mb-1 truncate uppercase tracking-wide">
                           {product.categories?.[0]?.name || categoryName}
                         </p>
-                        <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-[#FF6B00] transition-colors">
+                        <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-[#ff3131] transition-colors">
                           {product.name}
                         </h3>
                         <div className="flex items-center gap-0.5 mb-2">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-3 h-3 text-[#FF6B00] fill-[#FF6B00]" />
+                            <Star key={i} className="w-3 h-3 text-[#ff3131] fill-[#ff3131]" />
                           ))}
                           <span className="text-[10px] text-gray-400 ml-1">(4.8)</span>
                         </div>
@@ -362,7 +362,7 @@ export default function CategoryClient({
       {showFilters && (
         <>
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden" onClick={() => setShowFilters(false)} />
-          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-6 shadow-2xl lg:hidden">
+          <div className="fixed bottom-0 left-0 right-0 bg-white  z-50 p-6 shadow-2xl lg:hidden">
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-sm font-bold uppercase tracking-widest">Filters</h3>
               <button onClick={() => setShowFilters(false)}>
@@ -372,7 +372,7 @@ export default function CategoryClient({
             <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">
               Max Price
             </label>
-            <p className="text-xl font-bold text-[#FF6B00] mb-3">
+            <p className="text-xl font-bold text-[#ff3131] mb-3">
               ₹{ceiling.toLocaleString('en-IN')}
             </p>
             <input
@@ -381,7 +381,7 @@ export default function CategoryClient({
               max={maxPrice}
               value={ceiling}
               onChange={(e) => setPriceMax(Number(e.target.value))}
-              className="w-full accent-[#FF6B00] mb-1"
+              className="w-full accent-[#ff3131] mb-1"
             />
             <div className="flex justify-between text-[11px] text-gray-400 mb-6">
               <span>₹0</span>
@@ -390,13 +390,13 @@ export default function CategoryClient({
             <div className="flex gap-3">
               <button
                 onClick={() => { setPriceMax(null); setShowFilters(false) }}
-                className="flex-1 py-3 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:border-gray-300 transition-colors"
+                className="flex-1 py-3 border-2 border-gray-200  text-sm font-semibold text-gray-700 hover:border-gray-300 transition-colors"
               >
                 Clear
               </button>
               <button
                 onClick={() => setShowFilters(false)}
-                className="flex-1 py-3 bg-[#FF6B00] rounded-xl text-sm font-semibold text-white hover:bg-[#e55f00] transition-colors shadow-md"
+                className="flex-1 py-3 bg-[#ff3131]  text-sm font-semibold text-white hover:bg-[#cc0000] transition-colors shadow-md"
               >
                 Apply
               </button>

@@ -78,7 +78,7 @@ export default function RegisterPage() {
   };
 
   const inputClass =
-    'w-full py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 focus:bg-white transition-all placeholder:text-gray-400';
+    'w-full py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400';
 
   return (
     <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
@@ -86,12 +86,12 @@ export default function RegisterPage() {
 
         {/* Brand */}
         <div className="text-center">
-          <div className="w-14 h-14 bg-[#FF6B00] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200">
+          <div className="w-14 h-14 bg-[#ff3131] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-200">
             <ShoppingBag className="w-7 h-7 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-1">Create Account</h1>
           <p className="text-sm text-gray-500">
-            Join <span className="text-[#FF6B00] font-semibold">Tap2Buy</span> for exclusive benefits
+            Join <span className="text-[#ff3131] font-semibold">KD Book Bazaar</span> for exclusive benefits
           </p>
         </div>
 
@@ -111,7 +111,7 @@ export default function RegisterPage() {
             {/* Username */}
             <div>
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
-                Username <span className="text-[#FF6B00]">*</span>
+                Username <span className="text-[#ff3131]">*</span>
               </label>
               <div className="relative">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -160,7 +160,7 @@ export default function RegisterPage() {
             {/* Email */}
             <div>
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
-                Email <span className="text-[#FF6B00]">*</span>
+                Email <span className="text-[#ff3131]">*</span>
               </label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -179,7 +179,7 @@ export default function RegisterPage() {
             {/* Password */}
             <div>
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
-                Password <span className="text-[#FF6B00]">*</span>
+                Password <span className="text-[#ff3131]">*</span>
               </label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -196,7 +196,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#ff3131] transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -206,7 +206,7 @@ export default function RegisterPage() {
             {/* Confirm Password */}
             <div>
               <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
-                Confirm Password <span className="text-[#FF6B00]">*</span>
+                Confirm Password <span className="text-[#ff3131]">*</span>
               </label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -222,7 +222,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#ff3131] transition-colors"
                 >
                   {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -245,7 +245,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#FF6B00] hover:bg-[#e55f00] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2 mt-1"
+              className="w-full bg-[#ff3131] hover:bg-[#cc0000] disabled:opacity-60 disabled:cursor-not-allowed text-white py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2 mt-1"
             >
               {loading ? (
                 <>
@@ -270,7 +270,7 @@ export default function RegisterPage() {
 
           <Link
             href="/login"
-            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
           >
             Login Instead
           </Link>
@@ -284,7 +284,7 @@ export default function RegisterPage() {
           <ul className="space-y-2.5">
             {memberBenefits.map((benefit, i) => (
               <li key={i} className="flex items-center gap-2.5 text-sm text-gray-600">
-                <CheckCircle className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
+                <CheckCircle className="w-4 h-4 text-[#ff3131] flex-shrink-0" />
                 {benefit}
               </li>
             ))}
@@ -294,11 +294,11 @@ export default function RegisterPage() {
         {/* Trust note */}
         <p className="text-center text-xs text-gray-400 pb-2">
           By registering, you agree to our{' '}
-          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">
+          <Link href="/terms-and-conditions" className="text-[#ff3131] hover:underline">
             Terms & Conditions
           </Link>{' '}
           and{' '}
-          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">
+          <Link href="/privacy-policy" className="text-[#ff3131] hover:underline">
             Privacy Policy
           </Link>
         </p>

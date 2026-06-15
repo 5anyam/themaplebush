@@ -147,31 +147,31 @@ export default function SaleClient({
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center gap-1.5 text-xs text-gray-500">
-            <button onClick={() => router.push('/')} className="hover:text-[#FF6B00] transition-colors">
+            <button onClick={() => router.push('/')} className="hover:text-[#ff3131] transition-colors">
               Home
             </button>
             <ChevronRight className="w-3 h-3 text-gray-300" />
-            <span className="text-[#FF6B00] font-semibold">Sale</span>
+            <span className="text-[#ff3131] font-semibold">Sale</span>
           </div>
         </div>
       </div>
 
       {/* ── HERO BANNER ── */}
-      <div className="relative bg-[#1B2A4A] overflow-hidden">
+      <div className="relative bg-[#1a1a1a] overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-5"
-          style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #FF6B00 0%, transparent 50%), radial-gradient(circle at 80% 20%, #FF6B00 0%, transparent 40%)' }}
+          style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #ff3131 0%, transparent 50%), radial-gradient(circle at 80% 20%, #ff3131 0%, transparent 40%)' }}
         />
         <div className="relative max-w-7xl mx-auto px-4 py-12 md:py-16 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <Flame className="w-5 h-5 text-[#FF6B00] animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#FF6B00]">
+              <Flame className="w-5 h-5 text-[#ff3131] animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#ff3131]">
                 Limited Time Deals
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight">
-              SALE <span className="text-[#FF6B00]">FEST</span>
+              SALE <span className="text-[#ff3131]">FEST</span>
             </h1>
             <p className="text-sm text-blue-300 max-w-md">
               Up to <span className="text-white font-bold">70% OFF</span> on products across all categories. Grab them before they&apos;re gone.
@@ -186,7 +186,7 @@ export default function SaleClient({
               { value: 'Free', label: 'Shipping' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <p className="text-2xl font-black text-[#FF6B00]">{stat.value}</p>
+                <p className="text-2xl font-black text-[#ff3131]">{stat.value}</p>
                 <p className="text-[11px] text-blue-300 uppercase tracking-wider mt-0.5">{stat.label}</p>
               </div>
             ))}
@@ -202,7 +202,7 @@ export default function SaleClient({
               onClick={() => setActiveCategory('all')}
               className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 activeCategory === 'all'
-                  ? 'bg-[#FF6B00] text-white shadow-md shadow-orange-200'
+                  ? 'bg-[#ff3131] text-white shadow-md shadow-orange-200'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -214,7 +214,7 @@ export default function SaleClient({
                 onClick={() => setActiveCategory(cat.slug)}
                 className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all whitespace-nowrap ${
                   activeCategory === cat.slug
-                    ? 'bg-[#FF6B00] text-white shadow-md shadow-orange-200'
+                    ? 'bg-[#ff3131] text-white shadow-md shadow-orange-200'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
@@ -235,14 +235,14 @@ export default function SaleClient({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFilters(true)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-[#FF6B00]/50 hover:text-[#FF6B00] transition-colors bg-white"
+              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-[#ff3131]/50 hover:text-[#ff3131] transition-colors bg-white"
             >
               <SlidersHorizontal className="w-4 h-4" /> Filter
             </button>
             <div className="relative">
               <button
                 onClick={() => setShowSortMenu(!showSortMenu)}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-[#FF6B00]/50 hover:text-[#FF6B00] transition-colors bg-white"
+                className="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-[#ff3131]/50 hover:text-[#ff3131] transition-colors bg-white"
               >
                 <ArrowUpDown className="w-4 h-4" />
                 {SORT_LABELS[sortBy]}
@@ -254,7 +254,7 @@ export default function SaleClient({
                       key={key}
                       onClick={() => { setSortBy(key); setShowSortMenu(false) }}
                       className={`w-full text-left px-4 py-2.5 text-sm flex items-center justify-between transition-colors
-                        ${sortBy === key ? 'text-[#FF6B00] bg-orange-50 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+                        ${sortBy === key ? 'text-[#ff3131] bg-red-50 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
                     >
                       {SORT_LABELS[key]}
                       {sortBy === key && <Check className="w-3.5 h-3.5" />}
@@ -272,7 +272,7 @@ export default function SaleClient({
           <aside className="hidden lg:block w-60 flex-shrink-0">
             <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm sticky top-36">
               <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-5 flex items-center gap-2">
-                <Zap className="w-3.5 h-3.5 text-[#FF6B00]" /> Filters
+                <Zap className="w-3.5 h-3.5 text-[#ff3131]" /> Filters
               </h3>
 
               {/* Category filter */}
@@ -285,7 +285,7 @@ export default function SaleClient({
                     onClick={() => setActiveCategory('all')}
                     className={`text-left text-xs px-3 py-2 rounded-lg transition-colors font-medium ${
                       activeCategory === 'all'
-                        ? 'bg-orange-50 text-[#FF6B00]'
+                        ? 'bg-red-50 text-[#ff3131]'
                         : 'text-gray-600 hover:bg-gray-50'
                     }`}
                   >
@@ -297,7 +297,7 @@ export default function SaleClient({
                       onClick={() => setActiveCategory(cat.slug)}
                       className={`text-left text-xs px-3 py-2 rounded-lg transition-colors font-medium ${
                         activeCategory === cat.slug
-                          ? 'bg-orange-50 text-[#FF6B00]'
+                          ? 'bg-red-50 text-[#ff3131]'
                           : 'text-gray-600 hover:bg-gray-50'
                       }`}
                     >
@@ -312,13 +312,13 @@ export default function SaleClient({
                 <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">
                   Max Price
                 </label>
-                <p className="text-lg font-bold text-[#FF6B00] mb-3">
+                <p className="text-lg font-bold text-[#ff3131] mb-3">
                   ₹{ceiling.toLocaleString('en-IN')}
                 </p>
                 <input
                   type="range" min={0} max={maxPrice} value={ceiling}
                   onChange={(e) => setPriceMax(Number(e.target.value))}
-                  className="w-full accent-[#FF6B00]"
+                  className="w-full accent-[#ff3131]"
                 />
                 <div className="flex justify-between text-[11px] text-gray-400 mt-1">
                   <span>₹0</span>
@@ -328,7 +328,7 @@ export default function SaleClient({
 
               <button
                 onClick={() => { setActiveCategory('all'); setPriceMax(null) }}
-                className="mt-5 text-xs text-[#FF6B00] hover:underline font-medium"
+                className="mt-5 text-xs text-[#ff3131] hover:underline font-medium"
               >
                 Clear All Filters
               </button>
@@ -343,8 +343,8 @@ export default function SaleClient({
               </div>
             ) : filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mb-5">
-                  <Package className="w-10 h-10 text-[#FF6B00]" />
+                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-5">
+                  <Package className="w-10 h-10 text-[#ff3131]" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900 mb-2">No Deals Found</h2>
                 <p className="text-sm text-gray-500 mb-6 max-w-xs">
@@ -352,7 +352,7 @@ export default function SaleClient({
                 </p>
                 <button
                   onClick={() => { setActiveCategory('all'); setPriceMax(null) }}
-                  className="px-6 py-3 bg-[#FF6B00] text-white text-sm font-semibold rounded-xl hover:bg-[#e55f00] transition-colors shadow-md"
+                  className="px-6 py-3 bg-[#ff3131] text-white text-sm font-semibold rounded-xl hover:bg-[#cc0000] transition-colors shadow-md"
                 >
                   Clear Filters
                 </button>
@@ -372,7 +372,7 @@ export default function SaleClient({
                     <Link
                       key={product.id}
                       href={`/product/${product.slug}`}
-                      className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-[#FF6B00]/30 hover:shadow-lg transition-all duration-300"
+                      className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-[#ff3131]/30 hover:shadow-lg transition-all duration-300"
                     >
                       {/* Image */}
                       <div className="relative aspect-square overflow-hidden bg-gray-50">
@@ -390,7 +390,7 @@ export default function SaleClient({
 
                         {/* Discount badge */}
                         <div className="absolute top-2 left-2">
-                          <span className="bg-[#FF6B00] text-white text-[11px] font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md">
+                          <span className="bg-[#ff3131] text-white text-[11px] font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md">
                             <Tag className="w-2.5 h-2.5" /> {discount}% OFF
                           </span>
                         </div>
@@ -398,16 +398,16 @@ export default function SaleClient({
                         {/* Wishlist */}
                         <button
                           onClick={(e) => toggleWishlist(product.id, e)}
-                          className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#FF6B00]/30 transition-all opacity-0 group-hover:opacity-100"
+                          className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#ff3131]/30 transition-all opacity-0 group-hover:opacity-100"
                           aria-label="Wishlist"
                         >
-                          <Heart className={`w-3.5 h-3.5 transition-colors ${isWishlisted ? 'fill-[#FF6B00] text-[#FF6B00]' : 'text-gray-400'}`} />
+                          <Heart className={`w-3.5 h-3.5 transition-colors ${isWishlisted ? 'fill-[#ff3131] text-[#ff3131]' : 'text-gray-400'}`} />
                         </button>
 
                         {/* Quick Add */}
                         <button
                           onClick={(e) => handleAddToCart(product, e)}
-                          className="absolute bottom-2 left-2 right-2 bg-[#FF6B00] text-white text-xs font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-md"
+                          className="absolute bottom-2 left-2 right-2 bg-[#ff3131] text-white text-xs font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-md"
                         >
                           {isAdding
                             ? <><Check className="w-3.5 h-3.5" /> Added!</>
@@ -421,12 +421,12 @@ export default function SaleClient({
                         <p className="text-[11px] text-gray-400 mb-1 truncate uppercase tracking-wide">
                           {product.categories?.[0]?.name}
                         </p>
-                        <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-[#FF6B00] transition-colors">
+                        <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-[#ff3131] transition-colors">
                           {product.name}
                         </h3>
                         <div className="flex items-center gap-0.5 mb-2">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-3 h-3 text-[#FF6B00] fill-[#FF6B00]" />
+                            <Star key={i} className="w-3 h-3 text-[#ff3131] fill-[#ff3131]" />
                           ))}
                           <span className="text-[10px] text-gray-400 ml-1">(4.8)</span>
                         </div>
@@ -472,7 +472,7 @@ export default function SaleClient({
                 <button
                   onClick={() => setActiveCategory('all')}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                    activeCategory === 'all' ? 'bg-[#FF6B00] text-white' : 'bg-gray-100 text-gray-600'
+                    activeCategory === 'all' ? 'bg-[#ff3131] text-white' : 'bg-gray-100 text-gray-600'
                   }`}
                 >
                   All
@@ -482,7 +482,7 @@ export default function SaleClient({
                     key={cat.slug}
                     onClick={() => setActiveCategory(cat.slug)}
                     className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                      activeCategory === cat.slug ? 'bg-[#FF6B00] text-white' : 'bg-gray-100 text-gray-600'
+                      activeCategory === cat.slug ? 'bg-[#ff3131] text-white' : 'bg-gray-100 text-gray-600'
                     }`}
                   >
                     {cat.name}
@@ -499,7 +499,7 @@ export default function SaleClient({
               <input
                 type="range" min={0} max={maxPrice} value={ceiling}
                 onChange={(e) => setPriceMax(Number(e.target.value))}
-                className="w-full accent-[#FF6B00] mt-3"
+                className="w-full accent-[#ff3131] mt-3"
               />
             </div>
 
@@ -512,7 +512,7 @@ export default function SaleClient({
               </button>
               <button
                 onClick={() => setShowFilters(false)}
-                className="flex-1 py-3 bg-[#FF6B00] rounded-xl text-sm font-semibold text-white shadow-md"
+                className="flex-1 py-3 bg-[#ff3131] rounded-xl text-sm font-semibold text-white shadow-md"
               >
                 Apply
               </button>

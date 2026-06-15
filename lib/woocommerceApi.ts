@@ -1,4 +1,4 @@
-const API_BASE = "https://cms.tap2buy.in/wp-json/wc/v3";
+const API_BASE = "https://cms.kdbookbazaar.com/wp-json/wc/v3";
 const CONSUMER_KEY = process.env.CONSUMER_KEY || "ck_c6018ad0c7ea07ca111bbf28c539e73d3b3cf0ac";
 const CONSUMER_SECRET = process.env.CONSUMER_SECRET || "cs_aab574723e9230920cfa28e6244f2c35da5abc58";
 

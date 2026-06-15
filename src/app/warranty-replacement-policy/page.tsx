@@ -33,17 +33,17 @@ const warrantySections: WarrantySection[] = [
     content: (
       <div className="space-y-3">
         <p className="text-sm text-gray-600 leading-relaxed">
-          All Tap2Buy products come with a warranty covering manufacturing defects and material failures under normal use conditions.
+          All KD Book Bazaar products come with a warranty covering manufacturing defects and material failures under normal use conditions.
         </p>
         <ul className="space-y-2">
           {[
-            '30-day warranty on all products sold on Tap2Buy',
+            '30-day warranty on all products sold on KD Book Bazaar',
             'Coverage for manufacturing defects, material flaws, and workmanship issues',
             'Free replacement for defective products within warranty period',
             'Extended warranty available on select premium products',
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-              <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+              <span className="w-1.5 h-1.5 bg-[#ff3131] rounded-full flex-shrink-0 mt-2" />
               {item}
             </li>
           ))}
@@ -103,7 +103,7 @@ const warrantySections: WarrantySection[] = [
         <ol className="space-y-3">
           {replacementSteps.map((item, i) => (
             <li key={i} className="flex gap-4 items-start">
-              <div className="flex-shrink-0 w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center text-xs font-bold text-white">
+              <div className="flex-shrink-0 w-9 h-9 bg-[#ff3131] rounded-xl flex items-center justify-center text-xs font-bold text-white">
                 {item.step}
               </div>
               <div>
@@ -130,7 +130,7 @@ const warrantySections: WarrantySection[] = [
         ].map((row, i) => (
           <div key={i} className="text-center p-3 bg-gray-50 rounded-xl border border-gray-100">
             <p className="text-xs text-gray-500 mb-1">{row.label}</p>
-            <p className="text-sm font-bold text-[#FF6B00]">{row.value}</p>
+            <p className="text-sm font-bold text-[#ff3131]">{row.value}</p>
           </div>
         ))}
       </div>
@@ -145,10 +145,10 @@ const warrantySections: WarrantySection[] = [
           'Keep your original purchase receipt or order confirmation for warranty claims',
           'Defective products may need to be returned before replacement is dispatched',
           'Warranty is non-transferable and applies only to the original purchaser',
-          'Final decision on warranty claims rests with the Tap2Buy quality team',
+          'Final decision on warranty claims rests with the KD Book Bazaar quality team',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#ff3131] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -172,13 +172,13 @@ const relatedPolicies: PolicyLink[] = [
   },
   {
     title: 'Cancellation Policy',
-    description: 'Learn when and how you can cancel an order on Tap2Buy.',
+    description: 'Learn when and how you can cancel an order on KD Book Bazaar.',
     link: '/cancellation-policy',
     icon: Shield,
   },
   {
     title: 'Terms & Conditions',
-    description: 'Read the full legal terms governing your use of Tap2Buy.',
+    description: 'Read the full legal terms governing your use of KD Book Bazaar.',
     link: '/terms-and-conditions',
     icon: CheckCircle,
   },
@@ -189,12 +189,12 @@ export default function WarrantyPolicy() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="bg-[#1a1a1a] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-            <Shield className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <Shield className="w-3.5 h-3.5 text-[#ff3131]" />
             <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Protection Guarantee</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
@@ -211,7 +211,7 @@ export default function WarrantyPolicy() {
         {/* Intro */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed">
-            At <span className="font-semibold text-[#FF6B00]">Tap2Buy</span>, we believe in the quality and durability of every product on our platform. Our warranty and replacement policy ensures you receive the protection and support you deserve, backed by our commitment to customer satisfaction.
+            At <span className="font-semibold text-[#ff3131]">KD Book Bazaar</span>, we believe in the quality and durability of every product on our platform. Our warranty and replacement policy ensures you receive the protection and support you deserve, backed by our commitment to customer satisfaction.
           </p>
         </div>
 
@@ -219,11 +219,11 @@ export default function WarrantyPolicy() {
         {warrantySections.map((section, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              <div className="w-11 h-11 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#ff3131]" />
               </div>
               <div className="flex-1">
                 <h2 className="text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">
@@ -245,8 +245,8 @@ export default function WarrantyPolicy() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href="mailto:support@tap2buy.in"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              href="mailto:support@kdbookbazaar.com"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               <Mail className="w-4 h-4" />
               Email Support
@@ -261,7 +261,7 @@ export default function WarrantyPolicy() {
             </a>
             <a
               href="tel:+919911636888"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
             >
               <Phone className="w-4 h-4" />
               Call Us
@@ -276,10 +276,10 @@ export default function WarrantyPolicy() {
         </div>
 
         {/* Closing quote */}
-        <div className="bg-[#1B2A4A] rounded-2xl p-7 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-[#1a1a1a] rounded-2xl p-7 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
           <p className="relative z-10 text-sm text-blue-200 leading-relaxed italic max-w-2xl mx-auto">
-            At <span className="text-[#FF6B00] font-semibold not-italic">Tap2Buy</span>, we are committed to providing not just products, but peace of mind. Our warranty policy reflects our confidence in the quality we deliver and our dedication to your satisfaction.
+            At <span className="text-[#ff3131] font-semibold not-italic">KD Book Bazaar</span>, we are committed to providing not just products, but peace of mind. Our warranty policy reflects our confidence in the quality we deliver and our dedication to your satisfaction.
           </p>
         </div>
 
@@ -291,18 +291,18 @@ export default function WarrantyPolicy() {
               <Link
                 key={index}
                 href={policy.link}
-                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF6B00] transition-colors duration-300">
-                    <policy.icon className="w-5 h-5 text-[#FF6B00] group-hover:text-white transition-colors duration-300" />
+                  <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#ff3131] transition-colors duration-300">
+                    <policy.icon className="w-5 h-5 text-[#ff3131] group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#FF6B00] transition-colors">
+                    <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-[#ff3131] transition-colors">
                       {policy.title}
                     </h3>
                     <p className="text-xs text-gray-500 leading-relaxed mb-2">{policy.description}</p>
-                    <div className="flex items-center gap-1 text-[#FF6B00] text-xs font-semibold">
+                    <div className="flex items-center gap-1 text-[#ff3131] text-xs font-semibold">
                       Read More
                       <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -314,10 +314,10 @@ export default function WarrantyPolicy() {
         </div>
 
         <p className="text-xs text-gray-400 text-center pb-4">
-          © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
-          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">Terms & Conditions</Link>
+          © {new Date().getFullYear()} KD Book Bazaar. All rights reserved. &nbsp;·&nbsp;{' '}
+          <Link href="/terms-and-conditions" className="text-[#ff3131] hover:underline">Terms & Conditions</Link>
           {' '}&nbsp;·&nbsp;{' '}
-          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">Privacy Policy</Link>
+          <Link href="/privacy-policy" className="text-[#ff3131] hover:underline">Privacy Policy</Link>
         </p>
       </div>
     </main>

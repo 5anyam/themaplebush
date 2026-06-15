@@ -5,7 +5,7 @@ import ProductCard from "../../components/ProductCard";
 import Link from "next/link";
 import {
   ChevronRight, Shield, Sparkles, Package, Award, Star,
-  Truck, RotateCcw, HeadphonesIcon, Heart, Zap, Tag,
+  Truck, RotateCcw, HeadphonesIcon, Heart, Tag,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
@@ -20,12 +20,12 @@ interface Product {
 }
 
 const ProductSkeleton: React.FC = () => (
-  <div className="bg-white overflow-hidden border border-[#E8E6E1] animate-pulse">
-    <div className="aspect-square bg-[#F0EFEA]" />
+  <div className="bg-white overflow-hidden border border-gray-200 animate-pulse">
+    <div className="aspect-square bg-gray-100" />
     <div className="p-5 space-y-3">
-      <div className="h-4 bg-[#F0EFEA] rounded-sm w-3/4" />
-      <div className="h-3 bg-[#F0EFEA] w-1/2 rounded-sm" />
-      <div className="h-6 bg-[#F0EFEA] w-1/3 rounded-sm mt-4" />
+      <div className="h-4 bg-gray-100 rounded w-3/4" />
+      <div className="h-3 bg-gray-100 w-1/2 rounded" />
+      <div className="h-6 bg-gray-100 w-1/3 rounded mt-4" />
     </div>
   </div>
 );
@@ -33,21 +33,14 @@ const ProductSkeleton: React.FC = () => (
 // ── DATA ──────────────────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-  { name: 'Home Decor',        slug: 'home-decor',                     emoji: '🏺', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
-  { name: 'Fashion',           slug: 'fashion',                        emoji: '👗', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
-  { name: 'Home & Kitchen',    slug: 'home-kitchen',                   emoji: '🍳', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
-  { name: 'Electronics',       slug: 'mobile-electronics-accessories', emoji: '📱', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
-  { name: 'Bike & Car',        slug: 'bike-car-accessories',           emoji: '🚗', bg: 'bg-[#F2EFE9]', border: 'border-transparent hover:border-[#B86B52]' },
-  { name: 'Sports & Outdoors', slug: 'sports-outdoors',                emoji: '⚽', bg: 'bg-[#EAECE9]', border: 'border-transparent hover:border-[#8A9A86]' },
-  { name: 'Toys & Games',      slug: 'toys-games',                     emoji: '🎮', bg: 'bg-[#EFEAE6]', border: 'border-transparent hover:border-[#A88C7D]' },
-  { name: 'Office Products',   slug: 'office-products',                emoji: '💼', bg: 'bg-[#F0EFEA]', border: 'border-transparent hover:border-[#2A2825]' },
-];
-
-const HERO_CARDS = [
-  { emoji: '🏺', name: 'Home Decor',     href: '/category/home-decor',                    bg: 'bg-white',     border: true,  accent: false },
-  { emoji: '👗', name: 'Fashion',        href: '/category/fashion',                        bg: 'bg-[#EAECE9]', border: false, accent: false },
-  { emoji: '📱', name: 'Electronics',    href: '/category/mobile-electronics-accessories', bg: 'bg-[#EFEAE6]', border: false, accent: false },
-  { emoji: '⚡', name: 'Sale — 70% Off', href: '/sale',                                    bg: 'bg-[#B86B52]', border: false, accent: true  },
+  { name: 'Home Decor',        slug: 'home-decor',                     emoji: '🏺' },
+  { name: 'Fashion',           slug: 'fashion',                        emoji: '👗' },
+  { name: 'Home & Kitchen',    slug: 'home-kitchen',                   emoji: '🍳' },
+  { name: 'Electronics',       slug: 'mobile-electronics-accessories', emoji: '📱' },
+  { name: 'Bike & Car',        slug: 'bike-car-accessories',           emoji: '🚗' },
+  { name: 'Sports & Outdoors', slug: 'sports-outdoors',                emoji: '⚽' },
+  { name: 'Toys & Games',      slug: 'toys-games',                     emoji: '🎮' },
+  { name: 'Office Products',   slug: 'office-products',                emoji: '💼' },
 ];
 
 const SHOWCASE_CATEGORIES = [
@@ -80,9 +73,9 @@ const TESTIMONIALS = [
 ];
 
 const WHY_US = [
-  { icon: Zap,      title: 'Wide Selection',         desc: '8 categories, 300+ products — everything you need in one place.',          bg: 'bg-[#F2EFE9]', color: 'text-[#B86B52]' },
-  { icon: Sparkles, title: 'Quality Assured',         desc: 'Every product is reviewed for quality before it goes live on the store.',   bg: 'bg-[#EFEAE6]', color: 'text-[#A88C7D]' },
-  { icon: Shield,   title: 'Safe & Secure Delivery',  desc: 'Items are packed with care to ensure they reach you in perfect condition.',  bg: 'bg-[#EAECE9]', color: 'text-[#8A9A86]' },
+  { icon: Tag,      title: 'Wide Selection',         desc: '8 categories, 300+ products — everything you need in one place.' },
+  { icon: Sparkles, title: 'Quality Assured',         desc: 'Every product is reviewed for quality before it goes live on the store.' },
+  { icon: Shield,   title: 'Safe & Secure Delivery',  desc: 'Items are packed with care to ensure they reach you in perfect condition.' },
 ];
 
 const TRUST_STRIP = [
@@ -127,90 +120,82 @@ export default function Homepage() {
   const all: Product[] = Array.isArray(data) ? data : [];
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] overflow-hidden font-sans text-[#2A2825]">
+    <div className="min-h-screen bg-white overflow-hidden font-sans text-gray-900">
 
-     {/* ── HERO ─────────────────────────────────────────────────────────── */}
-     <section 
-        className="relative overflow-hidden min-h-[560px] flex items-center border-b border-[#E8E6E1] bg-cover bg-center"
-        // Yahan par apni banner image ka URL daal dena 👇
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1597668900045-b9283c0de174?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }} 
-      >
-        {/* Overlay taaki text clear dikhe */}
-        <div className="absolute inset-0 bg-[#F7F5F0]/85 backdrop-blur-[2px]"></div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+      {/* ── HERO ─────────────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 py-14 md:py-20">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
 
             {/* LEFT */}
-            <div className="text-[#2A2825]">
-              <div className="inline-flex items-center gap-2 mb-6">
-                <span className="w-8 h-[1px] bg-[#B86B52]" />
-                <span className="text-xs font-semibold text-[#B86B52] uppercase tracking-widest">Shop Everything</span>
+            <div>
+              <div className="inline-flex items-center gap-2 bg-red-50 border border-red-100 rounded-full px-4 py-1.5 mb-6">
+                <span className="w-2 h-2 rounded-full bg-[#ff3131] animate-pulse" />
+                <span className="text-xs font-semibold text-[#ff3131] uppercase tracking-widest">Flash Sale Live</span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-light leading-[1.1] mb-6 font-serif">
-                One store.
-                <span className="block font-medium text-[#B86B52] mt-2">Everything you need.</span>
+              <h1 className="text-4xl md:text-6xl font-bold leading-[1.1] mb-5 text-gray-900">
+                Quality Products,
+                <span className="block text-[#ff3131] mt-1">Unbeatable Prices.</span>
               </h1>
-              <p className="text-[#6B665E] text-base md:text-lg mb-10 leading-relaxed max-w-md">
-                From home decor and fashion to electronics and sports gear — discover 8 curated categories with 300+ quality products, delivered fast.
+              <p className="text-gray-500 text-base md:text-lg mb-8 leading-relaxed max-w-md">
+                From home decor and fashion to electronics and sports gear — discover 8 curated categories with 300+ products, delivered fast across India.
               </p>
-              <div className="flex flex-wrap gap-4 mb-10">
-                <Link href="/collections" className="inline-flex items-center gap-2 px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
-                  Explore All Products <ChevronRight className="w-4 h-4" />
+              <div className="flex flex-wrap gap-3 mb-8">
+                <Link href="/collections" className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#ff3131] text-white font-semibold rounded-none hover:bg-[#cc0000] transition-colors text-sm">
+                  Shop All Products <ChevronRight className="w-4 h-4" />
                 </Link>
-                <Link href="/sale" className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-[#2A2825] font-medium border border-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors backdrop-blur-sm">
+                <Link href="/sale" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-gray-900 font-semibold border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition-colors text-sm">
                   <Tag className="w-4 h-4" /> View Deals
                 </Link>
               </div>
-              <div className="flex flex-wrap gap-6 border-t border-[#E8E6E1]/50 pt-6">
+              <div className="flex flex-wrap gap-5 border-t border-gray-100 pt-6">
                 {['🚚 Free Delivery > ₹499', '↩️ Easy Returns', '🔒 Secure Checkout'].map((b, i) => (
-                  <span key={i} className="text-[#6B665E] text-sm tracking-wide">{b}</span>
+                  <span key={i} className="text-gray-500 text-sm">{b}</span>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT — 4 Category Cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {HERO_CARDS.map((card) => (
-                <div
-                  key={card.href}
-                  className={`${card.bg} p-8 flex flex-col items-center justify-center gap-4 ${card.border ? 'border border-[#E8E6E1] hover:border-[#B86B52]' : ''} transition-colors ${card.bg === 'bg-white' ? 'bg-white/90 backdrop-blur-sm' : ''}`}
-                >
-                  {card.accent ? (
-                    <>
-                      <p className="text-xs font-medium uppercase tracking-widest text-white/80">Deals</p>
-                      <p className="text-4xl font-light text-white">Sale</p>
-                      <p className="text-sm font-medium text-white">Up to 70% Off</p>
-                      <Link href={card.href} className="mt-2 text-xs bg-white text-[#B86B52] font-semibold px-4 py-2 uppercase tracking-wide hover:bg-[#F7F5F0] transition-colors">
-                        View Deals
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-4xl">{card.emoji}</span>
-                      <p className="text-sm font-medium text-[#2A2825] text-center tracking-wide">{card.name}</p>
-                      <Link href={card.href} className="text-xs text-[#6B665E] uppercase tracking-widest hover:text-[#B86B52] transition-colors">Shop Now</Link>
-                    </>
-                  )}
-                </div>
-              ))}
+            {/* RIGHT — Category Cards */}
+            <div className="grid grid-cols-2 gap-3">
+              <Link href="/category/home-decor" className="group bg-red-50 border border-red-100 p-8 flex flex-col items-center justify-center gap-3 hover:border-[#ff3131] hover:bg-red-100 transition-all">
+                <span className="text-4xl">🏺</span>
+                <p className="text-sm font-semibold text-gray-800 text-center">Home Decor</p>
+                <span className="text-xs text-[#ff3131] font-medium group-hover:underline">Shop Now</span>
+              </Link>
+              <Link href="/category/fashion" className="group bg-gray-50 border border-gray-100 p-8 flex flex-col items-center justify-center gap-3 hover:border-[#ff3131] hover:bg-red-50 transition-all">
+                <span className="text-4xl">👗</span>
+                <p className="text-sm font-semibold text-gray-800 text-center">Fashion</p>
+                <span className="text-xs text-[#ff3131] font-medium group-hover:underline">Shop Now</span>
+              </Link>
+              <Link href="/category/mobile-electronics-accessories" className="group bg-gray-50 border border-gray-100 p-8 flex flex-col items-center justify-center gap-3 hover:border-[#ff3131] hover:bg-red-50 transition-all">
+                <span className="text-4xl">📱</span>
+                <p className="text-sm font-semibold text-gray-800 text-center">Electronics</p>
+                <span className="text-xs text-[#ff3131] font-medium group-hover:underline">Shop Now</span>
+              </Link>
+              <Link href="/sale" className="group bg-[#ff3131] p-8 flex flex-col items-center justify-center gap-3 hover:bg-[#cc0000] transition-all">
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/80">Deals</p>
+                <p className="text-3xl font-bold text-white">70% Off</p>
+                <span className="text-xs bg-white text-[#ff3131] font-bold px-4 py-1.5 group-hover:bg-red-50 transition-colors">View Deals</span>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── TRUST STRIP ──────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-[#E8E6E1]">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <section className="bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {TRUST_STRIP.map((item, i) => {
               const Icon = item.icon;
               return (
-                <div key={i} className="flex items-center gap-4 px-2">
-                  <Icon className="w-6 h-6 text-[#A88C7D] stroke-[1.5]" />
+                <div key={i} className="flex items-center gap-3 px-2">
+                  <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-[#ff3131]" />
+                  </div>
                   <div>
-                    <p className="text-sm font-medium text-[#2A2825]">{item.title}</p>
-                    <p className="text-xs text-[#8A857D] mt-0.5">{item.sub}</p>
+                    <p className="text-sm font-semibold text-gray-900">{item.title}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{item.sub}</p>
                   </div>
                 </div>
               );
@@ -220,26 +205,26 @@ export default function Homepage() {
       </section>
 
       {/* ── CATEGORIES STRIP ─────────────────────────────────────────────── */}
-      <section className="py-16 px-4 bg-[#FAFAF8]">
+      <section className="py-14 px-4 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-end justify-between mb-10">
+          <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-2">Browse</p>
-              <h2 className="text-3xl font-light text-[#2A2825] font-serif">Shop by Category</h2>
+              <p className="text-xs font-bold text-[#ff3131] uppercase tracking-widest mb-1">Browse</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Shop by Category</h2>
             </div>
-            <Link href="/shop" className="hidden md:flex items-center gap-2 text-[#2A2825] font-medium text-sm hover:text-[#B86B52] transition-colors border-b border-[#2A2825] hover:border-[#B86B52] pb-1">
-              View all products
+            <Link href="/collections" className="hidden md:flex items-center gap-1 text-sm font-semibold text-[#ff3131] hover:underline">
+              View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+          <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className={`group flex flex-col items-center justify-center py-7 px-3 ${cat.bg} border ${cat.border} transition-colors duration-300`}
+                className="group flex flex-col items-center justify-center py-6 px-2 bg-gray-50 border border-gray-100 hover:border-[#ff3131] hover:bg-red-50 transition-all duration-200"
               >
-                <span className="text-3xl mb-3">{cat.emoji}</span>
-                <span className="text-xs font-medium text-[#2A2825] text-center tracking-wide leading-tight">{cat.name}</span>
+                <span className="text-2xl md:text-3xl mb-2">{cat.emoji}</span>
+                <span className="text-[10px] md:text-xs font-semibold text-gray-700 group-hover:text-[#ff3131] text-center leading-tight transition-colors">{cat.name}</span>
               </Link>
             ))}
           </div>
@@ -247,35 +232,39 @@ export default function Homepage() {
       </section>
 
       {/* ── PROMO BANNERS ────────────────────────────────────────────────── */}
-      <section className="pb-12 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2 bg-[#2A2825] p-10 md:p-14 flex items-center relative overflow-hidden">
+      <section className="py-10 px-4 bg-white">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
+
+          {/* Big promo */}
+          <div className="md:col-span-2 bg-[#ff3131] p-10 md:p-14 flex items-center relative overflow-hidden">
             <div className="relative z-10">
-              <p className="text-[#A88C7D] text-xs font-medium uppercase tracking-widest mb-4">Limited Time</p>
-              <h3 className="text-3xl md:text-4xl font-light text-white mb-4 font-serif">Mega Sale is Live</h3>
-              <p className="text-[#D5D2CC] text-base mb-8 max-w-sm font-light">
+              <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-3">Limited Time Offer</p>
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">Mega Sale is Live</h3>
+              <p className="text-white/80 text-base mb-7 max-w-sm">
                 Up to 70% off across Home Decor, Electronics, Fashion and more. Don&apos;t miss out.
               </p>
-              <Link href="/sale" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#2A2825] font-medium text-sm hover:bg-[#F0EFEA] transition-colors">
+              <Link href="/sale" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#ff3131] font-bold text-sm hover:bg-red-50 transition-colors">
                 Shop All Deals <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[120px] opacity-10 select-none pointer-events-none">🛍️</div>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 text-[100px] opacity-20 select-none pointer-events-none">🛍️</div>
           </div>
-          <div className="flex flex-col gap-6">
-            <Link href="/category/sports-outdoors" className="bg-[#A88C7D] p-8 flex items-center justify-between flex-1 hover:bg-[#977C6D] transition-colors group">
+
+          {/* Two small promos */}
+          <div className="flex flex-col gap-5">
+            <Link href="/category/sports-outdoors" className="bg-gray-900 p-8 flex items-center justify-between flex-1 hover:bg-gray-800 transition-colors group">
               <div>
-                <p className="text-white font-medium text-lg mb-1 font-serif">Sports & Outdoors</p>
-                <p className="text-white/80 text-sm font-light">Gear up for more</p>
+                <p className="text-white font-bold text-base mb-1">Sports & Outdoors</p>
+                <p className="text-gray-400 text-sm">Gear up for more</p>
               </div>
               <ChevronRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="/category/toys-games" className="bg-[#8A9A86] p-8 flex items-center justify-between flex-1 hover:bg-[#788A74] transition-colors group">
+            <Link href="/category/toys-games" className="bg-gray-100 border border-gray-200 p-8 flex items-center justify-between flex-1 hover:border-[#ff3131] hover:bg-red-50 transition-all group">
               <div>
-                <p className="text-white font-medium text-lg mb-1 font-serif">Toys & Games</p>
-                <p className="text-white/80 text-sm font-light">Fun for everyone</p>
+                <p className="text-gray-900 font-bold text-base mb-1">Toys & Games</p>
+                <p className="text-gray-500 text-sm">Fun for everyone</p>
               </div>
-              <ChevronRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="w-5 h-5 text-gray-500 group-hover:text-[#ff3131] group-hover:translate-x-1 transition-all" />
             </Link>
           </div>
         </div>
@@ -283,21 +272,21 @@ export default function Homepage() {
 
       {/* ── CATEGORY-WISE PRODUCT SECTIONS ───────────────────────────────── */}
       {isLoading ? (
-        <section className="py-20 px-4 bg-white border-t border-[#E8E6E1]">
+        <section className="py-16 px-4 bg-gray-50 border-t border-gray-100">
           <div className="max-w-7xl mx-auto">
-            <div className="h-8 bg-[#F0EFEA] rounded w-48 mb-10 animate-pulse" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="h-8 bg-gray-200 rounded w-48 mb-8 animate-pulse" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {[...Array(8)].map((_, i) => <ProductSkeleton key={i} />)}
             </div>
           </div>
         </section>
       ) : isError ? (
-        <section className="py-20 px-4 bg-white border-t border-[#E8E6E1]">
-          <div className="max-w-7xl mx-auto text-center py-24 border border-[#E8E6E1]">
-            <p className="text-[#6B665E] mb-4">Unable to load products right now.</p>
+        <section className="py-16 px-4 bg-gray-50 border-t border-gray-100">
+          <div className="max-w-7xl mx-auto text-center py-20 border border-gray-200">
+            <p className="text-gray-500 mb-4">Unable to load products right now.</p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-2 border border-[#2A2825] text-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors"
+              className="px-6 py-2 bg-[#ff3131] text-white font-semibold hover:bg-[#cc0000] transition-colors text-sm"
             >
               Refresh
             </button>
@@ -321,33 +310,33 @@ export default function Homepage() {
           return (
             <section
               key={cat.slug}
-              className={`py-16 px-4 ${isEven ? 'bg-white' : 'bg-[#FAFAF8]'} border-t border-[#E8E6E1]`}
+              className={`py-14 px-4 ${isEven ? 'bg-white' : 'bg-gray-50'} border-t border-gray-100`}
             >
               <div className="max-w-7xl mx-auto">
 
                 {/* Header */}
-                <div className="flex items-center justify-between mb-10">
-                  <div className="flex items-center gap-4">
-                    <span className="text-3xl">{cat.emoji}</span>
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl md:text-3xl">{cat.emoji}</span>
                     <div>
-                      <p className="text-xs font-medium text-[#B86B52] uppercase tracking-widest mb-0.5">
+                      <p className="text-[10px] font-bold text-[#ff3131] uppercase tracking-widest mb-0.5">
                         Browse Collection
                       </p>
-                      <h2 className="text-2xl font-light text-[#2A2825] font-serif">
+                      <h2 className="text-xl md:text-2xl font-bold text-gray-900">
                         {cat.name}
                       </h2>
                     </div>
                   </div>
                   <Link
                     href={`/category/${cat.slug}`}
-                    className="hidden md:flex items-center gap-2 text-sm font-medium text-[#2A2825] hover:text-[#B86B52] transition-colors border-b border-[#2A2825] hover:border-[#B86B52] pb-0.5"
+                    className="hidden md:flex items-center gap-1 text-sm font-semibold text-[#ff3131] hover:underline"
                   >
-                    View all <ChevronRight className="w-3.5 h-3.5" />
+                    View all <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
 
                 {/* Products */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                   {catProducts.map((prod, i) => (
                     <div
                       key={prod.id}
@@ -358,25 +347,25 @@ export default function Homepage() {
                     </div>
                   ))}
 
-                  {/* 5th "See All" dashed tile — desktop only */}
+                  {/* 5th See All tile — desktop only */}
                   <Link
                     href={`/category/${cat.slug}`}
-                    className="hidden lg:flex flex-col items-center justify-center gap-3 border-2 border-dashed border-[#E8E6E1] hover:border-[#B86B52] hover:bg-[#F7F5F0] transition-all duration-300 min-h-[280px] group"
+                    className="hidden lg:flex flex-col items-center justify-center gap-3 border-2 border-dashed border-gray-200 hover:border-[#ff3131] hover:bg-red-50 transition-all duration-300 min-h-[280px] group"
                   >
-                    <span className="text-4xl opacity-40 group-hover:opacity-100 transition-opacity">{cat.emoji}</span>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-[#8A857D] group-hover:text-[#B86B52] transition-colors">
+                    <span className="text-4xl opacity-30 group-hover:opacity-100 transition-opacity">{cat.emoji}</span>
+                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-[#ff3131] transition-colors">
                       See All
                     </p>
-                    <p className="text-xs text-[#A3A09B] text-center px-4">{cat.name}</p>
-                    <ChevronRight className="w-4 h-4 text-[#A3A09B] group-hover:text-[#B86B52] group-hover:translate-x-1 transition-all" />
+                    <p className="text-xs text-gray-400 text-center px-4">{cat.name}</p>
+                    <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#ff3131] group-hover:translate-x-1 transition-all" />
                   </Link>
                 </div>
 
                 {/* Mobile CTA */}
-                <div className="mt-8 md:hidden text-center">
+                <div className="mt-6 md:hidden text-center">
                   <Link
                     href={`/category/${cat.slug}`}
-                    className="inline-flex items-center gap-2 px-8 py-3 border border-[#2A2825] text-sm font-medium text-[#2A2825] hover:bg-[#2A2825] hover:text-white transition-colors"
+                    className="inline-flex items-center gap-2 px-7 py-3 border-2 border-[#ff3131] text-sm font-semibold text-[#ff3131] hover:bg-[#ff3131] hover:text-white transition-colors"
                   >
                     View all {cat.name} <ChevronRight className="w-4 h-4" />
                   </Link>
@@ -388,24 +377,25 @@ export default function Homepage() {
       )}
 
       {/* ── CATEGORY SPOTLIGHT ───────────────────────────────────────────── */}
-      <section className="py-12 px-4 bg-[#FAFAF8] border-t border-[#E8E6E1]">
+      <section className="py-12 px-4 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-[#EFEAE6] p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
+          <div className="bg-gray-900 p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="max-w-lg">
-              <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-4">Find What You Need</h2>
-              <p className="text-[#6B665E] text-base leading-relaxed mb-8">
+              <p className="text-xs font-bold text-[#ff3131] uppercase tracking-widest mb-3">All Categories</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Find What You Need</h2>
+              <p className="text-gray-400 text-base leading-relaxed mb-7">
                 From everyday essentials to lifestyle upgrades — browse our 8 categories and discover products that fit your life perfectly.
               </p>
-              <Link href="/shop" className="inline-flex items-center gap-2 px-8 py-3 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors">
-                Browse All Categories <ChevronRight className="w-4 h-4" />
+              <Link href="/collections" className="inline-flex items-center gap-2 px-7 py-3 bg-[#ff3131] text-white font-bold hover:bg-[#cc0000] transition-colors text-sm">
+                Browse All Products <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="flex flex-wrap gap-3 max-w-sm justify-center md:justify-end">
+            <div className="flex flex-wrap gap-2 max-w-sm justify-center md:justify-end">
               {CATEGORIES.map((cat) => (
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
-                  className="px-5 py-2.5 bg-white text-sm font-medium text-[#2A2825] tracking-wide border border-transparent hover:border-[#A88C7D] transition-colors flex items-center gap-2"
+                  className="px-4 py-2 bg-white/10 text-sm font-medium text-white tracking-wide border border-white/10 hover:border-[#ff3131] hover:bg-[#ff3131] transition-all flex items-center gap-2"
                 >
                   <span>{cat.emoji}</span> {cat.name}
                 </Link>
@@ -416,18 +406,22 @@ export default function Homepage() {
       </section>
 
       {/* ── WHY CHOOSE US ────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 bg-white border-t border-[#E8E6E1]">
+      <section className="py-20 px-4 bg-gray-50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold text-[#ff3131] uppercase tracking-widest mb-2">Why Us</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Why Choose KD Book Bazaar</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {WHY_US.map((item, i) => {
               const Icon = item.icon;
               return (
-                <div key={i} className="flex flex-col items-center">
-                  <div className={`w-16 h-16 ${item.bg} flex items-center justify-center rounded-full mb-6`}>
-                    <Icon className={`w-7 h-7 ${item.color} stroke-[1.5]`} />
+                <div key={i} className="bg-white p-8 border border-gray-100 flex flex-col items-center text-center hover:border-[#ff3131] hover:shadow-sm transition-all">
+                  <div className="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mb-5">
+                    <Icon className="w-6 h-6 text-[#ff3131]" />
                   </div>
-                  <h3 className="text-lg font-serif text-[#2A2825] mb-3">{item.title}</h3>
-                  <p className="text-[#6B665E] text-sm leading-relaxed max-w-xs">{item.desc}</p>
+                  <h3 className="text-base font-bold text-gray-900 mb-3">{item.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               );
             })}
@@ -436,45 +430,45 @@ export default function Homepage() {
       </section>
 
       {/* ── STATS ────────────────────────────────────────────────────────── */}
-      <section ref={statsRef} className="py-20 px-4 bg-[#2A2825]">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
+      <section ref={statsRef} className="py-16 px-4 bg-[#ff3131]">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/20">
           {STATS.map((stat, i) => (
             <div
               key={i}
-              className={`text-center px-4 transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-              style={{ transitionDelay: `${i * 150}ms` }}
+              className={`text-center px-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              style={{ transitionDelay: `${i * 120}ms` }}
             >
-              <div className="text-4xl md:text-5xl font-light text-white mb-3 font-serif">{stat.number}</div>
-              <div className="text-xs text-[#A88C7D] uppercase tracking-widest">{stat.label}</div>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2">{stat.number}</div>
+              <div className="text-xs text-white/70 uppercase tracking-widest font-medium">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── TESTIMONIALS ─────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 bg-[#FAFAF8]">
+      <section className="py-20 px-4 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-light text-[#2A2825] font-serif mb-3">What Customers Say</h2>
-            <p className="text-[#8A857D] text-sm tracking-wide">Real reviews from real buyers</p>
+          <div className="text-center mb-12">
+            <p className="text-xs font-bold text-[#ff3131] uppercase tracking-widest mb-2">Reviews</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">What Customers Say</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((review, i) => (
-              <div key={i} className="bg-white p-10 border border-[#E8E6E1] flex flex-col justify-between">
+              <div key={i} className="bg-white p-8 border border-gray-200 hover:border-[#ff3131] hover:shadow-sm transition-all flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-1 mb-6">
+                  <div className="flex items-center gap-1 mb-5">
                     {[...Array(review.rating)].map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-[#A88C7D] text-[#A88C7D]" />
+                      <Star key={j} className="w-4 h-4 fill-[#ff3131] text-[#ff3131]" />
                     ))}
                   </div>
-                  <p className="text-[#2A2825] text-base leading-relaxed mb-8 font-serif italic">&quot;{review.text}&quot;</p>
+                  <p className="text-gray-700 text-sm leading-relaxed mb-6 italic">&quot;{review.text}&quot;</p>
                 </div>
-                <div className="flex items-center justify-between pt-6 border-t border-[#F0EFEA]">
+                <div className="flex items-center justify-between pt-5 border-t border-gray-100">
                   <div>
-                    <p className="text-sm font-medium text-[#2A2825]">{review.name}</p>
-                    <p className="text-xs text-[#8A857D] mt-1">{review.location}</p>
+                    <p className="text-sm font-bold text-gray-900">{review.name}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">{review.location}</p>
                   </div>
-                  <span className="text-[10px] text-[#A88C7D] uppercase tracking-widest border border-[#EFEAE6] px-3 py-1 bg-[#FAFAF8]">
+                  <span className="text-[10px] text-[#ff3131] uppercase tracking-widest border border-red-100 px-3 py-1 bg-red-50 font-semibold">
                     {review.tag}
                   </span>
                 </div>
@@ -485,19 +479,20 @@ export default function Homepage() {
       </section>
 
       {/* ── NEWSLETTER ───────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 bg-[#F7F5F0] border-t border-[#E8E6E1]">
+      <section className="py-20 px-4 bg-gray-50 border-t border-gray-200">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-light text-[#2A2825] font-serif mb-4">Stay in the loop</h2>
-          <p className="text-[#6B665E] text-sm mb-10 leading-relaxed">
+          <p className="text-xs font-bold text-[#ff3131] uppercase tracking-widest mb-3">Newsletter</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Stay in the Loop</h2>
+          <p className="text-gray-500 text-sm mb-8 leading-relaxed">
             Get early access to new arrivals, exclusive deals across all categories, and subscriber-only offers.
           </p>
-          <div className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto border border-[#2A2825] bg-white">
+          <div className="flex flex-col sm:flex-row gap-0 max-w-md mx-auto border-2 border-gray-900 bg-white overflow-hidden">
             <input
               type="email"
               placeholder="Your email address"
-              className="flex-1 px-6 py-4 bg-transparent text-[#2A2825] placeholder-[#A3A09B] focus:outline-none text-sm"
+              className="flex-1 px-5 py-4 bg-transparent text-gray-800 placeholder-gray-400 focus:outline-none text-sm"
             />
-            <button className="px-8 py-4 bg-[#2A2825] text-white font-medium hover:bg-[#403D39] transition-colors text-sm uppercase tracking-wider">
+            <button className="px-7 py-4 bg-gray-900 text-white font-bold hover:bg-[#ff3131] transition-colors text-sm uppercase tracking-wider whitespace-nowrap">
               Subscribe
             </button>
           </div>

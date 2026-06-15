@@ -69,13 +69,13 @@ const triggerConfetti = () => {
       ...defaults,
       particleCount,
       origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-      colors: ['#FF6B00', '#1B2A4A', '#FFD700', '#ff8c00', '#ffffff'],
+      colors: ['#ff3131', '#1a1a1a', '#FFD700', '#ff8c00', '#ffffff'],
     })
     confetti({
       ...defaults,
       particleCount,
       origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-      colors: ['#FF6B00', '#1B2A4A', '#FFD700', '#ff8c00', '#ffffff'],
+      colors: ['#ff3131', '#1a1a1a', '#FFD700', '#ff8c00', '#ffffff'],
     })
   }, 250)
 }
@@ -174,8 +174,8 @@ export default function ProductClient({
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="relative w-16 h-16 mx-auto mb-4">
-            <div className="absolute inset-0 rounded-full border-2 border-[#FF6B00] border-t-transparent animate-spin" />
-            <ShoppingCart className="absolute inset-0 m-auto w-6 h-6 text-[#FF6B00]" />
+            <div className="absolute inset-0 rounded-full border-2 border-[#ff3131] border-t-transparent animate-spin" />
+            <ShoppingCart className="absolute inset-0 m-auto w-6 h-6 text-[#ff3131]" />
           </div>
           <p className="text-gray-500 text-sm">Loading product...</p>
         </div>
@@ -188,8 +188,8 @@ export default function ProductClient({
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center max-w-md p-8">
-          <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-5">
-            <Package className="w-10 h-10 text-[#FF6B00]" />
+          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-5">
+            <Package className="w-10 h-10 text-[#ff3131]" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-3">Product Not Found</h2>
           <p className="text-sm text-gray-500 mb-8">
@@ -197,7 +197,7 @@ export default function ProductClient({
           </p>
           <button
             onClick={() => router.push('/shop')}
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#FF6B00] text-white font-semibold rounded-xl hover:bg-[#e55f00] transition-all shadow-lg hover:shadow-orange-200"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#ff3131] text-white font-semibold rounded-xl hover:bg-[#cc0000] transition-all shadow-lg hover:shadow-orange-200"
           >
             <ShoppingCart className="w-4 h-4" />
             Continue Shopping
@@ -301,11 +301,11 @@ export default function ProductClient({
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center gap-1.5 text-xs text-gray-500">
-            <button onClick={() => router.push('/')} className="hover:text-[#FF6B00] transition-colors">
+            <button onClick={() => router.push('/')} className="hover:text-[#ff3131] transition-colors">
               Home
             </button>
             <ChevronRight className="w-3 h-3 text-gray-400" />
-            <button onClick={() => router.push('/shop')} className="hover:text-[#FF6B00] transition-colors">
+            <button onClick={() => router.push('/shop')} className="hover:text-[#ff3131] transition-colors">
               Shop
             </button>
             <ChevronRight className="w-3 h-3 text-gray-400" />
@@ -327,7 +327,7 @@ export default function ProductClient({
             {/* Badges over image */}
             <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
               {hasSale && discountPercent > 0 && (
-                <span className="bg-[#FF6B00] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
+                <span className="bg-[#ff3131] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
                   <Tag className="w-3 h-3" />
                   {discountPercent}% OFF
                 </span>
@@ -342,14 +342,14 @@ export default function ProductClient({
             {/* Wishlist button */}
             <button
               onClick={() => setIsWishlisted(!isWishlisted)}
-              className="absolute top-3 right-3 p-2.5 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#FF6B00]/30 transition-all group"
+              className="absolute top-3 right-3 p-2.5 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#ff3131]/30 transition-all group"
               aria-label="Wishlist"
             >
               <Heart
                 className={`w-4 h-4 transition-all duration-300 ${
                   isWishlisted
-                    ? 'fill-[#FF6B00] text-[#FF6B00]'
-                    : 'text-gray-400 group-hover:text-[#FF6B00]'
+                    ? 'fill-[#ff3131] text-[#ff3131]'
+                    : 'text-gray-400 group-hover:text-[#ff3131]'
                 }`}
               />
             </button>
@@ -361,7 +361,7 @@ export default function ProductClient({
 
           {/* Category tag */}
           {product.categories && product.categories.length > 0 && (
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#FF6B00] uppercase tracking-widest bg-orange-50 px-3 py-1 rounded-full border border-[#FF6B00]/20">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#ff3131] uppercase tracking-widest bg-red-50 px-3 py-1 rounded-full border border-[#ff3131]/20">
               <Tag className="w-3 h-3" />
               {product.categories[0]?.name}
             </span>
@@ -376,7 +376,7 @@ export default function ProductClient({
           <div className="flex items-center gap-3 flex-wrap">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-[#FF6B00] fill-[#FF6B00]" />
+                <Star key={i} className="w-4 h-4 text-[#ff3131] fill-[#ff3131]" />
               ))}
             </div>
             <span className="text-sm text-gray-600 font-medium">4.8</span>
@@ -399,7 +399,7 @@ export default function ProductClient({
             <div className="space-y-5 py-5 border-y border-gray-100">
               {variationsLoading ? (
                 <div className="text-center py-4">
-                  <div className="inline-block w-6 h-6 border-2 border-[#FF6B00] border-t-transparent rounded-full animate-spin" />
+                  <div className="inline-block w-6 h-6 border-2 border-[#ff3131] border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : (
                 variationAttributes.map((attr) => (
@@ -407,7 +407,7 @@ export default function ProductClient({
                     <label className="block text-xs font-semibold text-gray-700 mb-3 uppercase tracking-wider">
                       {attr.name}
                       {selectedAttributes[attr.name.toLowerCase()] && (
-                        <span className="ml-2 text-[#FF6B00] normal-case font-normal tracking-normal">
+                        <span className="ml-2 text-[#ff3131] normal-case font-normal tracking-normal">
                           — {selectedAttributes[attr.name.toLowerCase()]}
                         </span>
                       )}
@@ -424,9 +424,9 @@ export default function ProductClient({
                             disabled={!available}
                             className={`px-5 py-2.5 border-2 text-sm font-medium transition-all duration-200 rounded-xl
                               ${isSelected
-                                ? 'bg-[#FF6B00] text-white border-[#FF6B00] shadow-md shadow-orange-200'
+                                ? 'bg-[#ff3131] text-white border-[#ff3131] shadow-md shadow-orange-200'
                                 : available
-                                ? 'bg-white text-gray-800 border-gray-200 hover:border-[#FF6B00] hover:text-[#FF6B00]'
+                                ? 'bg-white text-gray-800 border-gray-200 hover:border-[#ff3131] hover:text-[#ff3131]'
                                 : 'bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed line-through'
                               }`}
                           >
@@ -485,10 +485,10 @@ export default function ProductClient({
               Quantity
             </label>
             <div className="flex items-center gap-4">
-              <div className="flex items-center border-2 border-gray-200 hover:border-[#FF6B00]/50 transition-colors rounded-xl overflow-hidden">
+              <div className="flex items-center border-2 border-gray-200 hover:border-[#ff3131]/50 transition-colors rounded-xl overflow-hidden">
                 <button
                   onClick={() => handleQuantityChange(-1)}
-                  className="p-3.5 hover:bg-orange-50 transition-colors disabled:opacity-40"
+                  className="p-3.5 hover:bg-red-50 transition-colors disabled:opacity-40"
                   disabled={quantity <= 1}
                 >
                   <Minus className="w-4 h-4 text-gray-600" />
@@ -498,7 +498,7 @@ export default function ProductClient({
                 </span>
                 <button
                   onClick={() => handleQuantityChange(1)}
-                  className="p-3.5 hover:bg-orange-50 transition-colors disabled:opacity-40"
+                  className="p-3.5 hover:bg-red-50 transition-colors disabled:opacity-40"
                   disabled={!isInStock}
                 >
                   <Plus className="w-4 h-4 text-gray-600" />
@@ -517,7 +517,7 @@ export default function ProductClient({
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart || !isInStock}
-              className={`group relative w-full bg-[#FF6B00] hover:bg-[#e55f00] text-white font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-orange-200 flex items-center justify-center gap-2.5 ${
+              className={`group relative w-full bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-orange-200 flex items-center justify-center gap-2.5 ${
                 isAddingToCart || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
@@ -539,7 +539,7 @@ export default function ProductClient({
             <button
               onClick={handleBuyNow}
               disabled={isBuyingNow || !isInStock}
-              className={`relative w-full border-2 border-[#1B2A4A] text-[#1B2A4A] font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl hover:bg-[#1B2A4A] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 ${
+              className={`relative w-full border-2 border-[#1a1a1a] text-[#1a1a1a] font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 ${
                 isBuyingNow || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
@@ -555,11 +555,11 @@ export default function ProductClient({
               { icon: <Truck className="w-5 h-5" />, label: 'Free Shipping', sub: 'On all orders', bg: 'bg-blue-50', color: 'text-blue-600' },
               { icon: <Shield className="w-5 h-5" />, label: '100% Authentic', sub: 'Genuine products', bg: 'bg-green-50', color: 'text-green-600' },
               { icon: <RotateCcw className="w-5 h-5" />, label: 'Easy Returns', sub: '7-day policy', bg: 'bg-purple-50', color: 'text-purple-600' },
-              { icon: <CreditCard className="w-5 h-5" />, label: 'Secure Payment', sub: 'Protected checkout', bg: 'bg-orange-50', color: 'text-[#FF6B00]' },
+              { icon: <CreditCard className="w-5 h-5" />, label: 'Secure Payment', sub: 'Protected checkout', bg: 'bg-red-50', color: 'text-[#ff3131]' },
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-3 p-3.5 bg-white rounded-xl border border-gray-100 hover:border-[#FF6B00]/20 hover:shadow-sm transition-all duration-200"
+                className="flex items-center gap-3 p-3.5 bg-white rounded-xl border border-gray-100 hover:border-[#ff3131]/20 hover:shadow-sm transition-all duration-200"
               >
                 <div className={`flex-shrink-0 w-9 h-9 ${item.bg} rounded-lg flex items-center justify-center`}>
                   <span className={item.color}>{item.icon}</span>
@@ -605,13 +605,13 @@ export default function ProductClient({
               </div>
             </div>
             <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
-              <button onClick={() => handleQuantityChange(-1)} className="p-2.5 hover:bg-orange-50 transition-colors" disabled={quantity <= 1}>
+              <button onClick={() => handleQuantityChange(-1)} className="p-2.5 hover:bg-red-50 transition-colors" disabled={quantity <= 1}>
                 <Minus className="w-3.5 h-3.5 text-gray-700" />
               </button>
               <span className="px-4 py-2.5 text-sm font-bold border-x-2 border-gray-200 text-gray-900 min-w-[44px] text-center">
                 {quantity}
               </span>
-              <button onClick={() => handleQuantityChange(1)} className="p-2.5 hover:bg-orange-50 transition-colors" disabled={!isInStock}>
+              <button onClick={() => handleQuantityChange(1)} className="p-2.5 hover:bg-red-50 transition-colors" disabled={!isInStock}>
                 <Plus className="w-3.5 h-3.5 text-gray-700" />
               </button>
             </div>
@@ -622,7 +622,7 @@ export default function ProductClient({
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart || !isInStock}
-              className="flex-1 bg-[#FF6B00] hover:bg-[#e55f00] text-white font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl transition-all shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
+              className="flex-1 bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl transition-all shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-4 h-4" />
               {isAddingToCart ? 'Added!' : !isInStock ? 'Out of Stock' : 'Add to Cart'}
@@ -630,7 +630,7 @@ export default function ProductClient({
             <button
               onClick={handleBuyNow}
               disabled={isBuyingNow || !isInStock}
-              className="flex-1 border-2 border-[#1B2A4A] text-[#1B2A4A] font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl hover:bg-[#1B2A4A] hover:text-white transition-all disabled:opacity-60"
+              className="flex-1 border-2 border-[#1a1a1a] text-[#1a1a1a] font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl hover:bg-[#1a1a1a] hover:text-white transition-all disabled:opacity-60"
             >
               {isBuyingNow ? 'Processing...' : !isInStock ? 'Unavailable' : 'Buy Now'}
             </button>
@@ -648,7 +648,7 @@ export default function ProductClient({
                   key={idx}
                   className={({ selected }) =>
                     `flex-shrink-0 px-6 py-4 text-xs font-semibold outline-none transition-all uppercase tracking-wider whitespace-nowrap relative ${
-                      selected ? 'text-[#FF6B00]' : 'text-gray-500 hover:text-gray-700'
+                      selected ? 'text-[#ff3131]' : 'text-gray-500 hover:text-gray-700'
                     }`
                   }
                 >
@@ -656,7 +656,7 @@ export default function ProductClient({
                     <>
                       {label}
                       {selected && (
-                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF6B00] rounded-full" />
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ff3131] rounded-full" />
                       )}
                     </>
                   )}

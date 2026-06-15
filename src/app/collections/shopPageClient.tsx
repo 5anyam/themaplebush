@@ -276,7 +276,7 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="mailto:support@tap2buy.in"
+              href="mailto:support@kdbookbazaar.com"
               className="px-8 py-4 bg-[#B86B52] text-white text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-[#A35A44] transition-colors"
             >
               Email Consultant

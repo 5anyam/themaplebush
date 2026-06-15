@@ -35,7 +35,7 @@ function ContactModal() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 px-8 py-3.5 bg-white border-2 border-[#1B2A4A] text-[#1B2A4A] hover:bg-[#1B2A4A] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all duration-300"
+        className="inline-flex items-center gap-2 px-8 py-3.5 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all duration-300"
       >
         Get in Touch
       </button>
@@ -76,7 +76,7 @@ function ContactModal() {
                       setFormData((prev) => ({ ...prev, [field.key]: e.target.value }))
                     }
                     required
-                    className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 text-sm bg-gray-50 transition-all"
+                    className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 text-sm bg-gray-50 transition-all"
                   />
                 ))}
                 <textarea
@@ -87,11 +87,11 @@ function ContactModal() {
                     setFormData((prev) => ({ ...prev, message: e.target.value }))
                   }
                   required
-                  className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 text-sm bg-gray-50 resize-none transition-all"
+                  className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 text-sm bg-gray-50 resize-none transition-all"
                 />
                 <button
                   type="submit"
-                  className="w-full bg-[#FF6B00] hover:bg-[#e55f00] text-white py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200"
+                  className="w-full bg-[#ff3131] hover:bg-[#cc0000] text-white py-3.5 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200"
                 >
                   Send Message
                 </button>
@@ -113,9 +113,9 @@ interface StatCardProps {
 
 function StatCard({ value, label, icon: Icon }: StatCardProps) {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm text-center hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300">
-      <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-        <Icon className="w-6 h-6 text-[#FF6B00]" />
+    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm text-center hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300">
+      <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mx-auto mb-3">
+        <Icon className="w-6 h-6 text-[#ff3131]" />
       </div>
       <p className="text-3xl font-bold text-gray-900 mb-1">{value}</p>
       <p className="text-xs text-gray-500 font-medium">{label}</p>
@@ -146,7 +146,7 @@ export default function AboutPage() {
     { icon: Zap, title: 'Home & Living', desc: 'Kitchen essentials, furniture, decor, bedding, and smart appliances.', color: 'bg-yellow-50 text-yellow-600' },
     { icon: Star, title: 'Beauty & Personal Care', desc: 'Skincare, haircare, grooming, and wellness products.', color: 'bg-purple-50 text-purple-600' },
     { icon: Award, title: 'Sports & Fitness', desc: 'Gym equipment, sportswear, outdoor gear, and nutrition.', color: 'bg-green-50 text-green-600' },
-    { icon: Headphones, title: 'Audio & Accessories', desc: 'Headphones, earbuds, cables, chargers, and mobile accessories.', color: 'bg-orange-50 text-[#FF6B00]' },
+    { icon: Headphones, title: 'Audio & Accessories', desc: 'Headphones, earbuds, cables, chargers, and mobile accessories.', color: 'bg-red-50 text-[#ff3131]' },
   ];
 
   const whyItems: WhyItem[] = [
@@ -172,16 +172,16 @@ export default function AboutPage() {
       <div className="max-w-6xl mx-auto px-4 py-16 space-y-16">
 
         {/* ── HERO ── */}
-        <section className="bg-[#1B2A4A] rounded-3xl px-8 md:px-16 py-16 text-white text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <section className="bg-[#1a1a1a] rounded-3xl px-8 md:px-16 py-16 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full blur-2xl pointer-events-none" />
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-              <Heart className="w-3.5 h-3.5 text-[#FF6B00]" />
+              <Heart className="w-3.5 h-3.5 text-[#ff3131]" />
               <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Our Story</span>
             </div>
             <h1 className="text-4xl lg:text-6xl font-bold mb-5 tracking-tight">
-              About <span className="text-[#FF6B00]">Tap2Buy</span>
+              About <span className="text-[#ff3131]">KD Book Bazaar</span>
             </h1>
             <p className="text-sm lg:text-base text-blue-200 max-w-3xl mx-auto leading-relaxed">
               India is growing online marketplace for Electronics, Fashion, Home & Living, Beauty, and much more — delivering quality products at honest prices, right to your doorstep.
@@ -202,7 +202,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-0">
             <div className="bg-gradient-to-br from-orange-50 to-[#FFF8F3] flex items-center justify-center p-12 min-h-[300px]">
               <div className="text-center">
-                <div className="w-24 h-24 bg-[#FF6B00] rounded-3xl flex items-center justify-center mx-auto mb-5 shadow-xl shadow-orange-200">
+                <div className="w-24 h-24 bg-[#ff3131] rounded-3xl flex items-center justify-center mx-auto mb-5 shadow-xl shadow-orange-200">
                   <ShoppingBag className="w-12 h-12 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">Who We Are</h3>
@@ -210,14 +210,14 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="p-10 flex flex-col justify-center">
-              <div className="inline-flex items-center gap-2 bg-orange-50 rounded-full px-3 py-1 mb-4 w-fit">
-                <span className="text-[10px] font-bold text-[#FF6B00] uppercase tracking-wider">Our Foundation</span>
+              <div className="inline-flex items-center gap-2 bg-red-50 rounded-full px-3 py-1 mb-4 w-fit">
+                <span className="text-[10px] font-bold text-[#ff3131] uppercase tracking-wider">Our Foundation</span>
               </div>
               <h2 className="text-2xl lg:text-3xl font-bold mb-4 text-gray-900">
                 Built for Every Indian Shopper
               </h2>
               <p className="text-sm text-gray-600 mb-4 leading-relaxed">
-                Tap2Buy was founded with one simple mission: make online shopping in India easier, more reliable, and more enjoyable. We believe every customer deserves access to genuine products, fast delivery, and honest service — without compromise.
+                KD Book Bazaar was founded with one simple mission: make online shopping in India easier, more reliable, and more enjoyable. We believe every customer deserves access to genuine products, fast delivery, and honest service — without compromise.
               </p>
               <p className="text-sm text-gray-600 leading-relaxed">
                 From premium electronics to everyday essentials, we curate our catalog so you spend less time searching and more time enjoying. Every seller on our platform is verified, and every product is quality-checked before it reaches you.
@@ -229,8 +229,8 @@ export default function AboutPage() {
         {/* ── WHAT WE OFFER ── */}
         <section>
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-[#FF6B00]/10 border border-[#FF6B00]/20 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-xs font-semibold text-[#FF6B00] uppercase tracking-wider">Our Categories</span>
+            <div className="inline-flex items-center gap-2 bg-[#ff3131]/10 border border-[#ff3131]/20 rounded-full px-4 py-1.5 mb-4">
+              <span className="text-xs font-semibold text-[#ff3131] uppercase tracking-wider">Our Categories</span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">What We Offer</h2>
             <p className="text-sm text-gray-500 max-w-xl mx-auto">
@@ -241,7 +241,7 @@ export default function AboutPage() {
             {categories.map((item, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300 group"
+                className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300 group"
               >
                 <div className={`w-12 h-12 ${item.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300`}>
                   <item.icon className="w-6 h-6" />
@@ -257,15 +257,15 @@ export default function AboutPage() {
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 md:p-12">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 bg-orange-50 rounded-full px-3 py-1 mb-4">
-                <span className="text-[10px] font-bold text-[#FF6B00] uppercase tracking-wider">Our Advantage</span>
+              <div className="inline-flex items-center gap-2 bg-red-50 rounded-full px-3 py-1 mb-4">
+                <span className="text-[10px] font-bold text-[#ff3131] uppercase tracking-wider">Our Advantage</span>
               </div>
-              <h2 className="text-2xl lg:text-3xl font-bold mb-7 text-gray-900">Why Shop on Tap2Buy?</h2>
+              <h2 className="text-2xl lg:text-3xl font-bold mb-7 text-gray-900">Why Shop on KD Book Bazaar?</h2>
               <div className="space-y-5">
                 {whyItems.map((item, i) => (
                   <div key={i} className="flex items-start gap-4 group">
-                    <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF6B00] transition-colors duration-300">
-                      <item.icon className="w-5 h-5 text-[#FF6B00] group-hover:text-white transition-colors duration-300" />
+                    <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#ff3131] transition-colors duration-300">
+                      <item.icon className="w-5 h-5 text-[#ff3131] group-hover:text-white transition-colors duration-300" />
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-gray-900 mb-1">{item.title}</h3>
@@ -277,13 +277,13 @@ export default function AboutPage() {
             </div>
 
             {/* Commitments card */}
-            <div className="bg-gradient-to-br from-[#1B2A4A] to-[#243560] rounded-2xl p-8 text-white relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-[#FF6B00]/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="bg-gradient-to-br from-[#1a1a1a] to-[#243560] rounded-2xl p-8 text-white relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-[#ff3131]/10 rounded-full blur-2xl pointer-events-none" />
               <div className="relative z-10 space-y-4">
                 <h3 className="text-lg font-bold mb-5">Our Commitments</h3>
                 {commitments.map((point, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <CheckCircle className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-[#ff3131] flex-shrink-0" />
                     <p className="text-xs text-blue-100">{point}</p>
                   </div>
                 ))}
@@ -295,22 +295,22 @@ export default function AboutPage() {
         {/* ── COMMUNITY ── */}
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 md:p-12 text-center">
           <div className="max-w-2xl mx-auto">
-            <div className="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <Users className="w-8 h-8 text-[#FF6B00]" />
+            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <Users className="w-8 h-8 text-[#ff3131]" />
             </div>
             <h2 className="text-2xl lg:text-3xl font-bold mb-4 text-gray-900">Join Our Community</h2>
             <p className="text-sm text-gray-500 mb-5 leading-relaxed">
-              Tap2Buy is more than a marketplace — it is a community of smart shoppers. Follow us on social media for exclusive deals, new arrivals, and shopping tips. Your feedback shapes what we stock next!
+              KD Book Bazaar is more than a marketplace — it is a community of smart shoppers. Follow us on social media for exclusive deals, new arrivals, and shopping tips. Your feedback shapes what we stock next!
             </p>
             <p className="text-sm text-gray-700 font-semibold italic">
-              &quot;Shop smart. Shop genuine. Shop Tap2Buy.&quot;
+              &quot;Shop smart. Shop genuine. Shop KD Book Bazaar.&quot;
             </p>
           </div>
         </section>
 
         {/* ── CTA ── */}
-        <section className="bg-[#1B2A4A] rounded-2xl p-10 md:p-14 text-white text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <section className="bg-[#1a1a1a] rounded-2xl p-10 md:p-14 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-3xl lg:text-4xl font-bold mb-3 tracking-tight">
@@ -322,7 +322,7 @@ export default function AboutPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
               >
                 <ShoppingBag className="w-4 h-4" />
                 Shop Now

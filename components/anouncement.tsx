@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import {X } from 'lucide-react';
+import { X } from 'lucide-react';
 import Link from 'next/link';
 
 interface AnnouncementBarProps {
@@ -19,11 +19,10 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
   const handleClose = () => {
     setIsVisible(false);
     localStorage.setItem('announcementBarClosed', 'true');
-    onClose?.(); // ← Header ko notify karta hai
+    onClose?.();
   };
 
   if (!isVisible) return null;
-  
 
   const announcements = [
     {
@@ -31,10 +30,10 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
       text: (
         <span>
           Use code{' '}
-          <span className="font-bold tracking-wider text-white bg-white/20 px-2 py-0.5 rounded-md mx-1">
+          <span className="font-bold tracking-wider text-white bg-white/20 px-2 py-0.5 rounded mx-1">
             NEWBEGIN10
           </span>
-          {' '}& get <span className="font-bold text-[#FF6B00]">10% OFF</span> on your first order!
+          {' '}&amp; get <span className="font-bold text-[#ff3131]">10% OFF</span> on your first order!
         </span>
       ),
     },
@@ -43,7 +42,7 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
       text: (
         <span>
           <span className="font-bold text-white">Free Shipping</span> on all orders above{' '}
-          <span className="font-bold text-[#FF6B00]">₹499</span> — Pan India Delivery!
+          <span className="font-bold text-[#ff3131]">₹499</span> — Pan India Delivery!
         </span>
       ),
     },
@@ -51,9 +50,9 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
       icon: '🔥',
       text: (
         <span>
-          <span className="font-bold text-[#FF6B00]">Flash Sale Live!</span>{' '}
+          <span className="font-bold text-[#ff3131]">Flash Sale Live!</span>{' '}
           Up to <span className="font-bold text-white">70% OFF</span> on top categories.{' '}
-          <Link href="/sale" className="underline underline-offset-2 hover:text-[#FF6B00] transition-colors font-semibold">
+          <Link href="/sale" className="underline underline-offset-2 hover:text-[#ff3131] transition-colors font-semibold">
             Shop Now →
           </Link>
         </span>
@@ -63,7 +62,7 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
       icon: '✅',
       text: (
         <span>
-          <span className="font-bold text-white">100% Authentic Products</span> — Verified sellers & genuine quality guaranteed!
+          <span className="font-bold text-white">100% Authentic Products</span> — Verified sellers &amp; genuine quality guaranteed!
         </span>
       ),
     },
@@ -74,7 +73,7 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
       {announcements.map((item, i) => (
         <span key={i} className="inline-flex items-center gap-2 px-6">
           <span className="text-sm flex-shrink-0">{item.icon}</span>
-          <span className="text-xs sm:text-[13px] text-gray-200 font-light tracking-wide leading-tight">
+          <span className="text-xs sm:text-[13px] text-gray-300 font-light tracking-wide leading-tight">
             {item.text}
           </span>
           {i < announcements.length - 1 && (
@@ -86,11 +85,11 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
   );
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[999] bg-[#1B2A4A] border-b border-[#FF6B00]/20 shadow-lg">
+    <div className="fixed top-0 left-0 right-0 z-[999] bg-[#1a1a1a] border-b border-white/10">
       <div className="relative flex items-center h-10 lg:h-11 overflow-hidden">
 
         {/* Left gradient fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#1B2A4A] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
 
         {/* Marquee */}
         <div className="w-full overflow-hidden">
@@ -107,7 +106,7 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
         </div>
 
         {/* Right gradient fade */}
-        <div className="absolute right-8 top-0 bottom-0 w-16 bg-gradient-to-l from-[#1B2A4A] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-8 top-0 bottom-0 w-16 bg-gradient-to-l from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
 
         {/* Close Button */}
         <button

@@ -8,7 +8,7 @@ export async function generateMetadata({
   }) {
     const { slug } = await params
     const name = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
-    return { title: `${name} — Tap2Buy`, description: `Shop ${name} products` }
+    return { title: `${name} — KD Book Bazaar`, description: `Shop ${name} products` }
   }
 export default async function CategoryPage({
     params,

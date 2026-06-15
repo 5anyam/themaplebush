@@ -16,15 +16,15 @@ import {
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 const WOOCOMMERCE_CONFIG = {
-  BASE_URL: "https://cms.tap2buy.in",
+  BASE_URL: "https://cms.kdbookbazaar.com",
   CONSUMER_KEY: "ck_c6018ad0c7ea07ca111bbf28c539e73d3b3cf0ac",
   CONSUMER_SECRET: "cs_aab574723e9230920cfa28e6244f2c35da5abc58",
 };
 
 const RAZORPAY_CONFIG = {
   KEY_ID: "rzp_live_RkoPyn44Fu0nOg",
-  COMPANY_NAME: "Tap2Buy",
-  THEME_COLOR: "#FF6B00",
+  COMPANY_NAME: "KD Book Bazaar",
+  THEME_COLOR: "#ff3131",
 };
 
 // ── INTERFACES ───────────────────────────────────────────────────────────────
@@ -399,7 +399,7 @@ export default function Checkout(): React.ReactElement {
 
   const inputClass = (hasError?: string) =>
     `w-full px-4 py-3 border-2 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:bg-white transition-all placeholder:text-gray-400 ${
-      hasError ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100" : "border-gray-100 focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10"
+      hasError ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100" : "border-gray-100 focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10"
     }`;
 
   // ── EMPTY CART ──
@@ -416,7 +416,7 @@ export default function Checkout(): React.ReactElement {
           </div>
           <button
             onClick={() => router.push("/shop")}
-            className="inline-flex items-center gap-2 px-7 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            className="inline-flex items-center gap-2 px-7 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
           >
             <ShoppingBag className="w-4 h-4" /> Start Shopping <ArrowRight className="w-4 h-4" />
           </button>
@@ -429,16 +429,16 @@ export default function Checkout(): React.ReactElement {
     <main className="min-h-screen bg-gray-50 pb-12">
 
       {/* ── HERO ── */}
-      <div className="bg-[#1B2A4A] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#1a1a1a] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto px-4 py-10 relative z-10">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="w-9 h-9 bg-[#ff3131] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
               <Lock className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-2xl font-bold text-white">Secure Checkout</h1>
           </div>
-          <p className="text-blue-200 text-sm pl-12">Complete your purchase on <span className="text-[#FF6B00] font-semibold">Tap2Buy</span></p>
+          <p className="text-blue-200 text-sm pl-12">Complete your purchase on <span className="text-[#ff3131] font-semibold">KD Book Bazaar</span></p>
         </div>
       </div>
 
@@ -446,11 +446,11 @@ export default function Checkout(): React.ReactElement {
 
         {/* Auth banners */}
         {!user ? (
-          <div className="flex items-center gap-3 p-4 bg-orange-50 border border-[#FF6B00]/20 rounded-2xl">
-            <User className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
+          <div className="flex items-center gap-3 p-4 bg-red-50 border border-[#ff3131]/20 rounded-2xl">
+            <User className="w-4 h-4 text-[#ff3131] flex-shrink-0" />
             <p className="text-sm text-gray-700">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#FF6B00] font-bold hover:underline">Login here</Link>{" "}
+              <Link href="/login" className="text-[#ff3131] font-bold hover:underline">Login here</Link>{" "}
               to track your orders easily.
             </p>
           </div>
@@ -533,7 +533,7 @@ export default function Checkout(): React.ReactElement {
 
         {/* ── COUPON ── */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="bg-[#FF6B00] px-6 py-4 text-center">
+          <div className="bg-[#ff3131] px-6 py-4 text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
               <Tag className="w-4 h-4 text-white" />
               <h3 className="text-white font-bold text-sm uppercase tracking-wide">Special Offer</h3>
@@ -568,7 +568,7 @@ export default function Checkout(): React.ReactElement {
                 className={`px-5 py-3 rounded-xl text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-60 flex items-center gap-2 ${
                   appliedCoupon
                     ? "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                    : "bg-[#FF6B00] hover:bg-[#e55f00] text-white shadow-md"
+                    : "bg-[#ff3131] hover:bg-[#cc0000] text-white shadow-md"
                 }`}
               >
                 {isApplyingCoupon ? (
@@ -589,23 +589,23 @@ export default function Checkout(): React.ReactElement {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Name <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Name <span className="text-[#ff3131]">*</span></label>
                   <input name="name" value={form.name} onChange={onChange} className={inputClass(errors.name)} placeholder="Full name" required />
                   <FieldError msg={errors.name} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Email <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Email <span className="text-[#ff3131]">*</span></label>
                   <input name="email" type="email" value={form.email} onChange={onChange} className={inputClass(errors.email)} placeholder="your@email.com" required readOnly={!!user} />
                   <FieldError msg={errors.email} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Phone <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Phone <span className="text-[#ff3131]">*</span></label>
                   <input name="phone" type="tel" value={form.phone} onChange={onChange} className={inputClass(errors.phone)} placeholder="10-digit number" required />
                   <FieldError msg={errors.phone} />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">
-                    WhatsApp <span className="text-[#FF6B00]">*</span>
+                    WhatsApp <span className="text-[#ff3131]">*</span>
                     <button type="button" onClick={copyPhoneToWhatsApp} className="ml-2 text-[10px] bg-green-500 hover:bg-green-600 text-white px-2 py-0.5 rounded-full font-bold transition-colors normal-case tracking-normal">
                       Same as phone
                     </button>
@@ -616,24 +616,24 @@ export default function Checkout(): React.ReactElement {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Address <span className="text-[#FF6B00]">*</span></label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Address <span className="text-[#ff3131]">*</span></label>
                 <textarea name="address" rows={3} value={form.address} onChange={onChange} className={`${inputClass(errors.address)} resize-none`} placeholder="House no., Street, Landmark..." required />
                 <FieldError msg={errors.address} />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Pincode <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Pincode <span className="text-[#ff3131]">*</span></label>
                   <input name="pincode" value={form.pincode} onChange={onChange} className={inputClass(errors.pincode)} placeholder="6-digit" required />
                   <FieldError msg={errors.pincode} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">City <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">City <span className="text-[#ff3131]">*</span></label>
                   <input name="city" value={form.city} onChange={onChange} className={inputClass(errors.city)} placeholder="City" required />
                   <FieldError msg={errors.city} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">State <span className="text-[#FF6B00]">*</span></label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">State <span className="text-[#ff3131]">*</span></label>
                   <select name="state" value={form.state} onChange={onChange} className={inputClass(errors.state)} required>
                     <option value="">Select State</option>
                     {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -660,7 +660,7 @@ export default function Checkout(): React.ReactElement {
                   onClick={() => setPaymentMethod(m)}
                   className={`p-3.5 rounded-xl border-2 text-sm font-bold transition-all ${
                     paymentMethod === m
-                      ? "border-[#FF6B00] bg-orange-50 text-[#FF6B00]"
+                      ? "border-[#ff3131] bg-red-50 text-[#ff3131]"
                       : "border-gray-100 bg-gray-50 text-gray-600 hover:border-gray-200"
                   }`}
                 >
@@ -684,7 +684,7 @@ export default function Checkout(): React.ReactElement {
             <button
               type="submit"
               disabled={loading || step === "processing"}
-              className="w-full bg-[#FF6B00] hover:bg-[#e55f00] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2"
+              className="w-full bg-[#ff3131] hover:bg-[#cc0000] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2"
             >
               ) : paymentMethod === cod ? (
   <>
@@ -701,7 +701,7 @@ export default function Checkout(): React.ReactElement {
 
             <div className="flex items-center justify-center gap-5 text-xs text-gray-400 pt-1">
               {["SSL Secured", "Encrypted Payments", "Free Delivery"].map((t) => (
-                <span key={t} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-[#FF6B00]" />{t}</span>
+                <span key={t} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-[#ff3131]" />{t}</span>
               ))}
             </div>
           </div>

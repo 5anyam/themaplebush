@@ -65,15 +65,15 @@ export default function CategoryPage() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <div className="bg-[#1B2A4A] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#1a1a1a] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
           <p className="text-[10px] uppercase tracking-[0.3em] text-blue-300 mb-3 font-semibold">
             Browse Collection
           </p>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/30">
+            <div className="w-9 h-9 bg-[#ff3131] rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/30">
               <ShoppingBag className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
@@ -101,12 +101,12 @@ export default function CategoryPage() {
                 placeholder="Search in this category..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 focus:bg-white transition-all placeholder:text-gray-400"
+                className="w-full pl-10 pr-9 py-2.5 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#ff3131] transition-colors"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -126,7 +126,7 @@ export default function CategoryPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="appearance-none pl-3 pr-8 py-2.5 border-2 border-gray-100 rounded-xl bg-gray-50 text-xs font-semibold text-gray-700 focus:outline-none focus:border-[#FF6B00] focus:ring-2 focus:ring-[#FF6B00]/10 cursor-pointer transition-all"
+                  className="appearance-none pl-3 pr-8 py-2.5 border-2 border-gray-100 rounded-xl bg-gray-50 text-xs font-semibold text-gray-700 focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 cursor-pointer transition-all"
                 >
                   <option value="default">Sort By</option>
                   <option value="price-low">Price: Low → High</option>
@@ -141,7 +141,7 @@ export default function CategoryPage() {
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`p-2.5 transition-colors ${
-                    viewMode === 'grid' ? 'bg-[#FF6B00] text-white' : 'text-gray-400 hover:text-[#FF6B00]'
+                    viewMode === 'grid' ? 'bg-[#ff3131] text-white' : 'text-gray-400 hover:text-[#ff3131]'
                   }`}
                   aria-label="Grid view"
                 >
@@ -150,7 +150,7 @@ export default function CategoryPage() {
                 <button
                   onClick={() => setViewMode('list')}
                   className={`p-2.5 transition-colors ${
-                    viewMode === 'list' ? 'bg-[#FF6B00] text-white' : 'text-gray-400 hover:text-[#FF6B00]'
+                    viewMode === 'list' ? 'bg-[#ff3131] text-white' : 'text-gray-400 hover:text-[#ff3131]'
                   }`}
                   aria-label="List view"
                 >
@@ -190,7 +190,7 @@ export default function CategoryPage() {
             <p className="text-sm text-gray-400 mb-6">Something went wrong. Please try again.</p>
             <button
               onClick={() => void refetch()}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               Retry
             </button>
@@ -207,7 +207,7 @@ export default function CategoryPage() {
             <p className="text-sm text-gray-400 mb-6">Try adjusting your search or filters.</p>
             <button
               onClick={() => { setSearchQuery(''); setSortBy('default'); }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               <X className="w-4 h-4" />
               Clear Filters

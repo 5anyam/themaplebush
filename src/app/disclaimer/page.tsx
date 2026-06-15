@@ -18,7 +18,7 @@ const sections = [
           'Compatibility with specific devices is based on manufacturer guidelines, but we do not guarantee perfect fit for all variants or aftermarket modifications.',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#ff3131] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -32,7 +32,7 @@ const sections = [
     content: (
       <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
         <p>
-          Tap2Buy shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from or related to the use of the Platform, products, or services, including but not limited to loss of data, profits, or business opportunities.
+          KD Book Bazaar shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from or related to the use of the Platform, products, or services, including but not limited to loss of data, profits, or business opportunities.
         </p>
         <p>
           Our total liability for any claim shall not exceed the amount paid by you for the product(s) in question. This limitation applies regardless of the cause of action, including negligence or strict liability.
@@ -53,7 +53,7 @@ const sections = [
           'Users assume all risks associated with the use of products, including potential damage to devices or personal injury.',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#ff3131] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -88,7 +88,7 @@ const sections = [
           'Product installation or application (e.g., screen protectors) is at your own risk; improper use may void warranties.',
         ].map((item, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 bg-[#FF6B00] rounded-full flex-shrink-0 mt-2" />
+            <span className="w-1.5 h-1.5 bg-[#ff3131] rounded-full flex-shrink-0 mt-2" />
             {item}
           </li>
         ))}
@@ -127,18 +127,18 @@ export default function DisclaimerPage() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO ── */}
-      <section className="bg-[#1B2A4A] py-14 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="bg-[#1a1a1a] py-14 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5">
-            <Shield className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <Shield className="w-3.5 h-3.5 text-[#ff3131]" />
             <span className="text-xs font-semibold text-orange-200 uppercase tracking-wider">Legal Notice</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Disclaimer</h1>
           <p className="text-blue-200 text-sm mb-1">Effective Date: November 14, 2025</p>
           <p className="text-blue-200 text-sm leading-relaxed max-w-2xl">
-            Important legal information regarding the use of the Tap2Buy platform and products.
+            Important legal information regarding the use of the KD Book Bazaar platform and products.
           </p>
         </div>
       </section>
@@ -148,9 +148,9 @@ export default function DisclaimerPage() {
         {/* Intro card */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <p className="text-sm text-gray-600 leading-relaxed">
-            Welcome to <span className="font-semibold text-[#FF6B00]">Tap2Buy</span>, India is growing online marketplace for Electronics, Fashion, Home & Living, and more. This Disclaimer outlines the limitations of our liability and the terms under which you may use our website at{' '}
-            <a href="https://www.tap2buy.in" className="text-[#FF6B00] font-medium hover:underline">
-              www.tap2buy.in
+            Welcome to <span className="font-semibold text-[#ff3131]">KD Book Bazaar</span>, India is growing online marketplace for Electronics, Fashion, Home & Living, and more. This Disclaimer outlines the limitations of our liability and the terms under which you may use our website at{' '}
+            <a href="https://www.kdbookbazaar.com" className="text-[#ff3131] font-medium hover:underline">
+              www.kdbookbazaar.com
             </a>{' '}
             (the Platform). By accessing or using the Platform, you agree to be bound by this Disclaimer.
           </p>
@@ -160,11 +160,11 @@ export default function DisclaimerPage() {
         {sections.map((section, i) => (
           <div
             key={i}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#FF6B00]/20 hover:shadow-md transition-all duration-300"
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#ff3131]/20 hover:shadow-md transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <section.icon className="w-5 h-5 text-[#FF6B00]" />
+              <div className="w-11 h-11 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                <section.icon className="w-5 h-5 text-[#ff3131]" />
               </div>
               <div className="flex-1">
                 <h2 className="text-base font-bold text-gray-900 mb-3">
@@ -181,8 +181,8 @@ export default function DisclaimerPage() {
         {/* Contact */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <div className="flex items-start gap-4 mb-5">
-            <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Mail className="w-5 h-5 text-[#FF6B00]" />
+            <div className="w-11 h-11 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Mail className="w-5 h-5 text-[#ff3131]" />
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-900 mb-1">Questions About This Disclaimer?</h2>
@@ -191,16 +191,16 @@ export default function DisclaimerPage() {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { icon: Mail, label: 'Email', value: 'support@tap2buy.in', href: 'mailto:support@tap2buy.in' },
+              { icon: Mail, label: 'Email', value: 'support@kdbookbazaar.com', href: 'mailto:support@kdbookbazaar.com' },
               { icon: Phone, label: 'Phone / WhatsApp', value: '+91 9911636888', href: 'tel:+919911636888' },
             ].map((item, i) => (
               <a
                 key={i}
                 href={item.href}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#FF6B00]/30 hover:bg-orange-50/30 transition-all duration-200 group"
+                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#ff3131]/30 hover:bg-red-50/30 transition-all duration-200 group"
               >
-                <div className="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center group-hover:bg-[#FF6B00] transition-colors">
-                  <item.icon className="w-4 h-4 text-[#FF6B00] group-hover:text-white transition-colors" />
+                <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-[#ff3131] transition-colors">
+                  <item.icon className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
@@ -215,19 +215,19 @@ export default function DisclaimerPage() {
         </div>
 
         {/* CTA footer */}
-        <div className="bg-[#1B2A4A] rounded-2xl p-8 text-white text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-[#1a1a1a] rounded-2xl p-8 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10">
-            <div className="w-14 h-14 bg-[#FF6B00] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-500/30">
+            <div className="w-14 h-14 bg-[#ff3131] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-500/30">
               <Shield className="w-7 h-7 text-white" />
             </div>
             <h3 className="text-lg font-bold mb-2">Protection Through Transparency</h3>
             <p className="text-sm text-blue-200 max-w-xl mx-auto leading-relaxed mb-5">
-              At Tap2Buy, transparency builds trust. This Disclaimer ensures you understand the terms of using our Platform, so you can shop with complete confidence.
+              At KD Book Bazaar, transparency builds trust. This Disclaimer ensures you understand the terms of using our Platform, so you can shop with complete confidence.
             </p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
             >
               <ShoppingBag className="w-4 h-4" />
               Shop Now
@@ -236,10 +236,10 @@ export default function DisclaimerPage() {
         </div>
 
         <p className="text-xs text-gray-400 text-center pb-4">
-          © {new Date().getFullYear()} Tap2Buy. All rights reserved. &nbsp;·&nbsp;{' '}
-          <Link href="/privacy-policy" className="text-[#FF6B00] hover:underline">Privacy Policy</Link>
+          © {new Date().getFullYear()} KD Book Bazaar. All rights reserved. &nbsp;·&nbsp;{' '}
+          <Link href="/privacy-policy" className="text-[#ff3131] hover:underline">Privacy Policy</Link>
           {' '}&nbsp;·&nbsp;{' '}
-          <Link href="/terms-and-conditions" className="text-[#FF6B00] hover:underline">Terms & Conditions</Link>
+          <Link href="/terms-and-conditions" className="text-[#ff3131] hover:underline">Terms & Conditions</Link>
         </p>
       </div>
     </main>

@@ -167,9 +167,9 @@ export default function SearchPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="relative w-14 h-14 mx-auto mb-4">
-            <div className="absolute inset-0 rounded-full border-4 border-gray-100 border-t-[#FF6B00] animate-spin" />
+            <div className="absolute inset-0 rounded-full border-4 border-gray-100 border-t-[#ff3131] animate-spin" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-2.5 h-2.5 bg-[#FF6B00] rounded-full animate-pulse" />
+              <div className="w-2.5 h-2.5 bg-[#ff3131] rounded-full animate-pulse" />
             </div>
           </div>
           <p className="text-gray-500 text-sm">Loading products...</p>
@@ -194,17 +194,17 @@ export default function SearchPage() {
     <main className="min-h-screen bg-gray-50">
 
       {/* ── HERO / SEARCH HEADER ── */}
-      <div className="bg-[#1B2A4A] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#1a1a1a] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 py-10 relative z-10">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-9 h-9 bg-[#FF6B00] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="w-9 h-9 bg-[#ff3131] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
               <ShoppingBag className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-              Shop on <span className="text-[#FF6B00]">Tap2Buy</span>
+              Shop on <span className="text-[#ff3131]">KD Book Bazaar</span>
             </h1>
           </div>
 
@@ -218,14 +218,14 @@ export default function SearchPage() {
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search products, brands, categories..."
                 // Yahan text-black aur font-medium add kiya hai
-                className="w-full px-5 py-3.5 pl-12 pr-12 text-sm text-black font-medium bg-white border-2 border-transparent focus:border-[#FF6B00] focus:outline-none focus:ring-2 focus:ring-[#FF6B00]/10 rounded-xl transition-all placeholder:text-gray-500 shadow-sm"
+                className="w-full px-5 py-3.5 pl-12 pr-12 text-sm text-black font-medium bg-white border-2 border-transparent focus:border-[#ff3131] focus:outline-none focus:ring-2 focus:ring-[#ff3131]/10 rounded-xl transition-all placeholder:text-gray-500 shadow-sm"
               />
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
               {searchInput && (
                 <button
                   type="button"
                   onClick={clearSearch}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#FF6B00] transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#ff3131] transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -238,7 +238,7 @@ export default function SearchPage() {
               {query ? (
                 <>
                   <span className="text-white font-semibold">{results.length}</span> results for{' '}
-                  <span className="text-[#FF6B00] font-semibold">&quot;{query}&quot;</span>
+                  <span className="text-[#ff3131] font-semibold">&quot;{query}&quot;</span>
                 </>
               ) : (
                 <>
@@ -276,8 +276,8 @@ export default function SearchPage() {
                       onClick={() => setActiveCategory(cat.id)}
                       className={`w-full text-left px-3 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between ${
                         activeCategory === cat.id
-                          ? 'bg-[#FF6B00] text-white font-semibold'
-                          : 'text-gray-600 hover:bg-orange-50 hover:text-[#FF6B00]'
+                          ? 'bg-[#ff3131] text-white font-semibold'
+                          : 'text-gray-600 hover:bg-red-50 hover:text-[#ff3131]'
                       }`}
                     >
                       <span>{cat.name}</span>
@@ -298,7 +298,7 @@ export default function SearchPage() {
               {/* Trust badges */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">
-                  Why Tap2Buy
+                  Why KD Book Bazaar
                 </h3>
                 <ul className="space-y-2.5">
                   {[
@@ -308,7 +308,7 @@ export default function SearchPage() {
                     '7-day easy returns',
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-2 text-xs text-gray-500">
-                      <CheckCircle className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                      <CheckCircle className="w-3.5 h-3.5 text-[#ff3131] flex-shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -329,7 +329,7 @@ export default function SearchPage() {
                 <p className="text-sm text-gray-400 mb-6">Try adjusting your search or category</p>
                 <button
                   onClick={() => { setActiveCategory('all'); clearSearch(); }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF6B00] hover:bg-[#e55f00] text-white rounded-xl text-sm font-bold transition-all shadow-md"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold transition-all shadow-md"
                 >
                   <X className="w-3.5 h-3.5" />
                   Clear Filters
@@ -347,7 +347,7 @@ export default function SearchPage() {
                     <Link
                       key={product.id}
                       href={productUrl}
-                      className="group bg-white rounded-2xl border border-gray-100 hover:border-[#FF6B00]/20 hover:shadow-lg hover:shadow-orange-100 transition-all duration-300 overflow-hidden"
+                      className="group bg-white rounded-2xl border border-gray-100 hover:border-[#ff3131]/20 hover:shadow-lg hover:shadow-orange-100 transition-all duration-300 overflow-hidden"
                     >
                       {/* Image */}
                       <div className="relative aspect-square overflow-hidden bg-gray-50">
@@ -367,7 +367,7 @@ export default function SearchPage() {
 
                         {/* Discount Badge */}
                         {discounted && (
-                          <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#FF6B00] text-white px-2 py-1 rounded-lg text-[10px] font-bold shadow-md z-10">
+                          <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#ff3131] text-white px-2 py-1 rounded-lg text-[10px] font-bold shadow-md z-10">
                             <Sparkles className="w-2.5 h-2.5" />
                             {discountPct}% OFF
                           </div>
@@ -377,12 +377,12 @@ export default function SearchPage() {
                       {/* Info */}
                       <div className="p-3.5 space-y-2">
                         {product.categories && product.categories.length > 0 && (
-                          <span className="text-[10px] text-[#FF6B00] font-bold uppercase tracking-wider">
+                          <span className="text-[10px] text-[#ff3131] font-bold uppercase tracking-wider">
                             {product.categories[0].name}
                           </span>
                         )}
 
-                        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug group-hover:text-[#FF6B00] transition-colors duration-200">
+                        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug group-hover:text-[#ff3131] transition-colors duration-200">
                           {product.name}
                         </h3>
 

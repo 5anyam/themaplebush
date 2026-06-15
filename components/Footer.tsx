@@ -14,18 +14,18 @@ const shopCategories = [
 ];
 
 const helpLinks = [
-  { name: "My Account",      to: "/account" },
-  { name: "Track My Order",  to: "/track-order" },
-  { name: "Returns & Refunds", to: "/returns" },
-  { name: "Shipping Policy", to: "/shipping" },
-  { name: "Privacy Policy",  to: "/privacy" },
-  { name: "Terms of Service", to: "/terms" },
-  { name: "Contact Us",      to: "/contact" },
+  { name: "My Account",        to: "/account" },
+  { name: "Track My Order",    to: "/track-order" },
+  { name: "Returns & Refunds", to: "/returns-and-refunds-policy" },
+  { name: "Shipping Policy",   to: "/shipping-policy" },
+  { name: "Privacy Policy",    to: "/privacy-policy" },
+  { name: "Terms of Service",  to: "/terms-and-conditions" },
+  { name: "Contact Us",        to: "/contact" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2A2825] text-[#A3A09B] font-sans">
+    <footer className="bg-white text-gray-600 font-sans border-t border-gray-200">
 
       {/* Main Footer Grid */}
       <div className="max-w-7xl mx-auto px-4 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -33,22 +33,22 @@ export default function Footer() {
         {/* Brand Column */}
         <div className="flex flex-col gap-5">
           <Link href="/">
-            <img src="/logo.jpg" alt="Tap2Buy" className="h-10 w-auto" />
+            <img src="/logo.jpg" alt="KD Book Bazaar" className="h-10 w-auto" />
           </Link>
-          <p className="text-[12px] leading-relaxed tracking-wide text-[#6B665E]">
+          <p className="text-[12px] leading-relaxed tracking-wide text-gray-500">
             Your one-stop destination for quality products across every category — delivered fast, priced right.
           </p>
           <div className="flex gap-4 mt-1">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-               className="text-[#6B665E] hover:text-[#B86B52] transition-colors">
+            <a href="https://instagram.com/kdbookbazaar" target="_blank" rel="noopener noreferrer"
+               className="text-gray-400 hover:text-[#ff3131] transition-colors">
               <Instagram className="w-4 h-4" />
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-               className="text-[#6B665E] hover:text-[#B86B52] transition-colors">
+            <a href="https://youtube.com/@kdbookbazaar" target="_blank" rel="noopener noreferrer"
+               className="text-gray-400 hover:text-[#ff3131] transition-colors">
               <Youtube className="w-4 h-4" />
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-               className="text-[#6B665E] hover:text-[#B86B52] transition-colors">
+            <a href="https://facebook.com/kdbookbazaar" target="_blank" rel="noopener noreferrer"
+               className="text-gray-400 hover:text-[#ff3131] transition-colors">
               <Facebook className="w-4 h-4" />
             </a>
           </div>
@@ -56,7 +56,7 @@ export default function Footer() {
 
         {/* Shop by Category */}
         <div>
-          <h4 className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white mb-5">
+          <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900 mb-5">
             Shop by Category
           </h4>
           <ul className="flex flex-col gap-3">
@@ -64,7 +64,7 @@ export default function Footer() {
               <li key={cat.to}>
                 <Link
                   href={cat.to}
-                  className="text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors"
+                  className="text-[12px] tracking-wide text-gray-500 hover:text-[#ff3131] transition-colors"
                 >
                   {cat.name}
                 </Link>
@@ -75,7 +75,7 @@ export default function Footer() {
 
         {/* Help & Info */}
         <div>
-          <h4 className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white mb-5">
+          <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900 mb-5">
             Help & Info
           </h4>
           <ul className="flex flex-col gap-3">
@@ -83,7 +83,7 @@ export default function Footer() {
               <li key={link.to}>
                 <Link
                   href={link.to}
-                  className="text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors"
+                  className="text-[12px] tracking-wide text-gray-500 hover:text-[#ff3131] transition-colors"
                 >
                   {link.name}
                 </Link>
@@ -94,25 +94,25 @@ export default function Footer() {
 
         {/* Contact */}
         <div>
-          <h4 className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white mb-5">
+          <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900 mb-5">
             Contact Us
           </h4>
           <ul className="flex flex-col gap-4">
             <li>
               <a href="tel:+919911636888"
-                 className="flex items-start gap-3 text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors">
+                 className="flex items-start gap-3 text-[12px] tracking-wide text-gray-500 hover:text-[#ff3131] transition-colors">
                 <Phone className="w-4 h-4 mt-0.5 shrink-0" />
                 +91 99116 36888
               </a>
             </li>
             <li>
-              <a href="mailto:support@tap2buy.in"
-                 className="flex items-start gap-3 text-[12px] tracking-wide text-[#6B665E] hover:text-[#B86B52] transition-colors">
+              <a href="mailto:support@kdbookbazaar.com"
+                 className="flex items-start gap-3 text-[12px] tracking-wide text-gray-500 hover:text-[#ff3131] transition-colors">
                 <Mail className="w-4 h-4 mt-0.5 shrink-0" />
-                support@tap2buy.in
+                support@kdbookbazaar.com
               </a>
             </li>
-            <li className="flex items-start gap-3 text-[12px] tracking-wide text-[#6B665E]">
+            <li className="flex items-start gap-3 text-[12px] tracking-wide text-gray-500">
               <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
               India
             </li>
@@ -122,17 +122,17 @@ export default function Footer() {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-[#3A3835]" />
+      <div className="border-t border-gray-200" />
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-[11px] tracking-widest text-[#6B665E]">
-          © {new Date().getFullYear()} Tap2Buy. All rights reserved.
+        <p className="text-[11px] tracking-widest text-gray-400">
+          © {new Date().getFullYear()} KD Book Bazaar. All rights reserved.
         </p>
         <div className="flex items-center gap-4">
           {["Visa", "Mastercard", "UPI", "Razorpay"].map((method) => (
             <span key={method}
-              className="text-[10px] uppercase tracking-widest text-[#4A4845] border border-[#3A3835] px-2 py-1">
+              className="text-[10px] uppercase tracking-widest text-gray-400 border border-gray-200 px-2 py-1">
               {method}
             </span>
           ))}

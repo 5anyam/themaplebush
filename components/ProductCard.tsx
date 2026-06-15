@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { productToSlug } from "../lib/slug";
-import { ArrowRight, ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star } from 'lucide-react';
 
 interface Product {
   id: number | string;
@@ -28,31 +28,31 @@ export default function ProductCard({ product }: { product: Product }) {
     : 0;
 
   return (
-    <Link href={productUrl} className="group block h-full bg-white border border-[#E8E6E1] hover:border-[#B86B52] transition-colors duration-500">
+    <Link href={productUrl} className="group block h-full bg-white border border-gray-200 hover:border-[#ff3131] hover:shadow-md transition-all duration-300">
       <div className="relative flex flex-col h-full overflow-hidden">
 
         {/* ── IMAGE SECTION ── */}
-        <div className="relative aspect-square overflow-hidden bg-[#F7F5F0]">
+        <div className="relative aspect-square overflow-hidden bg-gray-50">
           <img
             src={product.images?.[0]?.src || "/placeholder.png"}
             alt={product.name}
-            className="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+            className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ease-out"
           />
 
-          {/* Minimalist Labels */}
+          {/* Badges */}
           <div className="absolute top-0 left-0 flex flex-col items-start">
             {product.badge === 'New' && (
-              <span className="bg-[#2A2825] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
-                New Arrival
+              <span className="bg-gray-900 text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
+                New
               </span>
             )}
             {product.badge === 'Hot' && (
-              <span className="bg-[#B86B52] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
+              <span className="bg-[#ff3131] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
                 Trending
               </span>
             )}
             {isOnSale && (
-              <span className="bg-white text-[#B86B52] border-r border-b border-[#E8E6E1] text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
+              <span className="bg-[#ff3131] text-white text-[9px] font-bold px-3 py-1.5 tracking-[0.2em] uppercase">
                 {discountPercent}% OFF
               </span>
             )}
@@ -60,21 +60,21 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* ── CONTENT SECTION ── */}
-        <div className="flex flex-col flex-1 p-4 md:p-5 gap-3">
+        <div className="flex flex-col flex-1 p-4 md:p-5 gap-2">
 
-          {/* Category - Delicate Terracotta */}
+          {/* Category */}
           {product.category && (
-            <span className="text-[10px] text-[#B86B52] uppercase tracking-[0.2em] font-medium">
+            <span className="text-[10px] text-[#ff3131] uppercase tracking-[0.2em] font-semibold">
               {product.category}
             </span>
           )}
 
-          {/* Product Name - Elegant Serif-like feel */}
-          <h3 className="text-sm font-medium text-[#2A2825] line-clamp-2 leading-relaxed min-h-[2.5rem] group-hover:text-[#B86B52] transition-colors duration-300">
+          {/* Product Name */}
+          <h3 className="text-sm font-medium text-gray-800 line-clamp-2 leading-relaxed min-h-[2.5rem] group-hover:text-[#ff3131] transition-colors duration-200">
             {product.name}
           </h3>
 
-          {/* Rating - Minimal Gold */}
+          {/* Rating */}
           {Number.isFinite(rating) && rating > 0 && (
             <div className="flex items-center gap-1">
               <div className="flex items-center">
@@ -83,13 +83,13 @@ export default function ProductCard({ product }: { product: Product }) {
                     key={i}
                     className={`w-2.5 h-2.5 ${
                       i < Math.round(rating)
-                        ? "text-[#A88C7D] fill-[#A88C7D]"
-                        : "text-[#E8E6E1] fill-[#E8E6E1]"
+                        ? "text-[#ff3131] fill-[#ff3131]"
+                        : "text-gray-200 fill-gray-200"
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-[10px] text-[#A3A09B] tracking-wider ml-1">
+              <span className="text-[10px] text-gray-400 tracking-wider ml-1">
                 ({product.rating_count || 0})
               </span>
             </div>
@@ -99,25 +99,21 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="flex-1" />
 
           {/* ── PRICE & ACTION ── */}
-          <div className="pt-4 border-t border-[#F0EFEA] flex flex-col gap-4">
-            <div className="flex items-baseline justify-between">
-              <div className="flex items-baseline gap-2">
-                <span className="text-lg font-light text-[#2A2825]">
-                  ₹{salePrice.toLocaleString('en-IN')}
+          <div className="pt-3 border-t border-gray-100 flex flex-col gap-3">
+            <div className="flex items-baseline gap-2">
+              <span className="text-lg font-bold text-gray-900">
+                ₹{salePrice.toLocaleString('en-IN')}
+              </span>
+              {isOnSale && (
+                <span className="text-xs text-gray-400 line-through font-light">
+                  ₹{originalPrice.toLocaleString('en-IN')}
                 </span>
-                {isOnSale && (
-                  <span className="text-xs text-[#A3A09B] line-through font-light">
-                    ₹{originalPrice.toLocaleString('en-IN')}
-                  </span>
-                )}
-              </div>
-              {/* Optional: Add a "Save" amount in subtle text if you want */}
+              )}
             </div>
 
-            {/* Premium CTA - Full Width Matte Button */}
-            <button className="w-full py-3 bg-[#2A2825] text-white text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-[#403D39] transition-all duration-300 active:scale-[0.98]">
-              <ShoppingCart className="w-3.5 h-3.5 stroke-[1.5]" />
-              Add to Collection
+            <button className="w-full py-2.5 bg-[#ff3131] text-white text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-[#cc0000] transition-all duration-200 active:scale-[0.98]">
+              <ShoppingCart className="w-3.5 h-3.5" />
+              Add to Cart
             </button>
           </div>
         </div>

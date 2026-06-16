@@ -1,16 +1,15 @@
-// components/Footer.tsx
 import Link from "next/link";
 import { Phone, Mail, MapPin, Instagram, Youtube, Facebook } from "lucide-react";
 
 const shopCategories = [
-  { name: "Home Decor",                     to: "/category/home-decor" },
-  { name: "Fashion",                         to: "/category/fashion" },
-  { name: "Home & Kitchen",                  to: "/category/home-kitchen" },
-  { name: "Mobile & Electronics",            to: "/category/mobile-electronics-accessories" },
-  { name: "Bike & Car Accessories",          to: "/category/bike-car-accessories" },
-  { name: "Sports & Outdoors",               to: "/category/sports-outdoors" },
-  { name: "Toys & Games",                    to: "/category/toys-games" },
-  { name: "Office Products",                 to: "/category/office-products" },
+  { name: "Fiction",            to: "/category/fiction" },
+  { name: "Non-Fiction",        to: "/category/non-fiction" },
+  { name: "Children's Books",   to: "/category/childrens-books" },
+  { name: "Academic & Textbooks", to: "/category/academic" },
+  { name: "Self-Help",          to: "/category/self-help" },
+  { name: "Biography",          to: "/category/biography" },
+  { name: "Science & Tech",     to: "/category/science-technology" },
+  { name: "Comics & Manga",     to: "/category/comics-manga" },
 ];
 
 const helpLinks = [
@@ -27,16 +26,16 @@ export default function Footer() {
   return (
     <footer className="bg-white text-gray-600 font-sans border-t border-gray-200">
 
-      {/* Main Footer Grid */}
+      {/* Main grid */}
       <div className="max-w-7xl mx-auto px-4 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-        {/* Brand Column */}
+        {/* Brand */}
         <div className="flex flex-col gap-5">
           <Link href="/">
             <img src="/logo.jpg" alt="KD Book Bazaar" className="h-10 w-auto" />
           </Link>
           <p className="text-[12px] leading-relaxed tracking-wide text-gray-500">
-            Your one-stop destination for quality products across every category — delivered fast, priced right.
+            India&apos;s favourite online bookstore — thousands of titles across every genre, delivered fast at the best prices.
           </p>
           <div className="flex gap-4 mt-1">
             <a href="https://instagram.com/kdbookbazaar" target="_blank" rel="noopener noreferrer"
@@ -54,10 +53,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Shop by Category */}
+        {/* Shop by Genre */}
         <div>
           <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900 mb-5">
-            Shop by Category
+            Shop by Genre
           </h4>
           <ul className="flex flex-col gap-3">
             {shopCategories.map((cat) => (
@@ -121,10 +120,9 @@ export default function Footer() {
 
       </div>
 
-      {/* Divider */}
       <div className="border-t border-gray-200" />
 
-      {/* Bottom Bar */}
+      {/* Bottom bar */}
       <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="text-[11px] tracking-widest text-gray-400">
           © {new Date().getFullYear()} KD Book Bazaar. All rights reserved.

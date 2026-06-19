@@ -515,36 +515,37 @@ export default function ProductClient({
           {/* ── ACTION BUTTONS — Desktop ── */}
           <div className="hidden lg:flex flex-col gap-3 pt-2">
             <button
-              onClick={handleAddToCart}
-              disabled={isAddingToCart || !isInStock}
-              className={`group relative w-full bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-orange-200 flex items-center justify-center gap-2.5 ${
-                isAddingToCart || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
+              onClick={handleBuyNow}
+              disabled={isBuyingNow || !isInStock}
+              className={`group relative w-full bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-red-200 flex items-center justify-center gap-2.5 ${
+                isBuyingNow || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
-              {/* Shimmer effect */}
               {isInStock && (
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
               )}
               <span className="relative flex items-center gap-2">
-                {isAddingToCart ? (
-                  <><Check className="w-4 h-4" /> Added to Cart!</>
-                ) : !isInStock ? (
-                  <><Package className="w-4 h-4" /> Out of Stock</>
+                {isBuyingNow ? 'Processing...' : !isInStock ? (
+                  <><Package className="w-4 h-4" /> Unavailable</>
                 ) : (
-                  <><ShoppingCart className="w-4 h-4" /> Add to Cart</>
+                  <><Tag className="w-4 h-4" /> Buy Now</>
                 )}
               </span>
             </button>
 
             <button
-              onClick={handleBuyNow}
-              disabled={isBuyingNow || !isInStock}
+              onClick={handleAddToCart}
+              disabled={isAddingToCart || !isInStock}
               className={`relative w-full border-2 border-[#1a1a1a] text-[#1a1a1a] font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 ${
-                isBuyingNow || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
+                isAddingToCart || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
-              {isBuyingNow ? 'Processing...' : !isInStock ? 'Unavailable' : (
-                <><Tag className="w-4 h-4" /> Buy Now</>
+              {isAddingToCart ? (
+                <><Check className="w-4 h-4" /> Added to Cart!</>
+              ) : !isInStock ? (
+                <><Package className="w-4 h-4" /> Out of Stock</>
+              ) : (
+                <><ShoppingCart className="w-4 h-4" /> Add to Cart</>
               )}
             </button>
           </div>
@@ -620,19 +621,20 @@ export default function ProductClient({
           {/* Buttons */}
           <div className="flex gap-3">
             <button
+              onClick={handleBuyNow}
+              disabled={isBuyingNow || !isInStock}
+              className="flex-1 bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl transition-all shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
+            >
+              <Tag className="w-4 h-4" />
+              {isBuyingNow ? 'Processing...' : !isInStock ? 'Unavailable' : 'Buy Now'}
+            </button>
+            <button
               onClick={handleAddToCart}
               disabled={isAddingToCart || !isInStock}
-              className="flex-1 bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl transition-all shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
+              className="flex-1 border-2 border-[#1a1a1a] text-[#1a1a1a] font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl hover:bg-[#1a1a1a] hover:text-white transition-all disabled:opacity-60 flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-4 h-4" />
               {isAddingToCart ? 'Added!' : !isInStock ? 'Out of Stock' : 'Add to Cart'}
-            </button>
-            <button
-              onClick={handleBuyNow}
-              disabled={isBuyingNow || !isInStock}
-              className="flex-1 border-2 border-[#1a1a1a] text-[#1a1a1a] font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl hover:bg-[#1a1a1a] hover:text-white transition-all disabled:opacity-60"
-            >
-              {isBuyingNow ? 'Processing...' : !isInStock ? 'Unavailable' : 'Buy Now'}
             </button>
           </div>
         </div>

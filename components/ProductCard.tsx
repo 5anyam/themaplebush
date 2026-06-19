@@ -29,11 +29,11 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={productUrl} className="group block">
       {/* Book Cover — portrait 2:3 ratio */}
-      <div className="relative aspect-[2/3] overflow-hidden bg-gray-100 mb-3 shadow-sm group-hover:shadow-lg transition-shadow duration-300">
+      <div className="relative aspect-[2/3] overflow-hidden bg-white mb-3 shadow-sm group-hover:shadow-lg transition-shadow duration-300 border border-gray-100">
         <img
           src={product.images?.[0]?.src || "/placeholder.png"}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500 ease-out"
+          className="w-full h-full object-contain group-hover:scale-[1.04] transition-transform duration-500 ease-out"
         />
 
         {/* Quick shop overlay on hover */}

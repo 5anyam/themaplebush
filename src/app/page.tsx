@@ -184,22 +184,36 @@ export default function Homepage() {
     <div className="min-h-screen bg-white font-sans text-gray-900">
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-gray-100 py-12 md:py-16 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-3 leading-tight">
-            Find your next <span className="text-[#ff3131]">great read.</span>
+      <section className="relative bg-gray-900 py-16 md:py-28 px-4 overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+          <div className="absolute -top-16 -right-16 w-80 h-80 bg-[#ff3131]/15 rounded-full blur-3xl" />
+          <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-[#ff3131]/10 rounded-full blur-3xl" />
+          <span className="absolute top-8 right-[10%] text-7xl opacity-5 rotate-12">📚</span>
+          <span className="absolute bottom-8 right-[25%] text-5xl opacity-5 -rotate-6">📖</span>
+          <span className="absolute top-16 left-[8%] text-6xl opacity-5 rotate-6">🎨</span>
+          <span className="absolute bottom-12 left-[20%] text-4xl opacity-5 rotate-12">📕</span>
+        </div>
+
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 bg-[#ff3131]/20 border border-[#ff3131]/40 text-[#ff3131] text-[10px] font-bold uppercase tracking-widest px-4 py-2 mb-6 rounded-full">
+            <span>✨</span> India&apos;s Favourite Book Store
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+            Find your next<br />
+            <span className="text-[#ff3131]">great read.</span>
           </h1>
-          <p className="text-gray-500 text-base md:text-lg mb-8">
+          <p className="text-gray-400 text-base md:text-xl mb-10 max-w-xl mx-auto leading-relaxed">
             Thousands of books across every genre — delivered to your door.
           </p>
 
           {/* Hero search bar */}
-          <form onSubmit={handleHeroSearch} className="flex items-center bg-white border-2 border-gray-900 focus-within:border-[#ff3131] transition-colors duration-200 max-w-2xl mx-auto">
+          <form onSubmit={handleHeroSearch} className="flex items-center bg-white/10 border border-white/20 focus-within:border-[#ff3131] focus-within:bg-white/15 transition-all duration-300 max-w-2xl mx-auto backdrop-blur-sm rounded-xl overflow-hidden">
             <FiSearch className="ml-5 text-gray-400 w-5 h-5 flex-shrink-0" />
             <input
               type="text"
               placeholder="Search by title, author, or genre..."
-              className="flex-1 bg-transparent py-4 px-4 text-sm text-gray-800 focus:outline-none placeholder-gray-400"
+              className="flex-1 bg-transparent py-4 px-4 text-sm text-white focus:outline-none placeholder-gray-400"
               value={heroSearch}
               onChange={(e) => setHeroSearch(e.target.value)}
             />
@@ -211,16 +225,13 @@ export default function Homepage() {
             </button>
           </form>
 
-          {/* Quick genre chips */}
-          <div className="flex flex-wrap justify-center gap-2 mt-5">
-            {(['Fiction', 'Non-Fiction', "Children's", 'Self-Help', 'Academic', 'Biography', 'Comics'] as const).map((g) => (
-              <button
-                key={g}
-                onClick={() => router.push(`/search?q=${g}`)}
-                className="px-4 py-1.5 border border-gray-200 text-xs font-medium text-gray-600 hover:border-[#ff3131] hover:text-[#ff3131] transition-colors bg-white"
-              >
-                {g}
-              </button>
+          {/* Quick stats */}
+          <div className="flex flex-wrap justify-center gap-6 mt-10 text-center">
+            {[['10,000+', 'Books Listed'], ['50K+', 'Happy Readers'], ['100+', 'Genres']].map(([num, label]) => (
+              <div key={label} className="text-white">
+                <div className="text-xl md:text-2xl font-bold">{num}</div>
+                <div className="text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">{label}</div>
+              </div>
             ))}
           </div>
         </div>
@@ -247,6 +258,64 @@ export default function Homepage() {
           </div>
         </div>
       </section>
+
+      {/* ── COMICS SPOTLIGHT ─────────────────────────────────────────── */}
+      {(() => {
+        const comicsProducts = all.filter((p) =>
+          p.categories?.some((c) =>
+            c.slug?.toLowerCase().includes('comic') ||
+            c.slug?.toLowerCase().includes('manga') ||
+            c.name?.toLowerCase().includes('comic') ||
+            c.name?.toLowerCase().includes('manga')
+          )
+        ).slice(0, 6);
+
+        if (comicsProducts.length === 0 && !productsLoading) return null;
+
+        return (
+          <section className="py-12 px-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
+            {/* Decorative */}
+            <div className="absolute inset-0 pointer-events-none select-none">
+              <span className="absolute top-4 right-8 text-6xl opacity-5">🎨</span>
+              <span className="absolute bottom-4 left-8 text-5xl opacity-5">💥</span>
+            </div>
+            <div className="max-w-7xl mx-auto relative z-10">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#ff3131] rounded-lg flex items-center justify-center text-xl flex-shrink-0">🎨</div>
+                  <div>
+                    <p className="text-[10px] font-bold text-[#ff3131] uppercase tracking-widest mb-0.5">Featured</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-white">Comics & Manga</h2>
+                  </div>
+                </div>
+                <Link href="/category/comics" className="hidden md:flex items-center gap-1 text-sm font-semibold text-[#ff3131] hover:underline">
+                  View all <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+              {productsLoading ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  {[...Array(6)].map((_, i) => <ProductSkeleton key={i} />)}
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  {comicsProducts.map((prod, i) => (
+                    <div key={prod.id} className="animate-[fadeInUp_0.4s_ease_forwards] opacity-0" style={{ animationDelay: `${i * 60}ms` }}>
+                      <ProductCard product={prod} />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="mt-5 md:hidden text-center">
+                <Link href="/category/comics" className="inline-flex items-center gap-2 px-6 py-2.5 border border-[#ff3131] text-sm font-semibold text-[#ff3131] hover:bg-[#ff3131] hover:text-white transition-colors rounded-lg">
+                  View all Comics <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── GENRE CHIPS (dynamic) ────────────────────────────────────── */}
       <section className="py-10 px-4 bg-white border-b border-gray-100">
@@ -320,6 +389,61 @@ export default function Homepage() {
 
         </div>
       </section>
+
+      {/* ── COMBOS SECTION ───────────────────────────────────────────── */}
+      {(() => {
+        const comboProducts = all.filter((p) =>
+          p.categories?.some((c) =>
+            c.slug?.toLowerCase().includes('combo') ||
+            c.name?.toLowerCase().includes('combo')
+          )
+        ).slice(0, 5);
+
+        if (comboProducts.length === 0) return null;
+
+        return (
+          <section className="py-12 px-4 bg-amber-50 border-t border-amber-100">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center text-xl flex-shrink-0">🎁</div>
+                  <div>
+                    <p className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-0.5">Best Value</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900">Book Combos</h2>
+                  </div>
+                </div>
+                <Link href="/category/combos" className="hidden md:flex items-center gap-1 text-sm font-semibold text-amber-600 hover:underline">
+                  View all <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+                {comboProducts.map((prod, i) => (
+                  <div key={prod.id} className="animate-[fadeInUp_0.4s_ease_forwards] opacity-0" style={{ animationDelay: `${i * 60}ms` }}>
+                    <ProductCard product={prod} />
+                  </div>
+                ))}
+                <Link
+                  href="/category/combos"
+                  className="hidden lg:flex flex-col items-center justify-center gap-3 border-2 border-dashed border-amber-200 hover:border-amber-500 hover:bg-amber-100 transition-all duration-300 aspect-[2/3] group"
+                >
+                  <span className="text-3xl opacity-30 group-hover:opacity-100 transition-opacity">🎁</span>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-amber-600 transition-colors text-center px-2">
+                    See all Combos
+                  </p>
+                  <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
+                </Link>
+              </div>
+
+              <div className="mt-5 md:hidden text-center">
+                <Link href="/category/combos" className="inline-flex items-center gap-2 px-6 py-2.5 border-2 border-amber-500 text-sm font-semibold text-amber-600 hover:bg-amber-500 hover:text-white transition-colors">
+                  View all Combos <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── CATEGORY PRODUCT SECTIONS (dynamic) ──────────────────────── */}
       {productsLoading ? (

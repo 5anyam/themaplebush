@@ -65,8 +65,8 @@ export async function generateMetadata(
 
   if (!product) {
     return {
-      title: 'Product not found | Caishen United',
-      description: 'The premium phone accessory you are looking for is unavailable.',
+      title: 'Product not found | KD Book Bazaar',
+      description: 'The book you are looking for is unavailable.',
       robots: { index: false, follow: false },
     }
   }
@@ -81,14 +81,14 @@ export async function generateMetadata(
     'price',
     'reviews',
     'India',
-    'Caishen United',
+    'KD Book Bazaar',
   ]
 
 
   let intentKeywords: string[] = []
-  let catchyBenefit = 'Premium Phone Accessories'
+  let catchyBenefit = 'Books Online India'
   let description =
-    'Premium quality phone cases and accessories with military-grade protection, elegant design, and perfect fit. Shop authentic products with fast delivery across India.'
+    'Discover a wide range of books across all genres at the best prices. Shop online at KD Book Bazaar for fast delivery across India.'
 
 
   // Phone Case specific keywords
@@ -146,15 +146,15 @@ export async function generateMetadata(
   const keywords = Array.from(new Set([...baseKeywords, ...intentKeywords]))
 
 
-  const brand = 'Caishen United'
+  const brand = 'KD Book Bazaar'
   const title = `${product.name} – ${catchyBenefit} | ${brand}`
 
 
-  const canonical = new URL(`/products/${product.slug}`, 'https://www.caishenunited.com')
+  const canonical = new URL(`/products/${product.slug}`, 'https://www.kdbookbazaar.com')
   const imageUrl =
     product.images?.[0]?.src
-      ? new URL(product.images[0].src, 'https://www.caishenunited.com').toString()
-      : 'https://www.caishenunited.com/logo.png'
+      ? new URL(product.images[0].src, 'https://www.kdbookbazaar.com').toString()
+      : 'https://www.kdbookbazaar.com/logo.png'
 
 
   const previous = await parent
@@ -184,7 +184,7 @@ export async function generateMetadata(
       images: [imageUrl],
     },
     robots: { index: true, follow: true },
-    metadataBase: new URL('https://www.caishenunited.com'),
+    metadataBase: new URL('https://www.kdbookbazaar.com'),
   }
 }
 

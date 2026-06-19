@@ -65,9 +65,9 @@ const Dashboard = () => {
           throw new Error('Invalid user ID. Please login again.');
         }
 
-        const apiUrl = `https://cms.caishenunited.com/wp-json/wc/v3/orders`;
+        const apiUrl = `https://cms.kdbookbazaar.com/wp-json/wc/v3/orders`;
         const auth = btoa(
-          `ck_9a1fbb9afa025bbe8591eb4322c3e1c68e1b1002:cs_42d947c7a1acb0c0ca89ca17b35629a530097e44`
+          `${process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_b2cff698fa447d779aa56d980ea00fea049721a7'}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_1f8a7857e2e4030a0a8222979673ef040c763848'}`
         );
 
         console.log('📡 API URL:', `${apiUrl}?customer=${user.id}`);

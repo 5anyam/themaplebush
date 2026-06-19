@@ -18,25 +18,25 @@ const BannerSlider: React.FC = () => {
 
   const banners: Banner[] = [
     {
-      image: "https://cms.caishenunited.com/wp-content/uploads/2025/11/banner-1.jpg",
-      title: "Exclusive Collection",
-      description: "Discover our premium range of handcrafted phone cases",
+      image: "/banner-1.jpg",
+      title: "India's Favourite Book Store",
+      description: "Thousands of titles across fiction, academic, self-help & more",
       link: "/collections",
-      buttonText: "Explore Now"
+      buttonText: "Browse Books"
     },
     {
-      image: "https://cms.caishenunited.com/wp-content/uploads/2025/11/banner-3.jpg",
-      title: "MagSafe Compatible",
-      description: "Seamless charging with our MagSafe-ready cases",
-      link: "/shop/magsafe-covers",
-      buttonText: "Shop MagSafe"
+      image: "/banner-2.jpg",
+      title: "Sale — Up to 70% Off",
+      description: "Bestsellers, textbooks and children's books at unbeatable prices",
+      link: "/sale",
+      buttonText: "Shop Sale"
     },
     {
-      image: "https://cms.caishenunited.com/wp-content/uploads/2025/11/banner-2.jpg",
-      title: "Military Protection",
-      description: "Premium drop protection for your most valuable device",
-      link: "/shop/protective-covers",
-      buttonText: "View Protection"
+      image: "/banner-3.jpg",
+      title: "New Arrivals Every Week",
+      description: "Fresh titles added weekly across all genres",
+      link: "/collections",
+      buttonText: "View New Arrivals"
     }
   ];
 

@@ -36,13 +36,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = Cookies.get('caishen_user');
+    const savedUser = Cookies.get('kdbookbazaar_user');
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser) as User);
       } catch (error) {
         console.error('Failed to parse saved user:', error);
-        Cookies.remove('caishen_user');
+        Cookies.remove('kdbookbazaar_user');
       }
     }
     setLoading(false);
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (username: string, password: string) => {
     try {
       // Direct fetch to our new Custom Plugin
-      const response = await fetch('https://cms.tap2buy.in/wp-json/custom-api/v1/login', {
+      const response = await fetch('https://cms.kdbookbazaar.com/wp-json/custom-api/v1/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
 
       setUser(userData);
-      Cookies.set('caishen_user', JSON.stringify(userData), { expires: 7 });
+      Cookies.set('kdbookbazaar_user', JSON.stringify(userData), { expires: 7 });
       Cookies.set('caishen_token', result.data.token, { expires: 7 });
 
     } catch (error) {
@@ -106,7 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setUser(null);
-    Cookies.remove('caishen_user');
+    Cookies.remove('kdbookbazaar_user');
     Cookies.remove('caishen_token');
   };
 

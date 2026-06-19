@@ -17,8 +17,8 @@ import {
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 const WOOCOMMERCE_CONFIG = {
   BASE_URL: "https://cms.kdbookbazaar.com",
-  CONSUMER_KEY: "ck_c6018ad0c7ea07ca111bbf28c539e73d3b3cf0ac",
-  CONSUMER_SECRET: "cs_aab574723e9230920cfa28e6244f2c35da5abc58",
+  CONSUMER_KEY: process.env.NEXT_PUBLIC_CONSUMER_KEY || "ck_b2cff698fa447d779aa56d980ea00fea049721a7",
+  CONSUMER_SECRET: process.env.NEXT_PUBLIC_CONSUMER_SECRET || "cs_1f8a7857e2e4030a0a8222979673ef040c763848",
 };
 
 const RAZORPAY_CONFIG = {

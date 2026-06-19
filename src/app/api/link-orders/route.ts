@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const WC_CONFIG = {
-  BASE_URL: 'https://cms.caishenunited.com',
-  KEY: 'ck_9a1fbb9afa025bbe8591eb4322c3e1c68e1b1002',
-  SECRET: 'cs_42d947c7a1acb0c0ca89ca17b35629a530097e44',
+  BASE_URL: 'https://cms.kdbookbazaar.com',
+  KEY: process.env.CONSUMER_KEY || 'ck_b2cff698fa447d779aa56d980ea00fea049721a7',
+  SECRET: process.env.CONSUMER_SECRET || 'cs_1f8a7857e2e4030a0a8222979673ef040c763848',
 };
 
 // ✅ Define proper types

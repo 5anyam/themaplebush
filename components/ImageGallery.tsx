@@ -1,25 +1,11 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { usePathname } from 'next/navigation';
 import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
-
-// --- Types and Interfaces ---
 
 type Image = { src: string; alt?: string };
 
-// --- MAIN COMPONENT ---
-
 export default function ImageGallery({ images }: { images: Image[] }) {
-  const pathname = usePathname();
-
-  const getSlugFromPath = () => {
-    const segments = pathname.split('/');
-    const slug = segments[segments.length - 1];
-    return slug.toLowerCase();
-  };
-
-  const currentSlug = getSlugFromPath();
 
   const [active, setActive] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -36,24 +22,6 @@ export default function ImageGallery({ images }: { images: Image[] }) {
 
   const displayImages = images && images.length > 0 ? images : [];
 
-  // --- Background Images Logic ---
-  const backgroundImages: Record<string, string> = {
-    liver: "https://cms.amraj.in/wp-content/uploads/2025/07/liver-bg.png",
-    prostate: "https://cms.amraj.in/wp-content/uploads/2025/07/prostate-bg.png",
-    weight: "https://cms.amraj.in/wp-content/uploads/2025/07/weight-bg.png",
-    diabetes: "https://cms.amraj.in/wp-content/uploads/2025/07/diabetes-bg.png",
-    default: "https://cms.amraj.in/wp-content/uploads/2025/07/default-bg.png"
-  };
-
-  const getBackgroundImage = () => {
-    if (backgroundImages[currentSlug]) return backgroundImages[currentSlug];
-    for (const [key, image] of Object.entries(backgroundImages)) {
-      if (key !== 'default' && currentSlug.includes(key)) return image;
-    }
-    return backgroundImages.default;
-  };
-
-  const bgImage = getBackgroundImage();
 
   // --- Image Loading State ---
   useEffect(() => {
@@ -176,16 +144,6 @@ export default function ImageGallery({ images }: { images: Image[] }) {
             touchAction: isDragging ? "none" : "pan-y"
           }}
         >
-          {/* Fixed Background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 opacity-20">
-              <div
-                className="w-full h-full bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${bgImage})` }}
-              ></div>
-            </div>
-          </div>
-
           {/* Loading Spinner */}
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -215,9 +173,9 @@ export default function ImageGallery({ images }: { images: Image[] }) {
                 <img
                   src={img.src}
                   alt={img.alt || `Product image ${i + 1}`}
-                  className={`w-[375px] h-[375px] sm:w-[490px] sm:h-[490px] object-cover transition-all duration-500 select-none mx-auto rounded-xl ${
+                  className={`max-h-full max-w-full object-contain transition-all duration-500 select-none mx-auto rounded-xl ${
                     isZoomed && i === active
-                      ? "scale-200 cursor-zoom-out"
+                      ? "scale-150 cursor-zoom-out"
                       : "cursor-pointer hover:scale-105"
                   }`}
                   onClick={() => {
@@ -304,7 +262,7 @@ export default function ImageGallery({ images }: { images: Image[] }) {
                   <img
                     src={img.src}
                     alt={img.alt || `Thumbnail ${i + 1}`}
-                    className="object-cover w-full h-full transition-transform duration-300 group-hover/thumb:scale-110 drop-shadow-md"
+                    className="object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-110 drop-shadow-md p-1"
                     loading="lazy"
                   />
                 </div>

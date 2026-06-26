@@ -33,6 +33,8 @@ export default function ProductCard({ product }: { product: Product }) {
         <img
           src={product.images?.[0]?.src || "/placeholder.png"}
           alt={product.name}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-contain p-2 group-hover:scale-[1.03] transition-transform duration-500 ease-out"
         />
         {isOnSale && (

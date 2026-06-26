@@ -326,7 +326,7 @@ export async function resolveCategoryBySlug(slug: string): Promise<Category | nu
     per_page: 100,
     hide_empty: false,
   })}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { next: { revalidate: 600 } });
   if (!res.ok) return null;
   const data: unknown = await res.json();
   if (!isArray<Category>(data)) return null;
@@ -366,7 +366,7 @@ export async function fetchProducts(
     category: opts?.categoryId,
   })}`;
 
-  const res = await fetch(url);
+  const res = await fetch(url, { next: { revalidate: 300 } });
   if (!res.ok) throw new Error(`Failed to fetch products: ${res.status} ${res.statusText}`);
   const data: unknown = await res.json();
   if (!isArray<Product>(data)) return [];
@@ -648,7 +648,7 @@ export async function fetchProductCategories(perPage = 12, hideEmpty = true): Pr
     per_page: perPage,
     hide_empty: hideEmpty,
   })}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { next: { revalidate: 600 } });
   if (!res.ok) throw new Error('Failed to fetch categories');
   const data: unknown = await res.json();
   return isArray<Category>(data) ? data : [];
@@ -673,7 +673,7 @@ export async function fetchProductsByCategory(
     per_page: perPage,
     page,
   })}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { next: { revalidate: 300 } });
   if (!res.ok) throw new Error('Failed to fetch products by category');
   const data: unknown = await res.json();
   return isArray<Product>(data) ? data : [];

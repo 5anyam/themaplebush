@@ -124,9 +124,23 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-[11px] tracking-widest text-gray-400">
-          © {new Date().getFullYear()} KD Book Bazaar. All rights reserved.
-        </p>
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <p className="text-[11px] tracking-widest text-gray-400">
+            © {new Date().getFullYear()} KD Book Bazaar. All rights reserved.
+          </p>
+          <span className="hidden sm:block text-gray-300">·</span>
+          <p className="text-[11px] text-gray-400">
+            Developed by{' '}
+            <a
+              href="https://www.proshala.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#ff3131] hover:underline font-medium"
+            >
+              Proshala
+            </a>
+          </p>
+        </div>
         <div className="flex items-center gap-4">
           {["Visa", "Mastercard", "UPI", "Razorpay"].map((method) => (
             <span key={method}

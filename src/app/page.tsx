@@ -3,10 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProducts, fetchProductCategories } from "../../lib/woocommerceApi";
 import ProductCard from "../../components/ProductCard";
 import Link from "next/link";
-import {
-  ChevronRight, Shield, BookOpen, Package, Award,
-  Truck, RotateCcw, HeadphonesIcon, Tag, Users, BookMarked,
-} from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
@@ -37,24 +34,11 @@ const CardSkeleton = () => (
   </div>
 );
 
-const TRUST_STRIP = [
-  { icon: Truck,          title: 'Fast Delivery',   sub: 'Pan India shipping'        },
-  { icon: RotateCcw,      title: 'Easy Returns',    sub: '7-day hassle-free returns' },
-  { icon: Shield,         title: 'Secure Payment',  sub: '100% safe & encrypted'     },
-  { icon: HeadphonesIcon, title: '24/7 Support',    sub: "We're always here for you" },
-];
-
-const WHY_US = [
-  { icon: BookMarked, title: 'Huge Collection',        desc: 'Thousands of titles across all genres — from fiction to academics.' },
-  { icon: Tag,        title: 'Best Prices Guaranteed', desc: 'Get the best prices on every book with regular discounts and deals.' },
-  { icon: Shield,     title: 'Safe & Fast Delivery',   desc: 'All books are carefully packed and delivered quickly to your door.' },
-];
-
 const STATS = [
-  { number: '50K+',    label: 'Happy Readers',  icon: Users    },
-  { number: '4.9★',    label: 'Average Rating', icon: Award    },
-  { number: '10,000+', label: 'Books Listed',   icon: BookOpen },
-  { number: '100+',    label: 'Categories',     icon: Package  },
+  { number: '50K+',    label: 'Happy Readers'  },
+  { number: '4.9★',    label: 'Average Rating' },
+  { number: '10,000+', label: 'Books Listed'   },
+  { number: '100+',    label: 'Categories'     },
 ];
 
 const TESTIMONIALS = [
@@ -63,63 +47,6 @@ const TESTIMONIALS = [
   { name: 'Ananya K.',  location: 'Bangalore', rating: 5, text: "The self-help section is incredible — found books I couldn't find anywhere else. Great platform for book lovers!",                               tag: 'Self Help' },
 ];
 
-const CATEGORY_ICONS: Record<string, string> = {
-  fiction: '📖', 'non-fiction': '📚', 'childrens-books': '🧒', children: '🧒',
-  academic: '🎓', 'academic-books': '🎓', textbooks: '🎓', 'self-help': '💡',
-  biography: '👤', biographies: '👤', history: '🏛️', 'science-technology': '🔬',
-  science: '🔬', technology: '💻', comics: '🎨', 'comics-manga': '🎨',
-  manga: '🖼️', religion: '🙏', religious: '🙏', business: '💼', travel: '✈️',
-  cooking: '🍳', poetry: '✍️', romance: '❤️', thriller: '🔍',
-  mystery: '🔍', horror: '👻', fantasy: '🐉', 'health-wellness': '🌿',
-  health: '🌿', art: '🎨', combo: '🎁', 'box-set': '📦', 'box set': '📦',
-  boxset: '📦', default: '📕',
-};
-
-const FEATURED_CATEGORIES = [
-  {
-    name: 'Manga Comics',
-    slug: 'manga-comics',
-    emoji: '🖼️',
-    description: 'Manga, graphic novels & comics',
-    bg: 'bg-purple-50',
-    border: 'border-purple-200',
-    hoverBorder: 'hover:border-purple-400',
-    textColor: 'text-purple-700',
-    badgeBg: 'bg-purple-100',
-  },
-  {
-    name: 'Combo Books',
-    slug: 'combo-books',
-    emoji: '🎁',
-    description: 'Best value book bundles',
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
-    hoverBorder: 'hover:border-amber-400',
-    textColor: 'text-amber-700',
-    badgeBg: 'bg-amber-100',
-  },
-  {
-    name: 'Box Set',
-    slug: 'box-set',
-    emoji: '📦',
-    description: 'Complete series & collections',
-    bg: 'bg-teal-50',
-    border: 'border-teal-200',
-    hoverBorder: 'hover:border-teal-400',
-    textColor: 'text-teal-700',
-    badgeBg: 'bg-teal-100',
-  },
-];
-
-function getCategoryIcon(slug: string): string {
-  const lower = slug.toLowerCase();
-  for (const [key, icon] of Object.entries(CATEGORY_ICONS)) {
-    if (lower.includes(key)) return icon;
-  }
-  return CATEGORY_ICONS.default;
-}
-
-/* Reusable section row: horizontal scroll on mobile, grid on desktop */
 function BookRow({
   products,
   viewAllHref,
@@ -161,7 +88,6 @@ function BookRow({
           href={viewAllHref}
           className="flex-shrink-0 w-28 flex flex-col items-center justify-center gap-2 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 text-center px-2"
         >
-          <span className="text-2xl opacity-50">📚</span>
           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-snug">See all</span>
         </Link>
       </div>
@@ -175,7 +101,6 @@ function BookRow({
           href={viewAllHref}
           className="flex flex-col items-center justify-center gap-2 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#ff3131] hover:bg-red-50 transition-all duration-300 group min-h-[200px]"
         >
-          <span className="text-3xl opacity-30 group-hover:opacity-80 transition-opacity">📚</span>
           <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 group-hover:text-[#ff3131] transition-colors text-center px-3">
             See all
           </span>
@@ -246,42 +171,26 @@ export default function Homepage() {
 
   const chipCategories = categories.slice(0, 18);
 
-  const comicsProducts = all.filter((p) =>
-    p.categories?.some((c) =>
-      c.slug?.toLowerCase().includes('comic') ||
-      c.slug?.toLowerCase().includes('manga') ||
-      c.name?.toLowerCase().includes('comic') ||
-      c.name?.toLowerCase().includes('manga')
-    )
-  ).slice(0, 6);
-
-  const comboProducts = all.filter((p) =>
-    p.categories?.some((c) =>
-      c.slug?.toLowerCase().includes('combo') ||
-      c.name?.toLowerCase().includes('combo')
-    )
-  ).slice(0, 4);
-
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
 
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="bg-white py-10 md:py-20 px-4 border-b border-gray-100">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="inline-flex items-center gap-1.5 text-[#ff3131] font-semibold text-sm mb-4">
-            📚 India&apos;s Favourite Book Store
+      {/* ── HERO ── */}
+      <section className="bg-white py-12 md:py-20 px-4 border-b border-gray-100">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-[#ff3131] font-semibold text-sm mb-3 tracking-wide">
+            India&apos;s Favourite Book Store
           </p>
           <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-3 leading-tight tracking-tight">
             Your next favourite book<br className="hidden md:block" /> is waiting for you
           </h1>
-          <p className="text-gray-500 text-sm md:text-lg mb-7 max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-400 text-sm md:text-base mb-8 max-w-md mx-auto leading-relaxed">
             Thousands of books across every genre at the best prices — delivered fast.
           </p>
 
-          {/* Search — mobile only */}
+          {/* Search bar */}
           <form
             onSubmit={handleHeroSearch}
-            className="md:hidden flex items-center bg-white border-2 border-gray-200 focus-within:border-[#ff3131] rounded-2xl overflow-hidden max-w-lg mx-auto mb-6 transition-colors shadow-sm"
+            className="flex items-center bg-white border-2 border-gray-200 focus-within:border-[#ff3131] rounded-2xl overflow-hidden max-w-lg mx-auto mb-7 transition-colors shadow-sm"
           >
             <FiSearch className="ml-4 text-gray-400 w-5 h-5 flex-shrink-0" />
             <input
@@ -299,7 +208,7 @@ export default function Homepage() {
             </button>
           </form>
 
-          {/* Category pills from dynamic data */}
+          {/* Category pills */}
           {catsLoading ? (
             <div className="flex flex-wrap justify-center gap-2">
               {Array.from({ length: 8 }).map((_, i) => (
@@ -312,15 +221,14 @@ export default function Homepage() {
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-gray-100 hover:bg-red-50 hover:text-[#ff3131] rounded-full text-sm font-medium text-gray-700 transition-colors whitespace-nowrap"
+                  className="px-4 py-2 bg-gray-100 hover:bg-red-50 hover:text-[#ff3131] rounded-full text-sm font-medium text-gray-600 transition-colors whitespace-nowrap"
                 >
-                  <span>{getCategoryIcon(cat.slug)}</span>
                   {cat.name}
                 </Link>
               ))}
               <Link
                 href="/collections"
-                className="flex items-center gap-1 px-4 py-2 bg-[#ff3131] text-white rounded-full text-sm font-semibold hover:bg-[#cc0000] transition-colors whitespace-nowrap"
+                className="px-4 py-2 bg-[#ff3131] text-white rounded-full text-sm font-semibold hover:bg-[#cc0000] transition-colors whitespace-nowrap flex items-center gap-1"
               >
                 All Books <ChevronRight className="w-3.5 h-3.5" />
               </Link>
@@ -329,91 +237,30 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── TRUST STRIP ──────────────────────────────────────────────── */}
+      {/* ── TRUST STRIP ── */}
       <section className="bg-gray-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {TRUST_STRIP.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div key={i} className="flex items-center gap-3 py-2">
-                  <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-[#ff3131]" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-gray-900">{item.title}</p>
-                    <p className="text-[11px] text-gray-500">{item.sub}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FEATURED CATEGORIES ──────────────────────────────────────── */}
-      <section className="py-8 px-4 bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg font-bold text-gray-900">Shop by Category</h2>
-            <Link href="/collections" className="text-xs font-semibold text-[#ff3131] hover:underline flex items-center gap-1">
-              View all <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-3 gap-3 md:gap-5">
-            {FEATURED_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                className={`group flex flex-col items-center justify-center text-center p-4 md:p-7 rounded-2xl border-2 ${cat.bg} ${cat.border} ${cat.hoverBorder} transition-all duration-200 hover:shadow-md`}
-              >
-                <div className={`w-12 h-12 md:w-16 md:h-16 ${cat.badgeBg} rounded-2xl flex items-center justify-center text-2xl md:text-3xl mb-3 group-hover:scale-110 transition-transform duration-200`}>
-                  {cat.emoji}
-                </div>
-                <h3 className={`text-xs md:text-sm font-bold ${cat.textColor} leading-tight mb-1`}>
-                  {cat.name}
-                </h3>
-                <p className="text-[10px] md:text-xs text-gray-500 hidden md:block leading-snug">
-                  {cat.description}
-                </p>
-              </Link>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 divide-x divide-gray-200">
+            {[
+              { title: 'Fast Delivery',   sub: 'Pan India shipping'        },
+              { title: 'Easy Returns',    sub: '7-day hassle-free'         },
+              { title: 'Secure Payment',  sub: '100% safe & encrypted'     },
+              { title: '24/7 Support',    sub: "Always here for you"       },
+            ].map((item, i) => (
+              <div key={i} className="flex flex-col items-center text-center py-3 px-2">
+                <p className="text-xs font-bold text-gray-900">{item.title}</p>
+                <p className="text-[11px] text-gray-400 mt-0.5">{item.sub}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── COMICS SPOTLIGHT ─────────────────────────────────────────── */}
-      {(comicsProducts.length > 0 || productsLoading) && (
-        <section className="py-10 px-4 bg-orange-50 border-b border-orange-100">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-2.5">
-                <span className="text-2xl">🎨</span>
-                <div>
-                  <p className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">Featured</p>
-                  <h2 className="text-lg md:text-xl font-bold text-gray-900">Comics &amp; Manga</h2>
-                </div>
-              </div>
-              <Link href="/category/comics" className="flex items-center gap-1 text-sm font-semibold text-[#ff3131] hover:underline">
-                See all <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-            <BookRow
-              products={comicsProducts}
-              viewAllHref="/category/comics"
-              loading={productsLoading}
-              skeletonCount={6}
-              cols={6}
-            />
-          </div>
-        </section>
-      )}
-
-      {/* ── BROWSE BY GENRE ──────────────────────────────────────────── */}
+      {/* ── BROWSE BY GENRE ── */}
       <section className="py-8 px-4 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-900">Browse by Genre</h2>
+            <h2 className="text-base font-bold text-gray-900">Browse by Genre</h2>
             <Link href="/collections" className="text-xs font-semibold text-[#ff3131] hover:underline flex items-center gap-1">
               All genres <ChevronRight className="w-3.5 h-3.5" />
             </Link>
@@ -430,9 +277,8 @@ export default function Homepage() {
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
-                  className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 bg-gray-100 hover:bg-red-50 hover:text-[#ff3131] rounded-full text-xs font-medium text-gray-700 whitespace-nowrap transition-colors"
+                  className="flex-shrink-0 px-4 py-2 bg-gray-100 hover:bg-red-50 hover:text-[#ff3131] rounded-full text-xs font-medium text-gray-600 whitespace-nowrap transition-colors"
                 >
-                  <span>{getCategoryIcon(cat.slug)}</span>
                   {cat.name}
                 </Link>
               ))}
@@ -441,7 +287,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── PROMO BANNER ─────────────────────────────────────────────── */}
+      {/* ── PROMO BANNER ── */}
       <section className="py-8 px-4 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-2 bg-[#ff3131] rounded-2xl p-8 md:p-10 flex items-center relative overflow-hidden">
@@ -458,7 +304,6 @@ export default function Homepage() {
                 Shop All Deals <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 text-[80px] opacity-20 select-none pointer-events-none">📚</div>
           </div>
           <div className="flex flex-col gap-4">
             <Link
@@ -473,7 +318,7 @@ export default function Homepage() {
             </Link>
             <Link
               href="/collections"
-              className="bg-gray-100 rounded-2xl p-6 flex items-center justify-between flex-1 hover:bg-red-50 hover:border-[#ff3131] border border-transparent transition-all group"
+              className="bg-gray-100 rounded-2xl p-6 flex items-center justify-between flex-1 hover:bg-red-50 border border-transparent hover:border-[#ff3131]/20 transition-all group"
             >
               <div>
                 <p className="text-gray-900 font-bold text-sm mb-0.5">Bestsellers</p>
@@ -485,32 +330,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── COMBOS ───────────────────────────────────────────────────── */}
-      {comboProducts.length > 0 && (
-        <section className="py-10 px-4 bg-amber-50 border-b border-amber-100">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-2.5">
-                <span className="text-2xl">🎁</span>
-                <div>
-                  <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Best Value</p>
-                  <h2 className="text-lg md:text-xl font-bold text-gray-900">Book Combos</h2>
-                </div>
-              </div>
-              <Link href="/category/combos" className="flex items-center gap-1 text-sm font-semibold text-amber-600 hover:underline">
-                See all <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-            <BookRow
-              products={comboProducts}
-              viewAllHref="/category/combos"
-              cols={5}
-            />
-          </div>
-        </section>
-      )}
-
-      {/* ── CATEGORY BOOK SECTIONS ────────────────────────────────────── */}
+      {/* ── BOOK SECTIONS BY CATEGORY ── */}
       {productsLoading ? (
         <section className="py-10 px-4 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto">
@@ -538,10 +358,7 @@ export default function Homepage() {
           >
             <div className="max-w-7xl mx-auto">
               <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-xl">{getCategoryIcon(cat.slug)}</span>
-                  <h2 className="text-lg md:text-xl font-bold text-gray-900">{cat.name}</h2>
-                </div>
+                <h2 className="text-base md:text-lg font-bold text-gray-900">{cat.name}</h2>
                 <Link
                   href={`/category/${cat.slug}`}
                   className="flex items-center gap-1 text-sm font-semibold text-[#ff3131] hover:underline"
@@ -561,7 +378,7 @@ export default function Homepage() {
         <section className="py-10 px-4 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-xl font-bold text-gray-900">All Books</h2>
+              <h2 className="text-lg font-bold text-gray-900">All Books</h2>
               <Link href="/collections" className="flex items-center gap-1 text-sm font-semibold text-[#ff3131] hover:underline">
                 See all <ChevronRight className="w-4 h-4" />
               </Link>
@@ -571,31 +388,7 @@ export default function Homepage() {
         </section>
       ) : null}
 
-      {/* ── WHY CHOOSE US ────────────────────────────────────────────── */}
-      <section className="py-14 px-4 bg-gray-50 border-b border-gray-100">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-xs font-bold text-[#ff3131] uppercase tracking-widest mb-2">Why Us</p>
-            <h2 className="text-2xl md:text-3xl font-black text-gray-900">Why Choose KD Book Bazaar</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {WHY_US.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div key={i} className="bg-white rounded-2xl p-7 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center mb-4">
-                    <Icon className="w-5 h-5 text-[#ff3131]" />
-                  </div>
-                  <h3 className="text-sm font-bold text-gray-900 mb-2">{item.title}</h3>
-                  <p className="text-gray-500 text-xs leading-relaxed">{item.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATS ────────────────────────────────────────────────────── */}
+      {/* ── STATS ── */}
       <section ref={statsRef} className="py-14 px-4 bg-[#ff3131]">
         <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {STATS.map((stat, i) => (
@@ -611,7 +404,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ─────────────────────────────────────────────── */}
+      {/* ── TESTIMONIALS ── */}
       <section className="py-14 px-4 bg-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
@@ -644,7 +437,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* ── NEWSLETTER ───────────────────────────────────────────────── */}
+      {/* ── NEWSLETTER ── */}
       <section className="py-14 px-4 bg-gray-50 border-t border-gray-100">
         <div className="max-w-lg mx-auto text-center">
           <p className="text-xs font-bold text-[#ff3131] uppercase tracking-widest mb-2">Newsletter</p>
@@ -668,10 +461,6 @@ export default function Homepage() {
       <style>{`
         .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(14px); }
-          to   { opacity: 1; transform: translateY(0);    }
-        }
       `}</style>
     </div>
   );

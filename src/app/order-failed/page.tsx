@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { XCircle, RotateCcw, Home, Phone } from "lucide-react";
+import { XCircle, RotateCcw, Home, Mail } from "lucide-react";
 
 function OrderFailedContent() {
   const params    = useSearchParams();
@@ -99,10 +99,10 @@ function OrderFailedContent() {
       </div>
 
       <div className="mt-6 flex items-center gap-2 text-xs text-gray-400">
-        <Phone className="w-3.5 h-3.5" />
-        <span>Need help? Call us at{' '}
-          <a href="tel:+919911636888" className="text-[#ff3131] hover:underline font-medium">
-            +91 99116 36888
+        <Mail className="w-3.5 h-3.5" />
+        <span>Need help? Email us at{' '}
+          <a href="mailto:support@kdbookbazaar.com" className="text-[#ff3131] hover:underline font-medium">
+            support@kdbookbazaar.com
           </a>
         </span>
       </div>

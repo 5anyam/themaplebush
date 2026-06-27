@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle, Headphones, MessageSquare, Zap, Shield } from 'lucide-react';
+import { Mail, MapPin, Clock, Send, CheckCircle, Headphones, MessageSquare, Zap, Shield } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -56,20 +56,12 @@ export default function ContactPage() {
               color: 'bg-red-50 text-[#ff3131]',
             },
             {
-              icon: <Phone className="w-6 h-6" />,
-              label: 'Call Us',
-              desc: 'Speak directly with our support team',
-              cta: <a href="tel:+919911636888" className="text-xs font-semibold text-[#ff3131] hover:underline">+91 9911636888</a>,
-              color: 'bg-red-50 text-[#ff3131]',
-            },
-            {
               icon: <MapPin className="w-6 h-6" />,
-              label: 'Our Office',
-              desc: 'Come visit us at our Head Office',
+              label: 'Our Location',
+              desc: 'Based in the heart of Delhi',
               cta: (
                 <address className="text-xs text-gray-600 not-italic leading-relaxed">
-                  Sector 15, Rohini<br />
-                  New Delhi, Delhi 110089
+                  New Delhi – 110001
                 </address>
               ),
               color: 'bg-red-50 text-[#ff3131]',
@@ -216,9 +208,8 @@ export default function ContactPage() {
                     label: 'Customer Support',
                     content: (
                       <div className="text-xs text-gray-600 space-y-1">
-                        <p>📧 Email support: 24/7</p>
-                        <p>📞 Phone support: Mon–Sat, 10 AM – 7 PM</p>
-                        <p>💬 WhatsApp: +91 9911636888</p>
+                        <p>📧 Email: support@kdbookbazaar.com</p>
+                        <p>We respond within 24 hours on business days.</p>
                       </div>
                     )
                   },
@@ -270,7 +261,7 @@ export default function ContactPage() {
             {[
               {
                 q: "How quickly will I receive a response?",
-                a: "We respond to emails within 24 hours. Phone calls are answered Mon–Sat, 10 AM–7 PM."
+                a: "We respond to emails within 24 hours on business days (Mon–Sat, 10 AM–7 PM)."
               },
               {
                 q: "How do I track my order?",
@@ -282,7 +273,7 @@ export default function ContactPage() {
               },
               {
                 q: "How do I request a refund?",
-                a: "Contact us via email or WhatsApp with your order number. Refunds are processed within 5–7 business days after approval."
+                a: "Contact us via email at support@kdbookbazaar.com with your order number. Refunds are processed within 5–7 business days after approval."
               },
               {
                 q: "Do you offer bulk or corporate orders?",
@@ -317,27 +308,12 @@ export default function ContactPage() {
               Still Need Help?
             </h2>
             <p className="text-sm text-blue-200 mb-8 leading-relaxed">
-              Our support team is just a call or message away. We are committed to resolving your queries quickly.
+              Our support team is just an email away. We are committed to resolving your queries quickly.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:+919911636888"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
-              >
-                <Phone className="w-4 h-4" />
-                Call Now
-              </a>
-              <a
-                href="https://wa.me/919911636888"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
-              >
-                💬 WhatsApp Us
-              </a>
-              <a
                 href="mailto:support@kdbookbazaar.com"
-                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-lg hover:shadow-orange-500/30"
               >
                 <Mail className="w-4 h-4" />
                 Email Us

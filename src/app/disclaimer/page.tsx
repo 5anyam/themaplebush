@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Shield, AlertTriangle, Info, FileText, Link2, Scale, Mail, Phone, ShoppingBag } from 'lucide-react';
+import { Shield, AlertTriangle, Info, FileText, Link2, Scale, Mail, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 
 const sections = [
@@ -189,25 +189,19 @@ export default function DisclaimerPage() {
               <p className="text-sm text-gray-500">We are happy to clarify anything. Reach us through:</p>
             </div>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              { icon: Mail, label: 'Email', value: 'support@kdbookbazaar.com', href: 'mailto:support@kdbookbazaar.com' },
-              { icon: Phone, label: 'Phone / WhatsApp', value: '+91 9911636888', href: 'tel:+919911636888' },
-            ].map((item, i) => (
-              <a
-                key={i}
-                href={item.href}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#ff3131]/30 hover:bg-red-50/30 transition-all duration-200 group"
-              >
-                <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-[#ff3131] transition-colors">
-                  <item.icon className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
-                  <p className="text-sm font-semibold text-gray-900">{item.value}</p>
-                </div>
-              </a>
-            ))}
+          <div className="grid sm:grid-cols-1 gap-4 max-w-sm">
+            <a
+              href="mailto:support@kdbookbazaar.com"
+              className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#ff3131]/30 hover:bg-red-50/30 transition-all duration-200 group"
+            >
+              <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-[#ff3131] transition-colors">
+                <Mail className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Email</p>
+                <p className="text-sm font-semibold text-gray-900">support@kdbookbazaar.com</p>
+              </div>
+            </a>
           </div>
           <p className="text-xs text-gray-400 mt-4">
             Response Time: Within 24 hours &nbsp;·&nbsp; Available: Monday–Saturday, 10 AM–7 PM IST

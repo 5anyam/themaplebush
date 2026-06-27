@@ -7,7 +7,7 @@ import { useIsMobile } from "../hooks/use-mobile";
 import React, { useState, useRef, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
-import { Phone, UserCircle2 } from "lucide-react";
+import { Mail, UserCircle2 } from "lucide-react";
 import AnnouncementBar from './anouncement';
 
 const QUICK_SEARCH_CHIPS = ['Fiction', 'Non-Fiction', "Children's", 'Self-Help', 'Academic'];
@@ -217,10 +217,10 @@ export default function Header() {
                   My Account
                 </Link>
                 <a
-                  href="tel:+919911636888"
+                  href="mailto:support@kdbookbazaar.com"
                   className="flex items-center gap-3 text-xs tracking-widest text-gray-600 uppercase"
                 >
-                  <Phone className="w-5 h-5 stroke-[1.5] text-[#ff3131]" />
+                  <Mail className="w-5 h-5 stroke-[1.5] text-[#ff3131]" />
                   Help Center
                 </a>
               </div>

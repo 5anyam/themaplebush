@@ -1,6 +1,6 @@
 'use client';
 
-import { FileText, CalendarX, RefreshCw, Mail, Phone, Shield, AlertCircle } from 'lucide-react';
+import { FileText, CalendarX, RefreshCw, Mail, Shield, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CancellationPolicyPage() {
@@ -57,7 +57,6 @@ export default function CancellationPolicyPage() {
                 <ul className="space-y-2">
                   {[
                     <>Email us at <a href="mailto:support@kdbookbazaar.com" className="text-[#ff3131] font-semibold hover:underline">support@kdbookbazaar.com</a></>,
-                    <>Call or WhatsApp at <a href="tel:+919911636888" className="text-[#ff3131] font-semibold hover:underline">+91 9911636888</a></>,
                     <>Log in to your account → My Orders → Cancel Order</>,
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -123,15 +122,6 @@ export default function CancellationPolicyPage() {
                 <Mail className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
               </div>
               support@kdbookbazaar.com
-            </a>
-            <a
-              href="tel:+919911636888"
-              className="flex items-center gap-2.5 text-sm text-gray-700 hover:text-[#ff3131] transition-colors group"
-            >
-              <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-[#ff3131] transition-colors">
-                <Phone className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
-              </div>
-              +91 9911636888
             </a>
           </div>
         </div>

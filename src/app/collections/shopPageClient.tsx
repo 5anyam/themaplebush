@@ -281,14 +281,6 @@ export default function ShopPageClient({ products }: ShopPageClientProps) {
             >
               Email Consultant
             </a>
-            <a
-              href="https://wa.me/919911636888"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 border border-white/20 text-white text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-white hover:text-[#2A2825] transition-colors"
-            >
-              WhatsApp Support
-            </a>
           </div>
         </div>
       </div>

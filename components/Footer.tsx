@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Instagram, Youtube, Facebook } from "lucide-react";
+import { Mail, MapPin, Instagram, Youtube, Facebook } from "lucide-react";
 
 const shopCategories = [
   { name: "Fiction",            to: "/category/fiction" },
@@ -98,13 +98,6 @@ export default function Footer() {
           </h4>
           <ul className="flex flex-col gap-4">
             <li>
-              <a href="tel:+919911636888"
-                 className="flex items-start gap-3 text-[12px] tracking-wide text-gray-500 hover:text-[#ff3131] transition-colors">
-                <Phone className="w-4 h-4 mt-0.5 shrink-0" />
-                +91 99116 36888
-              </a>
-            </li>
-            <li>
               <a href="mailto:support@kdbookbazaar.com"
                  className="flex items-start gap-3 text-[12px] tracking-wide text-gray-500 hover:text-[#ff3131] transition-colors">
                 <Mail className="w-4 h-4 mt-0.5 shrink-0" />
@@ -113,7 +106,7 @@ export default function Footer() {
             </li>
             <li className="flex items-start gap-3 text-[12px] tracking-wide text-gray-500">
               <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-              India
+              New Delhi – 110001
             </li>
           </ul>
         </div>

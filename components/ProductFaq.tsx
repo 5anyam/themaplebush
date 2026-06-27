@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Sparkles, HelpCircle, Mail, PhoneCall } from 'lucide-react';
+import { Sparkles, HelpCircle, Mail } from 'lucide-react';
 
 interface FAQ {
   question: string;
@@ -79,11 +79,11 @@ const faqData: Record<string, FAQ[]> = {
     },
     {
       question: "How do I track my order?",
-      answer: "Tracking your order is easy:\n1. You'll receive an SMS and email with a tracking link once shipped\n2. Log in to your KD Book Bazaar account → 'My Orders'\n3. Click on the order to see real-time tracking\n4. Call our support at +91 9911636888 for help\n\nTracking is available within 24 hours of dispatch."
+      answer: "Tracking your order is easy:\n1. You'll receive an SMS and email with a tracking link once shipped\n2. Log in to your KD Book Bazaar account → 'My Orders'\n3. Click on the order to see real-time tracking\n4. Email support@kdbookbazaar.com for help\n\nTracking is available within 24 hours of dispatch."
     },
     {
       question: "Can I cancel my order after placing it?",
-      answer: "Yes, you can cancel your order before it is dispatched. To cancel:\n• Go to My Orders → Select the order → Click 'Cancel'\n• Or call us at +91 9911636888\n\nOnce cancelled, the refund is processed within 5-7 business days to your original payment method. COD orders are cancelled without any charge."
+      answer: "Yes, you can cancel your order before it is dispatched. To cancel:\n• Go to My Orders → Select the order → Click 'Cancel'\n• Or email us at support@kdbookbazaar.com\n\nOnce cancelled, the refund is processed within 5-7 business days to your original payment method. COD orders are cancelled without any charge."
     },
     {
       question: "Is Cash on Delivery (COD) available?",
@@ -91,7 +91,7 @@ const faqData: Record<string, FAQ[]> = {
     },
     {
       question: "How do I contact KD Book Bazaar customer support?",
-      answer: "We're here to help! Reach us through:\n• 📞 Call/WhatsApp: +91 9911636888 (Mon–Sat, 10am–6pm)\n• 📧 Email: support@kdbookbazaar.com\n• 💬 Live Chat: Available on our website\n\nWe typically respond within a few hours on business days."
+      answer: "We're here to help! Reach us through:\n• 📧 Email: support@kdbookbazaar.com\n\nWe typically respond within a few hours on business days (Mon–Sat, 10am–6pm)."
     },
     {
       question: "Do you offer bulk orders or corporate gifting?",
@@ -220,19 +220,10 @@ const ProductFAQ: React.FC<ProductFAQProps> = ({ productSlug, productName }) => 
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
             <a
               href="mailto:support@kdbookbazaar.com"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold rounded-xl transition-all duration-200 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white text-sm font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-orange-500/30 whitespace-nowrap"
             >
               <Mail className="w-4 h-4" />
               Email Us
-            </a>
-            <a
-              href="https://wa.me/919911636888"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white text-sm font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-orange-500/30 whitespace-nowrap"
-            >
-              <PhoneCall className="w-4 h-4" />
-              WhatsApp Us
             </a>
           </div>
         </div>

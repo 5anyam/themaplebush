@@ -2,7 +2,7 @@
 
 import {
   Scale, Truck, Lock, Gavel, RefreshCw,
-  ChevronRight, Mail, Phone, Bell, MapPin, Shield, LucideIcon
+  ChevronRight, Mail, Bell, MapPin, Shield, LucideIcon
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -104,7 +104,7 @@ const termsSections: TermsSection[] = [
     title: 'Order Verification & Authentication',
     content: (
       <p className="text-sm text-gray-600 leading-relaxed">
-        To ensure authenticity and prevent fraud, we may verify orders through phone calls, SMS, or WhatsApp messages. This verification process helps us confirm your purchase intent and delivery details.
+        To ensure authenticity and prevent fraud, we may verify orders through SMS or email. This verification process helps us confirm your purchase intent and delivery details.
       </p>
     ),
   },
@@ -240,25 +240,19 @@ export default function TermsOfService() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              { icon: Mail, label: 'Email', value: 'support@kdbookbazaar.com', href: 'mailto:support@kdbookbazaar.com' },
-              { icon: Phone, label: 'Phone / WhatsApp', value: '+91 9911636888', href: 'tel:+919911636888' },
-            ].map((item, i) => (
-              <a
-                key={i}
-                href={item.href}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#ff3131]/30 hover:bg-red-50/30 transition-all duration-200 group"
-              >
-                <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-[#ff3131] transition-colors">
-                  <item.icon className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">{item.label}</p>
-                  <p className="text-sm font-semibold text-gray-900">{item.value}</p>
-                </div>
-              </a>
-            ))}
+          <div className="grid sm:grid-cols-1 gap-4 max-w-sm">
+            <a
+              href="mailto:support@kdbookbazaar.com"
+              className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#ff3131]/30 hover:bg-red-50/30 transition-all duration-200 group"
+            >
+              <div className="w-9 h-9 bg-red-50 rounded-lg flex items-center justify-center group-hover:bg-[#ff3131] transition-colors">
+                <Mail className="w-4 h-4 text-[#ff3131] group-hover:text-white transition-colors" />
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Email</p>
+                <p className="text-sm font-semibold text-gray-900">support@kdbookbazaar.com</p>
+              </div>
+            </a>
           </div>
 
           <div className="mt-4 flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">

@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield, Package, CheckCircle, Clock, RefreshCw, AlertCircle, Mail, Phone, ChevronRight, LucideIcon } from 'lucide-react';
+import { Shield, Package, CheckCircle, Clock, RefreshCw, AlertCircle, Mail, ChevronRight, LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 
 interface PolicyItem {
@@ -18,7 +18,7 @@ const policyItems: PolicyItem[] = [
   {
     icon: Clock,
     title: '7-Day Return Window',
-    description: 'Eligible returns must be requested within 7 days of delivery through our customer care team, WhatsApp, or email support.',
+    description: 'Eligible returns must be requested within 7 days of delivery through our customer care team or email support.',
   },
   {
     icon: Package,
@@ -50,7 +50,7 @@ const policyItems: PolicyItem[] = [
 const faqItems: FAQItem[] = [
   {
     question: 'How do I initiate a return?',
-    answer: 'Contact our customer care team via WhatsApp, call, or email within 7 days of delivery with your order number and reason for return. You can also raise a return request from My Orders in your account.',
+    answer: 'Contact our customer care team via email within 7 days of delivery with your order number and reason for return. You can also raise a return request from My Orders in your account.',
   },
   {
     question: 'Who pays for return shipping?',
@@ -184,21 +184,6 @@ export default function ReturnRefundPolicy() {
             >
               <Mail className="w-4 h-4" />
               Email Support
-            </a>
-            <a
-              href="https://wa.me/919911636888"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
-            >
-              💬 WhatsApp Us
-            </a>
-            <a
-              href="tel:+919911636888"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
-            >
-              <Phone className="w-4 h-4" />
-              Call Us
             </a>
           </div>
         </div>

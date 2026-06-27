@@ -154,7 +154,7 @@ export default function AboutPage() {
     { icon: Truck, title: 'Fast Pan-India Delivery', desc: 'Metro cities in 2–3 days. Tier 2 in 3–5 days. Remote areas in 5–7 days. Real-time tracking included.' },
     { icon: RotateCcw, title: 'Hassle-Free Returns', desc: '7-day easy return policy. Not satisfied? We will make it right — no questions asked.' },
     { icon: TrendingUp, title: 'Best Prices & Deals', desc: 'Daily deals, seasonal sales, and competitive pricing so you always get the most value.' },
-    { icon: Headphones, title: 'Dedicated Customer Support', desc: 'Available Mon–Sat, 10 AM–7 PM via call, WhatsApp, and email. We actually care.' },
+    { icon: Headphones, title: 'Dedicated Customer Support', desc: 'Available Mon–Sat, 10 AM–7 PM via email. We actually care.' },
   ];
 
   const commitments: string[] = [

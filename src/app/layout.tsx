@@ -110,7 +110,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               },
               "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+91-9911636888",
                 "contactType": "customer service",
                 "email": "support@kdbookbazaar.com",
                 "availableLanguage": ["English", "Hindi"]

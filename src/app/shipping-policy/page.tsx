@@ -1,6 +1,6 @@
 'use client';
 
-import { Truck, Clock, MapPin, Bell, Shield, Package, ChevronRight, Mail, CheckCircle, Phone, LucideIcon } from 'lucide-react';
+import { Truck, Clock, MapPin, Bell, Shield, Package, ChevronRight, Mail, CheckCircle, LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 
 interface ShippingItem {
@@ -224,21 +224,6 @@ export default function ShippingPolicy() {
             >
               <Mail className="w-4 h-4" />
               Email Support
-            </a>
-            <a
-              href="https://wa.me/919911636888"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
-            >
-              💬 WhatsApp Us
-            </a>
-            <a
-              href="tel:+919911636888"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
-            >
-              <Phone className="w-4 h-4" />
-              Call Us
             </a>
             <Link
               href="/returns-and-refunds-policy"

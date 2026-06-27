@@ -2,7 +2,7 @@
 
 import {
   Shield, RefreshCw, CheckCircle, Clock,
-  Package, AlertCircle, Mail, ChevronRight, Award, Phone, LucideIcon
+  Package, AlertCircle, Mail, ChevronRight, Award, LucideIcon
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -20,7 +20,7 @@ interface PolicyLink {
 }
 
 const replacementSteps = [
-  { step: '01', title: 'Contact Support', desc: 'Reach out via email, call, or WhatsApp with your order number and details of the issue.' },
+  { step: '01', title: 'Contact Support', desc: 'Reach out via email at support@kdbookbazaar.com with your order number and details of the issue.' },
   { step: '02', title: 'Provide Evidence', desc: 'Send clear photos or a short video showing the defect or issue with your product.' },
   { step: '03', title: 'Approval Review', desc: 'Our quality team will review your claim within 24–48 business hours.' },
   { step: '04', title: 'Receive Replacement', desc: 'Once approved, we ship your replacement immediately at no additional cost.' },
@@ -250,21 +250,6 @@ export default function WarrantyPolicy() {
             >
               <Mail className="w-4 h-4" />
               Email Support
-            </a>
-            <a
-              href="https://wa.me/919911636888"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
-            >
-              💬 WhatsApp Us
-            </a>
-            <a
-              href="tel:+919911636888"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
-            >
-              <Phone className="w-4 h-4" />
-              Call Us
             </a>
             <Link
               href="/"

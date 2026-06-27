@@ -27,42 +27,43 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <Link href={productUrl} className="group block">
-      {/* Book Cover */}
-      <div className="relative w-full bg-[#f7f6f3] rounded-2xl overflow-hidden mb-3 shadow-sm group-hover:shadow-md transition-shadow duration-300"
-        style={{ paddingBottom: "133%" }}>
-        <img
-          src={product.images?.[0]?.src || "/placeholder.png"}
-          alt={product.name}
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 w-full h-full object-contain p-2 group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-        />
-        {isOnSale && (
-          <div className="absolute top-2 left-2 bg-[#ff3131] text-white text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wide">
-            -{discountPercent}%
-          </div>
-        )}
-        {!isOnSale && product.badge === 'New' && (
-          <div className="absolute top-2 left-2 bg-gray-800 text-white text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wide">
-            New
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="px-0.5">
-        <h3 className="text-xs font-semibold text-gray-800 line-clamp-2 leading-snug group-hover:text-[#ff3131] transition-colors duration-200 mb-1.5">
-          {product.name}
-        </h3>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-bold text-gray-900">
-            ₹{salePrice.toLocaleString('en-IN')}
-          </span>
+      <div className="bg-[#f7f6f3] rounded-2xl overflow-hidden shadow-sm group-hover:shadow-md transition-shadow duration-300">
+        {/* Book Cover */}
+        <div className="relative w-full" style={{ paddingBottom: "133%" }}>
+          <img
+            src={product.images?.[0]?.src || "/placeholder.png"}
+            alt={product.name}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-contain p-2 group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+          />
           {isOnSale && (
-            <span className="text-xs text-gray-400 line-through">
-              ₹{originalPrice.toLocaleString('en-IN')}
-            </span>
+            <div className="absolute top-2 left-2 z-10 bg-[#ff3131] text-white text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wide">
+              -{discountPercent}%
+            </div>
           )}
+          {!isOnSale && product.badge === 'New' && (
+            <div className="absolute top-2 left-2 z-10 bg-gray-800 text-white text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wide">
+              New
+            </div>
+          )}
+        </div>
+
+        {/* Info */}
+        <div className="px-2.5 py-2">
+          <h3 className="text-xs font-semibold text-gray-800 line-clamp-2 leading-snug group-hover:text-[#ff3131] transition-colors duration-200 mb-1.5">
+            {product.name}
+          </h3>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-bold text-gray-900">
+              ₹{salePrice.toLocaleString('en-IN')}
+            </span>
+            {isOnSale && (
+              <span className="text-xs text-gray-400 line-through">
+                ₹{originalPrice.toLocaleString('en-IN')}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </Link>

@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useCart } from '../../../lib/cart';
+import { useAuth } from '../../../lib/AuthContext';
 import { Trash2, Minus, Plus, ShoppingBag, CheckCircle, ArrowRight } from 'lucide-react';
 
 function parsePrice(price: string): number {
@@ -10,7 +12,17 @@ function parsePrice(price: string): number {
 }
 
 export default function CartPage() {
+  const router = useRouter();
+  const { user } = useAuth();
   const { items, increment, decrement, removeFromCart } = useCart();
+
+  function handleCheckout() {
+    if (!user) {
+      router.push('/login?redirect=/checkout');
+    } else {
+      router.push('/checkout');
+    }
+  }
 
   const total = items.reduce((sum, i) => sum + parsePrice(i.price) * i.quantity, 0);
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
@@ -221,13 +233,13 @@ export default function CartPage() {
 
                   {/* CTAs */}
                   <div className="space-y-3">
-                    <Link
-                      href="/checkout"
+                    <button
+                      onClick={handleCheckout}
                       className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200"
                     >
                       Proceed to Checkout
                       <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    </button>
                     <Link
                       href="/shop"
                       className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"

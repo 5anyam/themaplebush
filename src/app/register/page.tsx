@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../lib/AuthContext';
 import { User, Mail, Lock, ArrowRight, Eye, EyeOff, ShoppingBag, AlertCircle, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
@@ -24,6 +24,8 @@ const memberBenefits = [
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/dashboard';
   const { register } = useAuth();
 
   const [formData, setFormData] = useState<FormData>({
@@ -69,7 +71,7 @@ export default function RegisterPage() {
         first_name: formData.first_name,
         last_name: formData.last_name,
       });
-      router.push('/dashboard');
+      router.push(redirectTo);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
     } finally {

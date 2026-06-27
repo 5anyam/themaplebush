@@ -179,7 +179,7 @@ function SectionCard({ title, children }: { title: string; children: React.React
 export default function Checkout(): React.ReactElement {
   const { items, clear } = useCart();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { trackInitiateCheckout, trackAddPaymentInfo, trackPurchase } = useFacebookPixel();
 
   const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod">("razorpay");
@@ -401,6 +401,51 @@ export default function Checkout(): React.ReactElement {
     `w-full px-4 py-3 border-2 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:bg-white transition-all placeholder:text-gray-400 ${
       hasError ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100" : "border-gray-100 focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10"
     }`;
+
+  // ── AUTH LOADING ──
+  if (authLoading) {
+    return (
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-gray-200 border-t-[#ff3131] rounded-full animate-spin" />
+      </main>
+    );
+  }
+
+  // ── LOGIN REQUIRED ──
+  if (!user) {
+    return (
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <div className="max-w-sm w-full text-center space-y-6">
+          <div className="w-16 h-16 bg-[#ff3131]/10 rounded-2xl flex items-center justify-center mx-auto">
+            <Lock className="w-8 h-8 text-[#ff3131]" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Login Required</h2>
+            <p className="text-sm text-gray-500">
+              Please login or create an account to place your order and track it easily.
+            </p>
+          </div>
+          <div className="space-y-3">
+            <Link
+              href="/login?redirect=/checkout"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            >
+              Login to Continue <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/register?redirect=/checkout"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+            >
+              Create New Account
+            </Link>
+          </div>
+          <p className="text-xs text-gray-400">
+            Your cart items are saved and will be ready after you login.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   // ── EMPTY CART ──
   if (items.length === 0) {

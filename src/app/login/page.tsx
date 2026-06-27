@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../lib/AuthContext';
 import { Lock, Phone, ArrowRight, ShoppingBag, AlertCircle, CheckCircle, KeyRound, User } from 'lucide-react';
 import Link from 'next/link';
@@ -11,6 +11,8 @@ type PhoneStep = 'enter_phone' | 'enter_otp';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/dashboard';
   const { login, loginWithPhone } = useAuth();
   const [tab, setTab] = useState<Tab>('phone');
 
@@ -103,7 +105,7 @@ export default function LoginPage() {
       if (!res.ok) throw new Error(data.error || 'Verification failed');
 
       loginWithPhone(data.user);
-      router.push('/dashboard');
+      router.push(redirectTo);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Verification failed');
     } finally {
@@ -118,7 +120,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(username, password);
-      router.push('/dashboard');
+      router.push(redirectTo);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
     } finally {

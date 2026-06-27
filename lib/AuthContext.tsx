@@ -2,8 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-// 👇 1. Yahan se 'registerCustomer' wapis import karo, lekin login hata do kyunki login hum plugin se kar rahe hain
-import { registerCustomer } from './woocommerceApi'; 
 
 interface User {
   id: number;
@@ -11,6 +9,7 @@ interface User {
   username: string;
   first_name: string;
   last_name: string;
+  phone?: string;
 }
 
 interface RegisterData {
@@ -25,6 +24,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<void>;
+  loginWithPhone: (userData: User) => void;
   register: (data: RegisterData) => Promise<void>;
   logout: () => void;
 }
@@ -40,8 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser) as User);
-      } catch (error) {
-        console.error('Failed to parse saved user:', error);
+      } catch {
         Cookies.remove('kdbookbazaar_user');
       }
     }
@@ -49,58 +48,54 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (username: string, password: string) => {
-    try {
-      // Direct fetch to our new Custom Plugin
-      const response = await fetch('https://cms.kdbookbazaar.com/wp-json/custom-api/v1/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
+    const response = await fetch('https://cms.kdbookbazaar.com/wp-json/custom-api/v1/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
 
-      const result = await response.json();
+    const result = await response.json();
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || 'Login failed. Please check credentials.');
-      }
-
-      const userData: User = {
-        id: result.data.id,
-        email: result.data.email,
-        username: result.data.username,
-        first_name: result.data.first_name,
-        last_name: result.data.last_name,
-      };
-
-      setUser(userData);
-      Cookies.set('kdbookbazaar_user', JSON.stringify(userData), { expires: 7 });
-      Cookies.set('caishen_token', result.data.token, { expires: 7 });
-
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Login failed. Please check your credentials.');
     }
+
+    const userData: User = {
+      id: result.data.id,
+      email: result.data.email,
+      username: result.data.username,
+      first_name: result.data.first_name,
+      last_name: result.data.last_name,
+    };
+
+    setUser(userData);
+    Cookies.set('kdbookbazaar_user', JSON.stringify(userData), { expires: 7 });
+    Cookies.set('caishen_token', result.data.token, { expires: 7 });
   };
 
-  // 👇 2. Register function updated (Ab 'data' use ho raha hai, error hat jayega)
+  const loginWithPhone = (userData: User) => {
+    setUser(userData);
+    Cookies.set('kdbookbazaar_user', JSON.stringify(userData), { expires: 7 });
+  };
+
   const register = async (data: RegisterData) => {
-    try {
-      console.log('Registering user:', data.username);
-      
-      // Purana register logic use karenge
-      const newUser = await registerCustomer(data); 
-      console.log('📝 Registration response:', newUser);
-      
-      // Register hone ke baad naye plugin se auto-login
-      await login(data.username, data.password);
-      
-    } catch (error) {
-      console.error('Registration error:', error);
-      throw error;
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      throw new Error(result.error || 'Registration failed.');
+    }
+
+    const userData: User = result.user;
+    setUser(userData);
+    Cookies.set('kdbookbazaar_user', JSON.stringify(userData), { expires: 7 });
+    if (result.token) {
+      Cookies.set('caishen_token', result.token, { expires: 7 });
     }
   };
 
@@ -111,7 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, loginWithPhone, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

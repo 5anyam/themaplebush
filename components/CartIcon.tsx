@@ -1,7 +1,7 @@
 'use client';
 import Link from "next/link";
 import { useCart } from "../lib/cart";
-import { Trash2, Minus, Plus, Package, X, ShoppingBag, CheckCircle, Gift } from "lucide-react";
+import { Trash2, Minus, Plus, Package, X, ShoppingBag, CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
 
@@ -252,58 +252,6 @@ export default function CartDrawer() {
                   })}
                 </div>
 
-                {/* Free Gifts Section */}
-                <div className="border-t-4 border-emerald-100 bg-gradient-to-br from-emerald-50 to-green-50 p-3 sm:p-4">
-                  {/* Header */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="p-1.5 bg-emerald-500 rounded-lg">
-                      <Gift className="w-4 h-4 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-sm font-semibold text-emerald-900">Free Gifts with Order</h3>
-                      <p className="text-[10px] text-emerald-700">Worth ₹250 • Absolutely Free!</p>
-                    </div>
-                  </div>
-
-                  {/* Gift Items Grid */}
-                  <div className="space-y-2">
-                    {/* Sticky Pad */}
-                    <div className="flex items-center gap-2.5 bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-emerald-200/50 shadow-sm">
-                      <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-100 to-green-100 rounded-lg overflow-hidden flex items-center justify-center border border-emerald-200">
-                        <img 
-                          src="/sticky.webp" 
-                          alt="Premium Sticky Pad"
-                          className="w-full h-full object-contain p-1"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm font-semibold text-gray-900">Premium Sticky Pad</p>
-                        <p className="text-[9px] sm:text-[10px] text-gray-500 font-light">High-Quality • Reusable</p>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <span className="text-[10px] sm:text-xs text-emerald-600 font-bold">FREE</span>
-                      </div>
-                    </div>
-
-                    {/* Cable Protector */}
-                    <div className="flex items-center gap-2.5 bg-white/80 backdrop-blur-sm rounded-lg p-2 border border-emerald-200/50 shadow-sm">
-                      <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-100 to-green-100 rounded-lg overflow-hidden flex items-center justify-center border border-emerald-200">
-                        <img 
-                          src="/wire.webp" 
-                          alt="Cable Protector"
-                          className="w-full h-full object-contain p-1"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs sm:text-sm font-semibold text-gray-900">Cable Protector</p>
-                        <p className="text-[9px] sm:text-[10px] text-gray-500 font-light">Durable • Long-lasting</p>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <span className="text-[10px] sm:text-xs text-emerald-600 font-bold">FREE</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </>
             )}
           </div>
@@ -333,14 +281,6 @@ export default function CartDrawer() {
                 <div className="flex justify-between text-xs sm:text-sm text-gray-600">
                   <span>Shipping</span>
                   <span className="text-green-600 font-medium">Free</span>
-                </div>
-
-                <div className="flex justify-between text-xs sm:text-sm text-emerald-600">
-                  <span className="flex items-center gap-1">
-                    <Gift className="w-3 h-3" />
-                    Free Gifts
-                  </span>
-                  <span className="font-medium">₹250</span>
                 </div>
 
 

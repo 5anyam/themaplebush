@@ -80,7 +80,7 @@ export default function RegisterPage() {
   };
 
   const inputClass =
-    'w-full py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400';
+    'w-full py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400';
 
   return (
     <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">

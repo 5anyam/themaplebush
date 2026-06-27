@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const WC_BASE = 'https://cms.kdbookbazaar.com/wp-json/wc/v3';
-const CONSUMER_KEY = process.env.CONSUMER_KEY || '';
-const CONSUMER_SECRET = process.env.CONSUMER_SECRET || '';
+const CONSUMER_KEY = process.env.CONSUMER_KEY || process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_b2cff698fa447d779aa56d980ea00fea049721a7';
+const CONSUMER_SECRET = process.env.CONSUMER_SECRET || process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_1f8a7857e2e4030a0a8222979673ef040c763848';
 
 function wcAuth() {
   return 'Basic ' + Buffer.from(`${CONSUMER_KEY}:${CONSUMER_SECRET}`).toString('base64');

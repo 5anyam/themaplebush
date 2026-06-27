@@ -319,6 +319,7 @@ export default function Checkout(): React.ReactElement {
   };
 
   const handleCODSubmit = async () => {
+    if (!user) { toast({ title: "Please login to place an order", variant: "destructive" }); router.push('/login?redirect=/checkout'); return; }
     if (!validateForm()) { toast({ title: "Please fix the errors", variant: "destructive" }); return; }
     setLoading(true); setStep("processing");
     try {
@@ -364,6 +365,7 @@ export default function Checkout(): React.ReactElement {
 
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!user) { toast({ title: "Please login to place an order", variant: "destructive" }); router.push('/login?redirect=/checkout'); return; }
     if (paymentMethod === "cod") { await handleCODSubmit(); return; }
     let wooOrder: WooCommerceOrder | null = null;
     try {

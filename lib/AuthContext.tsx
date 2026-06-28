@@ -3,9 +3,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-const WC_BASE = 'https://cms.kdbookbazaar.com/wp-json/wc/v3';
-const CK = process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_b2cff698fa447d779aa56d980ea00fea049721a7';
-const CS = process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_1f8a7857e2e4030a0a8222979673ef040c763848';
 
 interface User {
   id: number;
@@ -76,14 +73,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const register = async (data: RegisterData) => {
-    // Call WooCommerce REST API directly — creates a real WordPress user
-    const auth = btoa(`${CK}:${CS}`);
-    const res = await fetch(`${WC_BASE}/customers`, {
+    const res = await fetch('https://cms.kdbookbazaar.com/wp-json/custom-api/v1/register', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${auth}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         username: data.username,
         email: data.email,
@@ -97,8 +89,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     if (!res.ok) {
       const code: string = result.code || '';
-      if (code.includes('email-exists')) throw new Error('An account with this email already exists. Please login instead.');
-      if (code.includes('username-exists')) throw new Error('This username is already taken. Please choose another.');
+      if (code === 'email_exists') throw new Error('An account with this email already exists. Please login instead.');
+      if (code === 'username_exists') throw new Error('This username is already taken. Please choose another.');
       throw new Error(result.message || 'Registration failed. Please try again.');
     }
 

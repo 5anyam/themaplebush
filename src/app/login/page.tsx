@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../lib/AuthContext';
-import { Lock, User, ArrowRight, ShoppingBag, AlertCircle } from 'lucide-react';
+import { Lock, User, ArrowRight, ShoppingBag, AlertCircle, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -11,6 +11,8 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/dashboard';
   const { login } = useAuth();
+
+  const justRegistered = searchParams.get('registered') === '1';
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -48,6 +50,13 @@ export default function LoginPage() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-7">
+
+          {justRegistered && !error && (
+            <div className="mb-5 flex items-start gap-3 p-4 bg-green-50 border border-green-100 rounded-xl">
+              <CheckCircle className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+              <p className="text-sm text-green-700">Account created successfully! Please login with your credentials.</p>
+            </div>
+          )}
 
           {error && (
             <div className="mb-5 flex items-start gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">

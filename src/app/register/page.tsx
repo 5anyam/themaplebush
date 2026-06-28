@@ -73,7 +73,13 @@ export default function RegisterPage() {
       });
       router.push(redirectTo);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
+      const message = err instanceof Error ? err.message : '';
+      if (message === 'ACCOUNT_CREATED_LOGIN_FAILED') {
+        // Account was created but auto-login failed — send to login with a success hint
+        router.push(`/login?registered=1${redirectTo !== '/dashboard' ? `&redirect=${encodeURIComponent(redirectTo)}` : ''}`);
+        return;
+      }
+      setError(message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }

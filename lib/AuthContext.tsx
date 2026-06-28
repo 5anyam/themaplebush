@@ -81,8 +81,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error(result.error || 'Registration failed. Please try again.');
     }
 
-    // Auto-login after registration
-    await login(data.username, data.password);
+    // Auto-login after registration; propagate as LOGIN_FAILED so caller can redirect gracefully
+    try {
+      await login(data.username, data.password);
+    } catch {
+      throw new Error('ACCOUNT_CREATED_LOGIN_FAILED');
+    }
   };
 
   const logout = () => {

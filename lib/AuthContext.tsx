@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-
 interface User {
   id: number;
   email: string;
@@ -35,27 +34,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = Cookies.get('kdbookbazaar_user');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser) as User);
-      } catch {
-        Cookies.remove('kdbookbazaar_user');
-      }
+    const saved = Cookies.get('kdbookbazaar_user');
+    if (saved) {
+      try { setUser(JSON.parse(saved) as User); }
+      catch { Cookies.remove('kdbookbazaar_user'); }
     }
     setLoading(false);
   }, []);
 
   const login = async (username: string, password: string) => {
-    const response = await fetch('https://cms.kdbookbazaar.com/wp-json/custom-api/v1/login', {
+    const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
 
-    const result = await response.json();
+    const result = await res.json();
 
-    if (!response.ok || !result.success) {
+    if (!res.ok || !result.success) {
       throw new Error(result.message || 'Login failed. Please check your credentials.');
     }
 
@@ -63,8 +59,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       id: result.data.id,
       email: result.data.email,
       username: result.data.username,
-      first_name: result.data.first_name,
-      last_name: result.data.last_name,
+      first_name: result.data.first_name || '',
+      last_name: result.data.last_name || '',
     };
 
     setUser(userData);
@@ -73,28 +69,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const register = async (data: RegisterData) => {
-    const res = await fetch('https://cms.kdbookbazaar.com/wp-json/custom-api/v1/register', {
+    const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: data.username,
-        email: data.email,
-        password: data.password,
-        first_name: data.first_name || '',
-        last_name: data.last_name || '',
-      }),
+      body: JSON.stringify(data),
     });
 
     const result = await res.json();
 
     if (!res.ok) {
-      const code: string = result.code || '';
-      if (code === 'email_exists') throw new Error('An account with this email already exists. Please login instead.');
-      if (code === 'username_exists') throw new Error('This username is already taken. Please choose another.');
-      throw new Error(result.message || 'Registration failed. Please try again.');
+      throw new Error(result.error || 'Registration failed. Please try again.');
     }
 
-    // Auto-login after successful registration
+    // Auto-login after registration
     await login(data.username, data.password);
   };
 

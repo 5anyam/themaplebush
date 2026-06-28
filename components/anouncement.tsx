@@ -26,43 +26,38 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
 
   const announcements = [
     {
-      icon: '🎉',
+      icon: '✦',
       text: (
         <span>
-          Use code{' '}
-          <span className="font-bold tracking-wider text-white bg-white/20 px-2 py-0.5 rounded mx-1">
-            NEWBEGIN10
-          </span>
-          {' '}&amp; get <span className="font-bold text-[#ff3131]">10% OFF</span> on your first order!
+          Free shipping pan-India &nbsp;·&nbsp; <span className="font-bold text-white">COD available</span>
         </span>
       ),
     },
     {
-      icon: '🚚',
+      icon: '✦',
       text: (
         <span>
-          <span className="font-bold text-white">Free Shipping</span> on all orders above{' '}
-          <span className="font-bold text-[#ff3131]">₹499</span> — Pan India Delivery!
+          <span className="font-bold text-white">7-day easy returns</span> on every order — no questions asked
         </span>
       ),
     },
     {
-      icon: '🔥',
+      icon: '✦',
       text: (
         <span>
-          <span className="font-bold text-[#ff3131]">Flash Sale Live!</span>{' '}
-          Up to <span className="font-bold text-white">70% OFF</span> on top categories.{' '}
-          <Link href="/sale" className="underline underline-offset-2 hover:text-[#ff3131] transition-colors font-semibold">
+          <span className="font-bold" style={{ color: '#FFE9DD' }}>Sale is live!</span>{' '}
+          Up to 40% off on our best-loved carry goods.{' '}
+          <Link href="/sale" className="underline underline-offset-2 font-semibold hover:opacity-80 transition-opacity">
             Shop Now →
           </Link>
         </span>
       ),
     },
     {
-      icon: '✅',
+      icon: '✦',
       text: (
         <span>
-          <span className="font-bold text-white">100% Authentic Products</span> — Verified sellers &amp; genuine quality guaranteed!
+          <span className="font-bold text-white">Made in India</span> &nbsp;·&nbsp; Curated · Characterful · Carry-worthy
         </span>
       ),
     },
@@ -73,7 +68,7 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
       {announcements.map((item, i) => (
         <span key={i} className="inline-flex items-center gap-2 px-6">
           <span className="text-sm flex-shrink-0">{item.icon}</span>
-          <span className="text-xs sm:text-[13px] text-gray-300 font-light tracking-wide leading-tight">
+          <span className="text-xs sm:text-[13px] text-white/90 font-medium tracking-wide leading-tight">
             {item.text}
           </span>
           {i < announcements.length - 1 && (
@@ -85,11 +80,11 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
   );
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[999] bg-[#1a1a1a] border-b border-white/10">
+    <div className="fixed top-0 left-0 right-0 z-[999] border-b border-white/10" style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}>
       <div className="relative flex items-center h-10 lg:h-11 overflow-hidden">
 
         {/* Left gradient fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#FF4D6D] to-transparent z-10 pointer-events-none" />
 
         {/* Marquee */}
         <div className="w-full overflow-hidden">
@@ -106,7 +101,7 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
         </div>
 
         {/* Right gradient fade */}
-        <div className="absolute right-8 top-0 bottom-0 w-16 bg-gradient-to-l from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-8 top-0 bottom-0 w-16 bg-gradient-to-l from-[#E11D74] to-transparent z-10 pointer-events-none" />
 
         {/* Close Button */}
         <button

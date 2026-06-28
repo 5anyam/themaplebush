@@ -27,15 +27,15 @@ function OrderConfirmationContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
 
       {/* Card */}
       <div
-        className={`w-full max-w-md bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden
+        className={`w-full max-w-md bg-white rounded-3xl shadow-sm border border-[#FFE9DD] overflow-hidden
           transition-all duration-700 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
       >
         {/* Top bar */}
-        <div className="h-1.5 bg-[#ff3131]" />
+        <div className="h-1.5" style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }} />
 
         <div className="px-8 pt-10 pb-8 text-center">
 
@@ -47,8 +47,8 @@ function OrderConfirmationContent() {
             <span className="absolute -top-1 -right-1 text-xl">🎉</span>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
-          <p className="text-gray-500 text-sm leading-relaxed">
+          <h1 className="text-2xl font-bold mb-2 font-serif" style={{ color: '#2A0A22' }}>Order Confirmed!</h1>
+          <p className="text-sm leading-relaxed" style={{ color: '#2A0A22', opacity: 0.5 }}>
             {isCOD
               ? "Your order has been placed. Our team will contact you for delivery."
               : "Payment successful! Your order is now being processed."}
@@ -58,35 +58,35 @@ function OrderConfirmationContent() {
           {wcOrderId && (
             <button
               onClick={copyOrderId}
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-gray-50 hover:bg-gray-100
-                         border border-gray-200 rounded-xl transition-all group"
+              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all group border border-[#FFE9DD] hover:border-[#E11D74]/30 hover:bg-[#FFF6EF]"
+              style={{ background: '#FFF6EF' }}
             >
-              <span className="text-xs text-gray-500 uppercase tracking-widest font-semibold">Order</span>
-              <span className="text-base font-bold text-gray-900">#{wcOrderId}</span>
+              <span className="text-xs uppercase tracking-widest font-semibold" style={{ color: '#2A0A22', opacity: 0.5 }}>Order</span>
+              <span className="text-base font-bold" style={{ color: '#2A0A22' }}>#{wcOrderId}</span>
               {copied
                 ? <Check className="w-3.5 h-3.5 text-green-500" />
-                : <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600" />}
+                : <Copy className="w-3.5 h-3.5 group-hover:opacity-80 transition-opacity" style={{ color: '#2A0A22', opacity: 0.4 }} />}
             </button>
           )}
 
           {/* Details */}
           <div className="mt-6 space-y-3 text-left">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-              <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Payment</span>
+            <div className="flex items-center justify-between p-4 rounded-2xl" style={{ background: '#FFF6EF' }}>
+              <span className="text-xs uppercase tracking-wide font-semibold" style={{ color: '#2A0A22', opacity: 0.5 }}>Payment</span>
               <span className={`text-sm font-bold ${isCOD ? 'text-orange-600' : 'text-green-600'}`}>
                 {isCOD ? 'Cash on Delivery' : 'Paid Online'}
               </span>
             </div>
 
             {razorpayId && (
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-                <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Payment ID</span>
-                <span className="text-xs font-mono text-gray-700 truncate max-w-[180px]">{razorpayId}</span>
+              <div className="flex items-center justify-between p-4 rounded-2xl" style={{ background: '#FFF6EF' }}>
+                <span className="text-xs uppercase tracking-wide font-semibold" style={{ color: '#2A0A22', opacity: 0.5 }}>Payment ID</span>
+                <span className="text-xs font-mono truncate max-w-[180px]" style={{ color: '#2A0A22', opacity: 0.7 }}>{razorpayId}</span>
               </div>
             )}
 
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-              <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Status</span>
+            <div className="flex items-center justify-between p-4 rounded-2xl" style={{ background: '#FFF6EF' }}>
+              <span className="text-xs uppercase tracking-wide font-semibold" style={{ color: '#2A0A22', opacity: 0.5 }}>Status</span>
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 bg-green-50 px-2.5 py-1 rounded-full border border-green-200">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                 {isCOD ? 'Confirmed' : 'Processing'}
@@ -95,9 +95,9 @@ function OrderConfirmationContent() {
           </div>
 
           {/* What's next */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-2xl border border-blue-100 text-left">
-            <p className="text-xs font-bold text-blue-800 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-              <Package className="w-3.5 h-3.5" /> What's Next
+          <div className="mt-6 p-4 rounded-2xl border border-[#FFE9DD] text-left" style={{ background: '#FFE9DD' }}>
+            <p className="text-xs font-bold uppercase tracking-wide mb-2 flex items-center gap-1.5" style={{ color: '#2A0A22' }}>
+              <Package className="w-3.5 h-3.5" style={{ color: '#E11D74' }} /> What&apos;s Next
             </p>
             <ul className="space-y-1.5">
               {[
@@ -105,8 +105,8 @@ function OrderConfirmationContent() {
                 "Books will be packed carefully",
                 "Delivery in 3–7 business days",
               ].map((step, i) => (
-                <li key={i} className="flex items-center gap-2 text-xs text-blue-700">
-                  <span className="w-4 h-4 rounded-full bg-blue-200 text-blue-700 flex items-center justify-center font-bold text-[10px] flex-shrink-0">
+                <li key={i} className="flex items-center gap-2 text-xs" style={{ color: '#2A0A22', opacity: 0.7 }}>
+                  <span className="w-4 h-4 rounded-full flex items-center justify-center font-bold text-[10px] flex-shrink-0 text-white" style={{ background: '#E11D74' }}>
                     {i + 1}
                   </span>
                   {step}
@@ -120,18 +120,16 @@ function OrderConfirmationContent() {
         <div className="px-8 pb-8 space-y-3">
           <Link
             href="/collections"
-            className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#ff3131] hover:bg-[#cc0000]
-                       text-white text-sm font-bold uppercase tracking-wide rounded-xl transition-all shadow-md
-                       hover:shadow-lg hover:shadow-red-200"
+            className="flex items-center justify-center gap-2 w-full py-3.5 text-white text-sm font-bold uppercase tracking-wide rounded-full transition-all shadow-md hover:shadow-lg hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
           >
             <ShoppingBag className="w-4 h-4" />
             Continue Shopping
           </Link>
           <Link
             href="/"
-            className="flex items-center justify-center gap-2 w-full py-3 border-2 border-gray-200
-                       text-gray-700 hover:border-gray-300 hover:bg-gray-50 text-sm font-semibold
-                       rounded-xl transition-all"
+            className="flex items-center justify-center gap-2 w-full py-3 border-2 border-[#FFE9DD] text-sm font-semibold rounded-full transition-all hover:border-[#E11D74]/30 hover:bg-[#FFF6EF]"
+            style={{ color: '#2A0A22' }}
           >
             <Home className="w-4 h-4" />
             Back to Home
@@ -139,10 +137,10 @@ function OrderConfirmationContent() {
         </div>
       </div>
 
-      <p className="mt-6 text-xs text-gray-400 text-center">
+      <p className="mt-6 text-xs text-center" style={{ color: '#2A0A22', opacity: 0.4 }}>
         Need help? Email us at{' '}
-        <a href="mailto:support@kdbookbazaar.com" className="text-[#ff3131] hover:underline">
-          support@kdbookbazaar.com
+        <a href="mailto:support@thecurioshelf.com" className="hover:underline font-medium" style={{ color: '#E11D74', opacity: 1 }}>
+          support@thecurioshelf.com
         </a>
       </p>
     </div>

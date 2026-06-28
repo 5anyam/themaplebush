@@ -164,15 +164,15 @@ export default function SearchPage() {
   // ── LOADING ──
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#FFF6EF' }}>
         <div className="text-center">
           <div className="relative w-14 h-14 mx-auto mb-4">
-            <div className="absolute inset-0 rounded-full border-4 border-gray-100 border-t-[#ff3131] animate-spin" />
+            <div className="absolute inset-0 rounded-full border-4 border-[#FFE9DD] border-t-[#E11D74] animate-spin" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-2.5 h-2.5 bg-[#ff3131] rounded-full animate-pulse" />
+              <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ background: '#E11D74' }} />
             </div>
           </div>
-          <p className="text-gray-500 text-sm">Loading products...</p>
+          <p className="text-sm" style={{ color: '#2A0A22', opacity: 0.5 }}>Loading products...</p>
         </div>
       </div>
     );
@@ -181,64 +181,64 @@ export default function SearchPage() {
   // ── ERROR ──
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center max-w-sm p-8 bg-white rounded-2xl border border-gray-100 shadow-sm">
-          <h2 className="text-lg font-bold text-gray-900 mb-2">Unable to Load Products</h2>
-          <p className="text-sm text-gray-500">Please try refreshing the page.</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#FFF6EF' }}>
+        <div className="text-center max-w-sm p-8 bg-white rounded-2xl border border-[#FFE9DD] shadow-sm">
+          <h2 className="text-lg font-bold mb-2 font-serif" style={{ color: '#2A0A22' }}>Unable to Load Products</h2>
+          <p className="text-sm" style={{ color: '#2A0A22', opacity: 0.5 }}>Please try refreshing the page.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
 
       {/* ── HERO / SEARCH HEADER ── */}
-      <div className="bg-[#1a1a1a] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
+      <div style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }} className="relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 py-10 relative z-10">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-9 h-9 bg-[#ff3131] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="w-9 h-9 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shadow-lg">
               <ShoppingBag className="w-4 h-4 text-white" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-              Shop on <span className="text-[#ff3131]">KD Book Bazaar</span>
+            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight font-serif">
+              Shop on <span className="text-white/80">The Curio Shelf</span>
             </h1>
           </div>
 
           {/* Search Bar */}
-         {/* Search Bar */}
-         <form onSubmit={handleSearch} className="max-w-2xl mb-5">
+          <form onSubmit={handleSearch} className="max-w-2xl mb-5">
             <div className="relative">
               <input
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search products, brands, categories..."
-                // Yahan text-black aur font-medium add kiya hai
-                className="w-full px-5 py-3.5 pl-12 pr-12 text-sm text-black font-medium bg-white border-2 border-transparent focus:border-[#ff3131] focus:outline-none focus:ring-2 focus:ring-[#ff3131]/10 rounded-xl transition-all placeholder:text-gray-500 shadow-sm"
+                className="w-full px-5 py-3.5 pl-12 pr-12 text-sm font-medium bg-white border-2 border-transparent focus:border-[#E11D74] focus:outline-none focus:ring-2 focus:ring-[#E11D74]/10 rounded-xl transition-all placeholder:text-gray-400 shadow-sm"
+                style={{ color: '#2A0A22' }}
               />
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               {searchInput && (
                 <button
                   type="button"
                   onClick={clearSearch}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#ff3131] transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#E11D74] transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
               )}
             </div>
           </form>
+
           {/* Results count + mobile filter */}
           <div className="flex items-center justify-between">
-            <p className="text-sm text-blue-200">
+            <p className="text-sm text-white/70">
               {query ? (
                 <>
                   <span className="text-white font-semibold">{results.length}</span> results for{' '}
-                  <span className="text-[#ff3131] font-semibold">&quot;{query}&quot;</span>
+                  <span className="text-white font-semibold">&quot;{query}&quot;</span>
                 </>
               ) : (
                 <>
@@ -248,7 +248,7 @@ export default function SearchPage() {
             </p>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 text-white text-xs font-semibold rounded-xl hover:bg-white/20 transition-colors"
+              className="lg:hidden inline-flex items-center gap-2 px-4 py-2 bg-white/20 border border-white/30 text-white text-xs font-semibold rounded-xl hover:bg-white/30 transition-colors"
             >
               <Filter className="w-3.5 h-3.5" />
               Filters
@@ -265,8 +265,8 @@ export default function SearchPage() {
             <div className="sticky top-8 space-y-4">
 
               {/* Categories */}
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
-                <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">
+              <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-4">
+                <h2 className="text-xs font-bold uppercase tracking-wider mb-3 px-1" style={{ color: '#2A0A22', opacity: 0.5 }}>
                   Categories
                 </h2>
                 <nav className="space-y-0.5">
@@ -276,17 +276,24 @@ export default function SearchPage() {
                       onClick={() => setActiveCategory(cat.id)}
                       className={`w-full text-left px-3 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center justify-between ${
                         activeCategory === cat.id
-                          ? 'bg-[#ff3131] text-white font-semibold'
-                          : 'text-gray-600 hover:bg-red-50 hover:text-[#ff3131]'
+                          ? 'text-white font-semibold'
+                          : 'hover:bg-[#FFE9DD]'
                       }`}
+                      style={
+                        activeCategory === cat.id
+                          ? { background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)', color: '#fff' }
+                          : { color: '#2A0A22' }
+                      }
                     >
                       <span>{cat.name}</span>
                       {(categoryCounts[cat.id] ?? 0) > 0 && (
                         <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
                           activeCategory === cat.id
                             ? 'bg-white/20 text-white'
-                            : 'bg-gray-100 text-gray-400'
-                        }`}>
+                            : 'bg-[#FFE9DD]'
+                        }`}
+                          style={activeCategory === cat.id ? {} : { color: '#2A0A22', opacity: 0.5 }}
+                        >
                           {categoryCounts[cat.id]}
                         </span>
                       )}
@@ -296,9 +303,9 @@ export default function SearchPage() {
               </div>
 
               {/* Trust badges */}
-              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">
-                  Why KD Book Bazaar
+              <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-4">
+                <h3 className="text-xs font-bold uppercase tracking-wider mb-3 px-1" style={{ color: '#2A0A22', opacity: 0.5 }}>
+                  Why The Curio Shelf
                 </h3>
                 <ul className="space-y-2.5">
                   {[
@@ -307,8 +314,8 @@ export default function SearchPage() {
                     'Free shipping above ₹499',
                     '7-day easy returns',
                   ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs text-gray-500">
-                      <CheckCircle className="w-3.5 h-3.5 text-[#ff3131] flex-shrink-0" />
+                    <li key={i} className="flex items-center gap-2 text-xs" style={{ color: '#2A0A22', opacity: 0.5 }}>
+                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: '#E11D74', opacity: 1 }} />
                       {item}
                     </li>
                   ))}
@@ -321,15 +328,16 @@ export default function SearchPage() {
           {/* ── PRODUCT GRID ── */}
           <div className="flex-1">
             {results.length === 0 ? (
-              <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-7 h-7 text-gray-300" />
+              <div className="text-center py-20 bg-white rounded-2xl border border-[#FFE9DD] shadow-sm">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: '#FFE9DD' }}>
+                  <Search className="w-7 h-7" style={{ color: '#2A0A22', opacity: 0.3 }} />
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-2">No products found</h3>
-                <p className="text-sm text-gray-400 mb-6">Try adjusting your search or category</p>
+                <h3 className="text-base font-bold mb-2 font-serif" style={{ color: '#2A0A22' }}>No products found</h3>
+                <p className="text-sm mb-6" style={{ color: '#2A0A22', opacity: 0.4 }}>Try adjusting your search or category</p>
                 <button
                   onClick={() => { setActiveCategory('all'); clearSearch(); }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold transition-all shadow-md"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-white rounded-full text-sm font-bold transition-all shadow-md hover:opacity-90"
+                  style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
                 >
                   <X className="w-3.5 h-3.5" />
                   Clear Filters
@@ -347,12 +355,11 @@ export default function SearchPage() {
                     <Link
                       key={product.id}
                       href={productUrl}
-                      className="group bg-white rounded-2xl border border-gray-100 hover:border-[#ff3131]/20 hover:shadow-lg hover:shadow-orange-100 transition-all duration-300 overflow-hidden"
+                      className="group bg-white rounded-2xl border border-[#FFE9DD] hover:border-[#E11D74]/30 hover:shadow-lg hover:shadow-[#FFE9DD] transition-all duration-300 overflow-hidden"
                     >
                       {/* Image */}
-                      <div className="relative aspect-square overflow-hidden bg-gray-50">
+                      <div className="relative aspect-square overflow-hidden" style={{ background: '#FFF6EF' }}>
                         {productImage ? (
-                          // Yahan Next.js Image ki jagah normal img tag use kiya hai 👇
                           <img
                             src={productImage}
                             alt={product.name}
@@ -360,14 +367,17 @@ export default function SearchPage() {
                             loading="lazy"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                            <ShoppingBag className="w-8 h-8 text-gray-300" />
+                          <div className="w-full h-full flex items-center justify-center" style={{ background: '#FFE9DD' }}>
+                            <ShoppingBag className="w-8 h-8" style={{ color: '#2A0A22', opacity: 0.2 }} />
                           </div>
                         )}
 
                         {/* Discount Badge */}
                         {discounted && (
-                          <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#ff3131] text-white px-2 py-1 rounded-lg text-[10px] font-bold shadow-md z-10">
+                          <div
+                            className="absolute top-2.5 left-2.5 flex items-center gap-1 text-white px-2 py-1 rounded-lg text-[10px] font-bold shadow-md z-10"
+                            style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #E11D74 100%)' }}
+                          >
                             <Sparkles className="w-2.5 h-2.5" />
                             {discountPct}% OFF
                           </div>
@@ -377,21 +387,21 @@ export default function SearchPage() {
                       {/* Info */}
                       <div className="p-3.5 space-y-2">
                         {product.categories && product.categories.length > 0 && (
-                          <span className="text-[10px] text-[#ff3131] font-bold uppercase tracking-wider">
+                          <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#E11D74' }}>
                             {product.categories[0].name}
                           </span>
                         )}
 
-                        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug group-hover:text-[#ff3131] transition-colors duration-200">
+                        <h3 className="text-sm font-semibold line-clamp-2 leading-snug transition-colors duration-200 group-hover:opacity-80" style={{ color: '#2A0A22' }}>
                           {product.name}
                         </h3>
 
-                        <div className="pt-2 border-t border-gray-100 flex items-baseline gap-2">
-                          <span className="text-base font-bold text-gray-900">
+                        <div className="pt-2 border-t border-[#FFE9DD] flex items-baseline gap-2">
+                          <span className="text-base font-bold" style={{ color: '#2A0A22' }}>
                             ₹{parseFloat(product.price).toLocaleString('en-IN')}
                           </span>
                           {discounted && (
-                            <span className="text-xs text-gray-400 line-through">
+                            <span className="text-xs line-through" style={{ color: '#2A0A22', opacity: 0.4 }}>
                               ₹{parseFloat(product.regular_price).toLocaleString('en-IN')}
                             </span>
                           )}

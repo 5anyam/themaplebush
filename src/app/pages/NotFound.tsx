@@ -53,7 +53,7 @@ export default function NotFound() {
 
         <p className="text-xs text-gray-400">
           Need help?{' '}
-          <a href="mailto:support@kdbookbazaar.com" className="text-[#ff3131] hover:underline font-medium">
+          <a href="mailto:hello@thecurioshelf.in" className="text-[#E11D74] hover:underline font-medium">
             Contact Support
           </a>
         </p>

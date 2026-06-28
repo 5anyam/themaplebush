@@ -150,11 +150,11 @@ export async function generateMetadata(
   const title = `${product.name} – ${catchyBenefit} | ${brand}`
 
 
-  const canonical = new URL(`/products/${product.slug}`, 'https://www.kdbookbazaar.com')
+  const canonical = new URL(`/products/${product.slug}`, 'https://www.thecurioshelf.in')
   const imageUrl =
     product.images?.[0]?.src
-      ? new URL(product.images[0].src, 'https://www.kdbookbazaar.com').toString()
-      : 'https://www.kdbookbazaar.com/logo.png'
+      ? new URL(product.images[0].src, 'https://www.thecurioshelf.in').toString()
+      : 'https://www.thecurioshelf.in/logo.png'
 
 
   const previous = await parent
@@ -184,7 +184,7 @@ export async function generateMetadata(
       images: [imageUrl],
     },
     robots: { index: true, follow: true },
-    metadataBase: new URL('https://www.kdbookbazaar.com'),
+    metadataBase: new URL('https://www.thecurioshelf.in'),
   }
 }
 

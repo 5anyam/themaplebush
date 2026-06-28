@@ -9,20 +9,20 @@ import { ThemeProvider } from '../../components/ThemeProvider';
 import Loader from '../../components/Loader';
 
 export const metadata = {
-  title: 'KD Book Bazaar - Shop Everything You Love | Best Deals Online India',
-  description: 'KD Book Bazaar is your one-stop online shopping destination in India. Shop electronics, fashion, home essentials, beauty, sports, toys & more at the best prices. 100% authentic products with fast delivery.',
-  keywords: 'online shopping india, buy electronics online, fashion online india, home essentials, beauty products, sports equipment, kdbookbazaar, best deals india, authentic products, fast delivery, kdbookbazaar.com',
+  title: 'The Curio Shelf — Carry a little wonder.',
+  description: 'The Curio Shelf — curated, characterful carry goods. A shelf of curiosities you actually use. Made in India.',
+  keywords: 'curio shelf, bags india, pouches, cosmetic bags, lunch bags, travel bags, made in india, thecurioshelf',
   openGraph: {
-    title: 'KD Book Bazaar - Shop Everything You Love',
-    description: 'Your trusted online shopping destination. Best prices on electronics, fashion, home essentials & more with 100% authentic products.',
-    url: 'https://kdbookbazaar.com',
-    siteName: 'KD Book Bazaar',
+    title: 'The Curio Shelf — Carry a little wonder.',
+    description: 'Curated, characterful carry goods. A shelf of curiosities you actually use. Made in India.',
+    url: 'https://thecurioshelf.in',
+    siteName: 'The Curio Shelf',
     images: [
       {
         url: '/logo.jpg',
         width: 1200,
         height: 630,
-        alt: 'KD Book Bazaar - Shop Everything You Love',
+        alt: 'The Curio Shelf',
       },
     ],
     locale: 'en_IN',
@@ -30,33 +30,16 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'KD Book Bazaar - Shop Everything You Love',
-    description: 'Your trusted online shopping destination in India. Best prices, fast delivery, easy returns.',
+    title: 'The Curio Shelf — Carry a little wonder.',
+    description: 'Curated, characterful carry goods. Made in India.',
     images: ['/logo.jpg'],
-    creator: '@kdbookbazaar',
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
   },
   alternates: {
-    canonical: 'https://kdbookbazaar.com',
-  },
-  category: 'ecommerce',
-  classification: 'Online Shopping & Retail',
-  authors: [{ name: 'KD Book Bazaar' }],
-  creator: 'KD Book Bazaar',
-  publisher: 'KD Book Bazaar',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
+    canonical: 'https://thecurioshelf.in',
   },
 };
 
@@ -66,129 +49,55 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Favicon and App Icons */}
+        {/* Favicon */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#ff3131" />
-        <meta name="msapplication-TileColor" content="#1a1a1a" />
+        <meta name="theme-color" content="#FF6A2B" />
 
-        {/* Preload Critical Assets */}
+        {/* Google Fonts — brand typography */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Caveat:wght@500;600;700&display=swap"
+          rel="stylesheet"
+        />
+
+        {/* Preload logo */}
         <link rel="preload" href="/logo.jpg" as="image" type="image/jpeg" />
 
-        {/* Additional SEO Meta Tags */}
+        {/* SEO */}
         <meta name="language" content="English" />
-        <meta name="revisit-after" content="7 days" />
-        <meta name="distribution" content="global" />
-        <meta name="rating" content="general" />
         <meta name="geo.region" content="IN" />
         <meta name="geo.country" content="India" />
-        <meta name="target" content="all" />
-        <meta name="audience" content="all" />
-        <meta name="coverage" content="Worldwide" />
 
-        {/* Organization Schema */}
+        {/* Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "KD Book Bazaar",
-              "description": "India's trusted online shopping destination offering electronics, fashion, home essentials, beauty, sports and more at best prices.",
-              "url": "https://kdbookbazaar.com",
-              "logo": "https://kdbookbazaar.com/logo.jpg",
-              "foundingDate": "2024",
+              "name": "The Curio Shelf",
+              "description": "Curated, characterful carry goods. A shelf of curiosities you actually use. Made in India.",
+              "url": "https://thecurioshelf.in",
+              "logo": "https://thecurioshelf.in/logo.jpg",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Delhi",
                 "addressRegion": "Delhi",
-                "postalCode": "110001",
                 "addressCountry": "IN"
               },
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "email": "support@kdbookbazaar.com",
-                "availableLanguage": ["English", "Hindi"]
+                "email": "hello@thecurioshelf.in"
               },
               "sameAs": [
-                "https://www.facebook.com/kdbookbazaar",
-                "https://www.instagram.com/kdbookbazaar",
-                "https://www.youtube.com/@kdbookbazaar"
-              ],
-              "brand": {
-                "@type": "Brand",
-                "name": "KD Book Bazaar",
-                "logo": "https://kdbookbazaar.com/logo.jpg",
-                "slogan": "Shop Everything You Love"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "1200",
-                "bestRating": "5",
-                "worstRating": "1"
-              }
-            })
-          }}
-        />
-
-        {/* WebSite + Sitelinks Searchbox Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "KD Book Bazaar",
-              "url": "https://kdbookbazaar.com",
-              "potentialAction": {
-                "@type": "SearchAction",
-                "target": {
-                  "@type": "EntryPoint",
-                  "urlTemplate": "https://kdbookbazaar.com/search?q={search_term_string}"
-                },
-                "query-input": "required name=search_term_string"
-              }
-            })
-          }}
-        />
-
-        {/* Product Categories ItemList Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ItemList",
-              "name": "KD Book Bazaar Product Categories",
-              "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Electronics", "url": "https://kdbookbazaar.com/category/mobile-electronics-accessories" },
-                { "@type": "ListItem", "position": 2, "name": "Fashion", "url": "https://kdbookbazaar.com/category/fashion" },
-                { "@type": "ListItem", "position": 3, "name": "Home & Kitchen", "url": "https://kdbookbazaar.com/category/home-kitchen" },
-                { "@type": "ListItem", "position": 4, "name": "Home Decor", "url": "https://kdbookbazaar.com/category/home-decor" },
-                { "@type": "ListItem", "position": 5, "name": "Sports & Outdoors", "url": "https://kdbookbazaar.com/category/sports-outdoors" },
-                { "@type": "ListItem", "position": 6, "name": "Toys & Games", "url": "https://kdbookbazaar.com/category/toys-games" },
-                { "@type": "ListItem", "position": 7, "name": "Bike & Car", "url": "https://kdbookbazaar.com/category/bike-car-accessories" },
-                { "@type": "ListItem", "position": 8, "name": "Office Products", "url": "https://kdbookbazaar.com/category/office-products" }
-              ]
-            })
-          }}
-        />
-
-        {/* BreadcrumbList Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kdbookbazaar.com" },
-                { "@type": "ListItem", "position": 2, "name": "Shop", "item": "https://kdbookbazaar.com/collections" }
+                "https://www.instagram.com/thecurioshelf",
+                "https://www.pinterest.com/thecurioshelf"
               ]
             })
           }}
@@ -245,36 +154,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${gtagId}', {
-              page_title: 'KD Book Bazaar',
-              page_location: window.location.href,
-            });
-          `}
-        </Script>
-
-        {/* Google Tag Manager */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-XXXXXXX');
+            gtag('config', '${gtagId}');
           `}
         </Script>
       </head>
 
-      <body className="overflow-x-hidden overflow-y-scroll antialiased bg-white transition-colors duration-300">
-        {/* GTM noscript */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          ></iframe>
-        </noscript>
-
+      <body className="overflow-x-hidden overflow-y-scroll antialiased transition-colors duration-300" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
         <Loader />
 
         <ThemeProvider>

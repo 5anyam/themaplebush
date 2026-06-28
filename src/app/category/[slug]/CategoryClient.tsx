@@ -16,6 +16,8 @@ import {
 type Product = WCProduct
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'name-asc' | 'newest'
 
+const GRADIENT = 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)'
+
 const SORT_LABELS: Record<SortOption, string> = {
   'default':    'Default',
   'price-asc':  'Price: Low to High',
@@ -108,40 +110,40 @@ export default function CategoryClient({
 
   // ── Skeleton ──
   const SkeletonCard = () => (
-    <div className="bg-white  overflow-hidden border border-gray-100 animate-pulse">
-      <div className="aspect-square bg-gray-100" />
+    <div className="bg-white overflow-hidden border border-[#FFE9DD] animate-pulse">
+      <div className="aspect-square" style={{ background: '#FFE9DD' }} />
       <div className="p-4 space-y-2">
-        <div className="h-3 bg-gray-100 rounded w-3/4" />
-        <div className="h-3 bg-gray-100 rounded w-1/2" />
-        <div className="h-4 bg-gray-100 rounded w-1/3 mt-3" />
+        <div className="h-3 rounded w-3/4" style={{ background: '#FFE9DD' }} />
+        <div className="h-3 rounded w-1/2" style={{ background: '#FFE9DD' }} />
+        <div className="h-4 rounded w-1/3 mt-3" style={{ background: '#FFE9DD' }} />
       </div>
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-12">
+    <div className="min-h-screen pb-12" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
 
       {/* ── BREADCRUMB ── */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="bg-white border-b border-[#FFE9DD]">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-1.5 text-xs text-gray-500">
-            <button onClick={() => router.push('/')} className="hover:text-[#ff3131] transition-colors">
+          <div className="flex items-center gap-1.5 text-xs" style={{ color: '#2A0A22', opacity: 0.5 }}>
+            <button onClick={() => router.push('/')} className="hover:opacity-100 transition-opacity">
               Home
             </button>
-            <ChevronRight className="w-3 h-3 text-gray-300" />
-            <span className="text-gray-900 font-medium">{categoryName}</span>
+            <ChevronRight className="w-3 h-3" style={{ color: '#FFE9DD' }} />
+            <span className="font-medium" style={{ color: '#2A0A22', opacity: 1 }}>{categoryName}</span>
           </div>
         </div>
       </div>
 
       {/* ── CATEGORY BANNER ── */}
-      <div className="bg-gradient-to-r from-[#ff3131] to-[#cc0000] text-white">
+      <div className="text-white" style={{ background: GRADIENT }}>
         <div className="max-w-7xl mx-auto px-4 py-10 md:py-14">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-red-200 mb-2 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white/60 mb-2 block">
             Browse Collection
           </span>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">{categoryName}</h1>
-          <p className="text-sm text-blue-200">
+          <h1 className="text-3xl md:text-4xl font-bold font-serif mb-2">{categoryName}</h1>
+          <p className="text-sm text-white/60">
             {isLoading ? '...' : `${categoryProducts.length} products`}
           </p>
         </div>
@@ -151,16 +153,17 @@ export default function CategoryClient({
 
         {/* ── TOOLBAR ── */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm" style={{ color: '#2A0A22', opacity: 0.6 }}>
             Showing{' '}
-            <span className="font-semibold text-gray-900">{filtered.length}</span> results
+            <span className="font-semibold" style={{ color: '#2A0A22', opacity: 1 }}>{filtered.length}</span> results
           </p>
 
           <div className="flex items-center gap-3">
             {/* Filter (mobile only) */}
             <button
               onClick={() => setShowFilters(true)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-200  text-sm font-medium text-gray-700 hover:border-[#ff3131]/50 hover:text-[#ff3131] transition-colors bg-white"
+              className="lg:hidden flex items-center gap-2 px-4 py-2 border text-sm font-medium transition-colors bg-white rounded-xl"
+              style={{ borderColor: '#FFE9DD', color: '#2A0A22' }}
             >
               <SlidersHorizontal className="w-4 h-4" /> Filter
             </button>
@@ -169,21 +172,24 @@ export default function CategoryClient({
             <div className="relative">
               <button
                 onClick={() => setShowSortMenu(!showSortMenu)}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-200  text-sm font-medium text-gray-700 hover:border-[#ff3131]/50 hover:text-[#ff3131] transition-colors bg-white"
+                className="flex items-center gap-2 px-4 py-2 border text-sm font-medium transition-colors bg-white rounded-xl"
+                style={{ borderColor: '#FFE9DD', color: '#2A0A22' }}
               >
                 <ArrowUpDown className="w-4 h-4" />
                 {SORT_LABELS[sortBy]}
               </button>
               {showSortMenu && (
-                <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-gray-100  shadow-xl py-2 z-30">
+                <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-[#FFE9DD] rounded-xl shadow-xl py-2 z-30">
                   {(Object.keys(SORT_LABELS) as SortOption[]).map((key) => (
                     <button
                       key={key}
                       onClick={() => { setSortBy(key); setShowSortMenu(false) }}
-                      className={`w-full text-left px-4 py-2.5 text-sm flex items-center justify-between transition-colors
-                        ${sortBy === key
-                          ? 'text-[#ff3131] bg-red-50 font-medium'
-                          : 'text-gray-700 hover:bg-gray-50'}`}
+                      className={`w-full text-left px-4 py-2.5 text-sm flex items-center justify-between transition-colors`}
+                      style={
+                        sortBy === key
+                          ? { color: '#E11D74', background: '#FFE9DD', fontWeight: 500 }
+                          : { color: '#2A0A22' }
+                      }
                     >
                       {SORT_LABELS[key]}
                       {sortBy === key && <Check className="w-3.5 h-3.5" />}
@@ -199,16 +205,16 @@ export default function CategoryClient({
 
           {/* ── SIDEBAR FILTERS (Desktop) ── */}
           <aside className="hidden lg:block w-60 flex-shrink-0">
-            <div className="bg-white  border border-gray-100 p-5 shadow-sm sticky top-24">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-5">
+            <div className="bg-white border border-[#FFE9DD] rounded-2xl p-5 shadow-sm sticky top-24">
+              <h3 className="text-xs font-bold uppercase tracking-widest mb-5" style={{ color: '#2A0A22' }}>
                 Filters
               </h3>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">
+                <label className="block text-xs font-semibold mb-1 uppercase tracking-wider" style={{ color: '#2A0A22', opacity: 0.6 }}>
                   Max Price
                 </label>
-                <p className="text-lg font-bold text-[#ff3131] mb-3">
+                <p className="text-lg font-bold mb-3" style={{ color: '#E11D74' }}>
                   ₹{ceiling.toLocaleString('en-IN')}
                 </p>
                 <input
@@ -217,18 +223,19 @@ export default function CategoryClient({
                   max={maxPrice}
                   value={ceiling}
                   onChange={(e) => setPriceMax(Number(e.target.value))}
-                  className="w-full accent-[#ff3131]"
+                  className="w-full accent-[#E11D74]"
                 />
-                <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+                <div className="flex justify-between text-[11px] mt-1" style={{ color: '#2A0A22', opacity: 0.4 }}>
                   <span>₹0</span>
                   <span>₹{maxPrice.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
-              <div className="mt-5 pt-5 border-t border-gray-100">
+              <div className="mt-5 pt-5 border-t border-[#FFE9DD]">
                 <button
                   onClick={() => setPriceMax(null)}
-                  className="text-xs text-[#ff3131] hover:underline font-medium"
+                  className="text-xs font-medium hover:underline"
+                  style={{ color: '#E11D74' }}
                 >
                   Clear All Filters
                 </button>
@@ -244,16 +251,17 @@ export default function CategoryClient({
               </div>
             ) : filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-5">
-                  <Package className="w-10 h-10 text-[#ff3131]" />
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mb-5" style={{ background: '#FFE9DD' }}>
+                  <Package className="w-10 h-10" style={{ color: '#E11D74' }} />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-2">No Products Found</h2>
-                <p className="text-sm text-gray-500 mb-6 max-w-xs">
+                <h2 className="text-xl font-bold font-serif mb-2" style={{ color: '#2A0A22' }}>No Products Found</h2>
+                <p className="text-sm mb-6 max-w-xs" style={{ color: '#2A0A22', opacity: 0.5 }}>
                   Try adjusting your filters or check back later for new arrivals.
                 </p>
                 <button
                   onClick={() => setPriceMax(null)}
-                  className="px-6 py-3 bg-[#ff3131] text-white text-sm font-semibold  hover:bg-[#cc0000] transition-colors shadow-md"
+                  className="px-6 py-3 text-white text-sm font-semibold rounded-full shadow-md"
+                  style={{ background: GRADIENT }}
                 >
                   Clear Filters
                 </button>
@@ -273,10 +281,10 @@ export default function CategoryClient({
                     <Link
                       key={product.id}
                       href={`/product/${product.slug}`}
-                      className="group bg-white  overflow-hidden border border-gray-100 hover:border-[#ff3131]/30 hover:shadow-lg transition-all duration-300"
+                      className="group bg-white overflow-hidden border border-[#FFE9DD] hover:shadow-lg transition-all duration-300 rounded-2xl"
                     >
                       {/* Image */}
-                      <div className="relative aspect-square overflow-hidden bg-gray-50">
+                      <div className="relative aspect-square overflow-hidden" style={{ background: '#FFF6EF' }}>
                         {image ? (
                           <img
                             src={image}
@@ -285,14 +293,14 @@ export default function CategoryClient({
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <Package className="w-12 h-12 text-gray-200" />
+                            <Package className="w-12 h-12" style={{ color: '#FFE9DD' }} />
                           </div>
                         )}
 
                         {/* Sale badge */}
                         {hasSale && discount > 0 && (
                           <div className="absolute top-2 left-2">
-                            <span className="bg-[#ff3131] text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                            <span className="text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5" style={{ background: GRADIENT }}>
                               <Tag className="w-2.5 h-2.5" /> {discount}% OFF
                             </span>
                           </div>
@@ -301,20 +309,20 @@ export default function CategoryClient({
                         {/* Wishlist */}
                         <button
                           onClick={(e) => toggleWishlist(product.id, e)}
-                          className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#ff3131]/30 transition-all opacity-0 group-hover:opacity-100"
+                          className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md border border-[#FFE9DD] transition-all opacity-0 group-hover:opacity-100"
                           aria-label="Wishlist"
                         >
                           <Heart
-                            className={`w-3.5 h-3.5 transition-colors ${
-                              isWishlisted ? 'fill-[#ff3131] text-[#ff3131]' : 'text-gray-400'
-                            }`}
+                            className="w-3.5 h-3.5 transition-colors"
+                            style={{ color: isWishlisted ? '#E11D74' : '#2A0A22', fill: isWishlisted ? '#E11D74' : 'none' }}
                           />
                         </button>
 
                         {/* Quick Add */}
                         <button
                           onClick={(e) => handleAddToCart(product, e)}
-                          className="absolute bottom-2 left-2 right-2 bg-[#ff3131] text-white text-xs font-bold py-2  flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-md"
+                          className="absolute bottom-2 left-2 right-2 text-white text-xs font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-md"
+                          style={{ background: GRADIENT }}
                         >
                           {isAdding ? (
                             <><Check className="w-3.5 h-3.5" /> Added!</>
@@ -326,24 +334,24 @@ export default function CategoryClient({
 
                       {/* Info */}
                       <div className="p-3 md:p-4">
-                        <p className="text-[11px] text-gray-400 mb-1 truncate uppercase tracking-wide">
+                        <p className="text-[11px] mb-1 truncate uppercase tracking-wide" style={{ color: '#2A0A22', opacity: 0.4 }}>
                           {product.categories?.[0]?.name || categoryName}
                         </p>
-                        <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-[#ff3131] transition-colors">
+                        <h3 className="text-sm font-semibold leading-snug line-clamp-2 mb-2" style={{ color: '#2A0A22' }}>
                           {product.name}
                         </h3>
                         <div className="flex items-center gap-0.5 mb-2">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-3 h-3 text-[#ff3131] fill-[#ff3131]" />
+                            <Star key={i} className="w-3 h-3" style={{ color: '#FF6A2B', fill: '#FF6A2B' }} />
                           ))}
-                          <span className="text-[10px] text-gray-400 ml-1">(4.8)</span>
+                          <span className="text-[10px] ml-1" style={{ color: '#2A0A22', opacity: 0.4 }}>(4.8)</span>
                         </div>
                         <div className="flex items-baseline gap-2">
-                          <span className="text-base font-bold text-gray-900">
+                          <span className="text-base font-bold" style={{ color: '#2A0A22' }}>
                             ₹{price.toLocaleString('en-IN')}
                           </span>
                           {hasSale && (
-                            <span className="text-xs text-gray-400 line-through">
+                            <span className="text-xs line-through" style={{ color: '#2A0A22', opacity: 0.4 }}>
                               ₹{regularPrice.toLocaleString('en-IN')}
                             </span>
                           )}
@@ -362,17 +370,17 @@ export default function CategoryClient({
       {showFilters && (
         <>
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden" onClick={() => setShowFilters(false)} />
-          <div className="fixed bottom-0 left-0 right-0 bg-white  z-50 p-6 shadow-2xl lg:hidden">
+          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-6 shadow-2xl lg:hidden">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-sm font-bold uppercase tracking-widest">Filters</h3>
+              <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: '#2A0A22' }}>Filters</h3>
               <button onClick={() => setShowFilters(false)}>
-                <X className="w-5 h-5 text-gray-500" />
+                <X className="w-5 h-5" style={{ color: '#2A0A22', opacity: 0.5 }} />
               </button>
             </div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">
+            <label className="block text-xs font-semibold mb-1 uppercase tracking-wider" style={{ color: '#2A0A22', opacity: 0.6 }}>
               Max Price
             </label>
-            <p className="text-xl font-bold text-[#ff3131] mb-3">
+            <p className="text-xl font-bold mb-3" style={{ color: '#E11D74' }}>
               ₹{ceiling.toLocaleString('en-IN')}
             </p>
             <input
@@ -381,22 +389,24 @@ export default function CategoryClient({
               max={maxPrice}
               value={ceiling}
               onChange={(e) => setPriceMax(Number(e.target.value))}
-              className="w-full accent-[#ff3131] mb-1"
+              className="w-full accent-[#E11D74] mb-1"
             />
-            <div className="flex justify-between text-[11px] text-gray-400 mb-6">
+            <div className="flex justify-between text-[11px] mb-6" style={{ color: '#2A0A22', opacity: 0.4 }}>
               <span>₹0</span>
               <span>₹{maxPrice.toLocaleString('en-IN')}</span>
             </div>
             <div className="flex gap-3">
               <button
                 onClick={() => { setPriceMax(null); setShowFilters(false) }}
-                className="flex-1 py-3 border-2 border-gray-200  text-sm font-semibold text-gray-700 hover:border-gray-300 transition-colors"
+                className="flex-1 py-3 border-2 rounded-full text-sm font-semibold transition-colors"
+                style={{ borderColor: '#FFE9DD', color: '#2A0A22' }}
               >
                 Clear
               </button>
               <button
                 onClick={() => setShowFilters(false)}
-                className="flex-1 py-3 bg-[#ff3131]  text-sm font-semibold text-white hover:bg-[#cc0000] transition-colors shadow-md"
+                className="flex-1 py-3 rounded-full text-sm font-semibold text-white shadow-md transition-colors"
+                style={{ background: GRADIENT }}
               >
                 Apply
               </button>

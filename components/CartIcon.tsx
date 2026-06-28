@@ -63,12 +63,15 @@ export default function CartDrawer() {
       {/* Cart Button */}
       <button
         onClick={() => setIsCartOpen(true)}
-        className="relative p-2 hover:bg-gray-100 rounded-full transition-colors touch-manipulation"
+        className="relative w-10 h-10 grid place-items-center rounded-full hover:bg-[#FFE9DD] transition-colors touch-manipulation"
         aria-label="Open shopping cart"
       >
-        <ShoppingBag className="w-5 h-5 text-gray-700" />
+        <ShoppingBag className="w-5 h-5" style={{ color: '#2A0A22' }} />
         {totalItems > 0 && (
-          <span className="absolute -top-1 -right-1 bg-black text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-medium">
+          <span
+            className="absolute -top-0.5 -right-0.5 text-white text-[11px] min-w-[18px] h-[18px] px-1 rounded-full grid place-items-center font-bold"
+            style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
+          >
             {totalItems}
           </span>
         )}
@@ -90,23 +93,23 @@ export default function CartDrawer() {
 
 
       {/* Cart Drawer - Maximum z-index to stay above all floating elements */}
-      <div className={`fixed top-0 right-0 h-full w-[80%] sm:w-[480px] max-w-[480px] bg-white z-[9999] shadow-2xl transform transition-transform duration-300 ${
+      <div className={`fixed top-0 right-0 h-full w-[80%] sm:w-[480px] max-w-[480px] z-[9999] shadow-lift transform transition-transform duration-300 ${
         isCartOpen ? 'translate-x-0' : 'translate-x-full'
-      }`}>
+      }`} style={{ background: '#FFF6EF' }}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#FFE9DD]">
           <div className="flex items-center gap-2 sm:gap-3">
-            <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
-            <h2 className="text-base sm:text-lg font-medium text-gray-900">
-              Cart ({totalItems})
+            <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: '#2A0A22' }} />
+            <h2 className="font-serif text-base sm:text-lg font-semibold" style={{ color: '#2A0A22' }}>
+              Your bag <span style={{ color: '#E11D74' }}>({totalItems})</span>
             </h2>
           </div>
           <button
             onClick={() => setIsCartOpen(false)}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors touch-manipulation"
+            className="w-9 h-9 grid place-items-center rounded-full hover:bg-[#FFE9DD] transition-colors touch-manipulation"
             aria-label="Close cart"
           >
-            <X className="w-5 h-5 text-gray-700" />
+            <X className="w-4 h-4" style={{ color: '#2A0A22' }} />
           </button>
         </div>
 
@@ -131,16 +134,16 @@ export default function CartDrawer() {
             {items.length === 0 ? (
               /* Empty Cart */
               <div className="flex flex-col items-center justify-center h-full p-6 sm:p-8 text-center">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-                  <Package className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-4" style={{ background: '#FFE9DD' }}>
+                  <Package className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: '#E11D74' }} />
                 </div>
-                <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">Your cart is empty</h3>
-                <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">Start shopping to add items</p>
+                <h3 className="font-serif text-base sm:text-lg font-semibold mb-1.5" style={{ color: '#2A0A22' }}>Your shelf is empty</h3>
+                <p className="text-xs sm:text-sm mb-5" style={{ color: '#2A0A22', opacity: 0.5 }}>Add a little wonder to get started.</p>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="px-5 sm:px-6 py-2 bg-black text-white text-xs sm:text-sm font-medium hover:bg-gray-800 transition-colors rounded touch-manipulation"
+                  className="mag-btn text-[13px] px-5 py-2.5"
                 >
-                  Continue Shopping
+                  Browse the shelf
                 </button>
               </div>
             ) : (
@@ -153,11 +156,11 @@ export default function CartDrawer() {
 
 
                     return (
-                      <div key={item.id} className="p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                      <div key={item.id} className="p-3 sm:p-4 hover:bg-[#FFE9DD]/40 transition-colors">
                         <div className="flex gap-3 sm:gap-4">
                           {/* Image */}
                           <div className="flex-shrink-0">
-                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border border-[#FFE9DD]" style={{ background: '#FFE9DD' }}>
                               <img
                                 src={item.images?.[0]?.src || '/placeholder.png'}
                                 alt={item.name}
@@ -172,7 +175,7 @@ export default function CartDrawer() {
                           {/* Details */}
                           <div className="flex-1 min-w-0">
                             <div className="flex justify-between mb-2">
-                              <h3 className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2 pr-2">
+                              <h3 className="text-xs sm:text-sm font-semibold line-clamp-2 pr-2" style={{ color: '#2A0A22' }}>
                                 {item.name}
                               </h3>
                               <button
@@ -261,65 +264,55 @@ export default function CartDrawer() {
 
           {/* Footer - Summary & Checkout */}
           {items.length > 0 && (
-            <div className="border-t border-gray-200 bg-white">
+            <div className="border-t border-[#FFE9DD]" style={{ background: 'rgba(255,255,255,.6)' }}>
               {/* Summary */}
               <div className="p-4 sm:p-6 space-y-2 sm:space-y-3">
                 {discountAmount > 0 && (
                   <>
-                    <div className="flex justify-between text-xs sm:text-sm text-gray-600">
+                    <div className="flex justify-between text-xs sm:text-sm" style={{ color: '#2A0A22', opacity: 0.55 }}>
                       <span>MRP Total</span>
                       <span>₹{mrpTotal.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between text-xs sm:text-sm text-green-600 font-medium">
+                    <div className="flex justify-between text-xs sm:text-sm font-semibold" style={{ color: '#16a34a' }}>
                       <span>Discount</span>
                       <span>-₹{discountAmount.toLocaleString()}</span>
                     </div>
                   </>
                 )}
 
-
-                <div className="flex justify-between text-xs sm:text-sm text-gray-600">
+                <div className="flex justify-between text-xs sm:text-sm" style={{ color: '#2A0A22', opacity: 0.55 }}>
                   <span>Shipping</span>
-                  <span className="text-green-600 font-medium">Free</span>
+                  <span className="font-semibold" style={{ color: '#16a34a' }}>Free</span>
                 </div>
 
-
-
-
-                <div className="flex justify-between pt-2 sm:pt-3 border-t border-gray-200">
-                  <span className="text-sm sm:text-base font-semibold text-gray-900">Total</span>
-                  <span className="text-base sm:text-lg font-bold text-gray-900">₹{total.toLocaleString()}</span>
+                <div className="flex justify-between pt-2 sm:pt-3 border-t border-[#FFE9DD]">
+                  <span className="text-sm sm:text-base font-semibold" style={{ color: '#2A0A22' }}>Total</span>
+                  <span className="text-base sm:text-lg font-bold" style={{ color: '#2A0A22' }}>₹{total.toLocaleString()}</span>
                 </div>
               </div>
-
-
-
 
               {/* Buttons */}
               <div className="px-4 sm:px-6 pb-4 sm:pb-6 space-y-2 sm:space-y-3">
                 <Link
                   href="/checkout"
-                  className="block w-full bg-black text-white text-center py-3 sm:py-3 text-sm font-medium hover:bg-gray-800 transition-colors rounded touch-manipulation"
+                  className="mag-btn w-full py-3 text-[14px] justify-center"
                   onClick={() => setIsCartOpen(false)}
                 >
-                  Proceed to Checkout
+                  Checkout · ₹{total.toLocaleString()}
                 </Link>
-
 
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="w-full border border-gray-300 text-gray-700 py-3 sm:py-3 text-sm font-medium hover:bg-gray-50 transition-colors rounded touch-manipulation"
+                  className="w-full border-2 py-3 text-[13px] font-semibold rounded-full transition-colors touch-manipulation hover:bg-[#FFE9DD]"
+                  style={{ borderColor: '#2A0A22', opacity: 0.25, color: '#2A0A22' }}
                 >
                   Continue Shopping
                 </button>
               </div>
 
-
-
-
               {/* Trust Badges */}
-              <div className="px-4 sm:px-6 pb-4 sm:pb-6 pt-2 sm:pt-3 border-t border-gray-100">
-                <div className="flex items-center justify-center gap-3 sm:gap-6 text-[10px] sm:text-xs text-gray-600">
+              <div className="px-4 sm:px-6 pb-5 pt-2 border-t border-[#FFE9DD]">
+                <div className="flex items-center justify-center gap-3 sm:gap-6 text-[11px] font-semibold" style={{ color: '#2A0A22', opacity: 0.45 }}>
                   <span>✓ Secure</span>
                   <span>✓ Free Ship</span>
                   <span>✓ Easy Returns</span>

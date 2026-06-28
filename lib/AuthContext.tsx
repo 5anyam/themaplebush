@@ -34,10 +34,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = Cookies.get('kdbookbazaar_user');
+    const saved = Cookies.get('thecurioshelf_user');
     if (saved) {
       try { setUser(JSON.parse(saved) as User); }
-      catch { Cookies.remove('kdbookbazaar_user'); }
+      catch { Cookies.remove('thecurioshelf_user'); }
     }
     setLoading(false);
   }, []);
@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     setUser(userData);
-    Cookies.set('kdbookbazaar_user', JSON.stringify(userData), { expires: 7 });
+    Cookies.set('thecurioshelf_user', JSON.stringify(userData), { expires: 7 });
     Cookies.set('caishen_token', result.data.token, { expires: 7 });
   };
 
@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setUser(null);
-    Cookies.remove('kdbookbazaar_user');
+    Cookies.remove('thecurioshelf_user');
     Cookies.remove('caishen_token');
   };
 

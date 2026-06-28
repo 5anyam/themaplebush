@@ -133,10 +133,10 @@ export default function Dashboard() {
     setProfileLoading(true);
     try {
       const auth = btoa(
-        `${process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_b2cff698fa447d779aa56d980ea00fea049721a7'}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_1f8a7857e2e4030a0a8222979673ef040c763848'}`
+        `${process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8'}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_545794f655a7bf793ff45df324118c96a8713af2'}`
       );
       const res = await fetch(
-        `https://cms.kdbookbazaar.com/wp-json/wc/v3/customers/${user.id}`,
+        `https://cms.thecurioshelf.com/wp-json/wc/v3/customers/${user.id}`,
         { headers: { Authorization: `Basic ${auth}` } }
       );
       if (res.ok) {
@@ -162,10 +162,10 @@ export default function Dashboard() {
     setOrdersError('');
     try {
       const auth = btoa(
-        `${process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_b2cff698fa447d779aa56d980ea00fea049721a7'}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_1f8a7857e2e4030a0a8222979673ef040c763848'}`
+        `${process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8'}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_545794f655a7bf793ff45df324118c96a8713af2'}`
       );
       const res = await fetch(
-        `https://cms.kdbookbazaar.com/wp-json/wc/v3/orders?customer=${user.id}&per_page=50&order=desc`,
+        `https://cms.thecurioshelf.com/wp-json/wc/v3/orders?customer=${user.id}&per_page=50&order=desc`,
         { headers: { Authorization: `Basic ${auth}` } }
       );
       if (!res.ok) throw new Error(`Failed to load orders (${res.status})`);
@@ -277,10 +277,10 @@ export default function Dashboard() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#FFF6EF] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-2 border-gray-200 border-t-[#ff3131] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-500 text-sm">Loading...</p>
+          <div className="w-12 h-12 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-[#2A0A22]/50 text-sm">Loading...</p>
         </div>
       </div>
     );
@@ -288,36 +288,36 @@ export default function Dashboard() {
 
   if (!user) return null;
 
-  const inputCls = 'w-full px-4 py-2.5 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400';
+  const inputCls = 'w-full px-4 py-2.5 border-2 border-[#FFE9DD] rounded-xl bg-[#FFE9DD]/30 text-sm text-[#2A0A22] focus:outline-none focus:border-[#E11D74] focus:ring-2 focus:ring-[#E11D74]/10 focus:bg-white transition-all placeholder:text-[#2A0A22]/40';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FFF6EF]">
       <div className="max-w-4xl mx-auto px-4 py-10">
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">My Account</h1>
-            <p className="text-sm text-gray-500 mt-0.5">Welcome back, {profileForm.first_name || user.first_name || user.username}!</p>
+            <h1 className="text-2xl font-bold text-[#2A0A22] font-serif">My Account</h1>
+            <p className="text-sm text-[#2A0A22]/50 mt-0.5">Welcome back, {profileForm.first_name || user.first_name || user.username}!</p>
           </div>
           <div className="flex gap-3">
-            <Link href="/" className="px-4 py-2 border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-100 transition-all text-sm font-medium flex items-center gap-2">
+            <Link href="/" className="px-4 py-2 border border-[#FFE9DD] text-[#2A0A22] rounded-xl hover:bg-[#FFE9DD] transition-all text-sm font-medium flex items-center gap-2">
               <ShoppingBag className="w-4 h-4" /> Shop
             </Link>
-            <button onClick={logout} className="px-4 py-2 bg-[#ff3131] text-white rounded-xl hover:bg-[#cc0000] transition-all text-sm font-medium flex items-center gap-2">
+            <button onClick={logout} className="px-4 py-2 mag-btn text-white rounded-xl transition-all text-sm font-medium flex items-center gap-2">
               <LogOut className="w-4 h-4" /> Logout
             </button>
           </div>
         </div>
 
         {/* ── PROFILE CARD ── */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
+        <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wide">Account Details</h2>
+            <h2 className="text-sm font-bold text-[#2A0A22]/50 uppercase tracking-wide font-serif">Account Details</h2>
             {!editingProfile && (
               <button
                 onClick={() => { setEditingProfile(true); setProfileError(''); setProfileSuccess(''); }}
-                className="flex items-center gap-1.5 text-xs font-semibold text-[#ff3131] hover:text-[#cc0000] transition-colors"
+                className="flex items-center gap-1.5 text-xs font-semibold text-[#E11D74] hover:text-[#E11D74]/80 transition-colors"
               >
                 <Edit2 className="w-3.5 h-3.5" /> Edit Profile
               </button>
@@ -333,23 +333,23 @@ export default function Dashboard() {
           {!editingProfile ? (
             /* ── READ MODE ── */
             profileLoading ? (
-              <div className="flex items-center gap-2 text-sm text-gray-400 py-4">
+              <div className="flex items-center gap-2 text-sm text-[#2A0A22]/40 py-4">
                 <Loader2 className="w-4 h-4 animate-spin" /> Loading profile...
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 gap-4">
-                <InfoRow icon={<User className="w-5 h-5 text-[#ff3131]" />} label="Name"
+                <InfoRow icon={<User className="w-5 h-5 text-[#E11D74]" />} label="Name"
                   value={profileForm.first_name || profileForm.last_name
                     ? `${profileForm.first_name} ${profileForm.last_name}`.trim()
                     : user.username}
                 />
-                <InfoRow icon={<Mail className="w-5 h-5 text-[#ff3131]" />} label="Email" value={user.email} />
-                <InfoRow icon={<Phone className="w-5 h-5 text-[#ff3131]" />} label="Phone" value={profileForm.phone || '—'} />
-                <InfoRow icon={<Package className="w-5 h-5 text-[#ff3131]" />} label="Total Orders" value={String(orders.length)} />
+                <InfoRow icon={<Mail className="w-5 h-5 text-[#E11D74]" />} label="Email" value={user.email} />
+                <InfoRow icon={<Phone className="w-5 h-5 text-[#E11D74]" />} label="Phone" value={profileForm.phone || '—'} />
+                <InfoRow icon={<Package className="w-5 h-5 text-[#E11D74]" />} label="Total Orders" value={String(orders.length)} />
                 {profileForm.address_1 && (
                   <div className="sm:col-span-2">
                     <InfoRow
-                      icon={<MapPin className="w-5 h-5 text-[#ff3131]" />}
+                      icon={<MapPin className="w-5 h-5 text-[#E11D74]" />}
                       label="Saved Address"
                       value={[profileForm.address_1, profileForm.city, profileForm.state, profileForm.postcode].filter(Boolean).join(', ')}
                     />
@@ -362,7 +362,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">First Name</label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">First Name</label>
                   <input
                     value={profileForm.first_name}
                     onChange={(e) => setProfileForm((p) => ({ ...p, first_name: e.target.value }))}
@@ -370,7 +370,7 @@ export default function Dashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Last Name</label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Last Name</label>
                   <input
                     value={profileForm.last_name}
                     onChange={(e) => setProfileForm((p) => ({ ...p, last_name: e.target.value }))}
@@ -380,7 +380,7 @@ export default function Dashboard() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Phone Number</label>
+                <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Phone Number</label>
                 <input
                   type="tel"
                   value={profileForm.phone}
@@ -390,7 +390,7 @@ export default function Dashboard() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Address</label>
+                <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Address</label>
                 <textarea
                   value={profileForm.address_1}
                   onChange={(e) => setProfileForm((p) => ({ ...p, address_1: e.target.value }))}
@@ -401,7 +401,7 @@ export default function Dashboard() {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">City</label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">City</label>
                   <input
                     value={profileForm.city}
                     onChange={(e) => setProfileForm((p) => ({ ...p, city: e.target.value }))}
@@ -409,7 +409,7 @@ export default function Dashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">State</label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">State</label>
                   <select
                     value={profileForm.state}
                     onChange={(e) => setProfileForm((p) => ({ ...p, state: e.target.value }))}
@@ -420,7 +420,7 @@ export default function Dashboard() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">Pincode</label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Pincode</label>
                   <input
                     value={profileForm.postcode}
                     onChange={(e) => setProfileForm((p) => ({ ...p, postcode: e.target.value }))}
@@ -438,14 +438,14 @@ export default function Dashboard() {
               <div className="flex gap-3 pt-1">
                 <button
                   onClick={() => { setEditingProfile(false); setProfileError(''); fetchProfile(); }}
-                  className="flex-1 py-2.5 border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all"
+                  className="flex-1 py-2.5 border border-[#FFE9DD] text-[#2A0A22] rounded-xl text-sm font-semibold hover:bg-[#FFE9DD]/30 transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleProfileSave}
                   disabled={profileSaving}
-                  className="flex-1 py-2.5 bg-[#ff3131] hover:bg-[#cc0000] disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
+                  className="flex-1 py-2.5 mag-btn disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
                 >
                   {profileSaving
                     ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</>
@@ -458,13 +458,13 @@ export default function Dashboard() {
         </div>
 
         {/* ── ORDERS SECTION ── */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-base font-bold text-gray-900">My Orders</h2>
+            <h2 className="text-base font-bold text-[#2A0A22] font-serif">My Orders</h2>
             <button
               onClick={fetchOrders}
               disabled={ordersLoading}
-              className="text-xs text-gray-500 hover:text-[#ff3131] flex items-center gap-1 transition-colors disabled:opacity-50"
+              className="text-xs text-[#2A0A22]/40 hover:text-[#E11D74] flex items-center gap-1 transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${ordersLoading ? 'animate-spin' : ''}`} />
               Refresh
@@ -473,21 +473,21 @@ export default function Dashboard() {
 
           {ordersLoading ? (
             <div className="text-center py-16">
-              <div className="w-10 h-10 border-2 border-gray-200 border-t-[#ff3131] rounded-full animate-spin mx-auto mb-3" />
-              <p className="text-sm text-gray-500">Loading orders...</p>
+              <div className="w-10 h-10 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin mx-auto mb-3" />
+              <p className="text-sm text-[#2A0A22]/50">Loading orders...</p>
             </div>
           ) : ordersError ? (
             <div className="text-center py-12">
               <XCircle className="w-10 h-10 text-red-400 mx-auto mb-3" />
               <p className="text-sm text-red-600 mb-4">{ordersError}</p>
-              <button onClick={fetchOrders} className="px-5 py-2 bg-[#ff3131] text-white rounded-xl text-sm font-medium hover:bg-[#cc0000] transition-all">Retry</button>
+              <button onClick={fetchOrders} className="px-5 py-2 mag-btn text-white rounded-xl text-sm font-medium transition-all">Retry</button>
             </div>
           ) : orders.length === 0 ? (
             <div className="text-center py-16">
-              <Package className="w-14 h-14 text-gray-200 mx-auto mb-4" />
-              <p className="text-gray-700 font-medium mb-1">No orders yet</p>
-              <p className="text-sm text-gray-400 mb-6">Start shopping and your orders will appear here.</p>
-              <Link href="/" className="inline-block px-6 py-2.5 bg-[#ff3131] text-white rounded-xl text-sm font-bold hover:bg-[#cc0000] transition-all">
+              <Package className="w-14 h-14 text-[#FFE9DD] mx-auto mb-4" />
+              <p className="text-[#2A0A22] font-medium mb-1">No orders yet</p>
+              <p className="text-sm text-[#2A0A22]/40 mb-6">Start shopping and your orders will appear here.</p>
+              <Link href="/" className="inline-block px-6 py-2.5 mag-btn text-white rounded-xl text-sm font-bold transition-all">
                 Start Shopping
               </Link>
             </div>
@@ -505,8 +505,8 @@ export default function Dashboard() {
                     ref={isNew ? newOrderRef : undefined}
                     className={`border rounded-xl overflow-hidden transition-all ${
                       isNew
-                        ? 'border-[#ff3131] shadow-md shadow-red-100 ring-1 ring-[#ff3131]/30'
-                        : 'border-gray-100 hover:border-gray-200'
+                        ? 'border-[#E11D74] shadow-md shadow-[#E11D74]/10 ring-1 ring-[#E11D74]/20'
+                        : 'border-[#FFE9DD] hover:border-[#FFE9DD]/80'
                     }`}
                   >
                     <div
@@ -514,46 +514,46 @@ export default function Dashboard() {
                       onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isNew ? 'bg-[#ff3131]/10' : 'bg-gray-50'}`}>
-                          <Package className={`w-4 h-4 ${isNew ? 'text-[#ff3131]' : 'text-gray-400'}`} />
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isNew ? 'bg-[#E11D74]/10' : 'bg-[#FFF6EF]'}`}>
+                          <Package className={`w-4 h-4 ${isNew ? 'text-[#E11D74]' : 'text-[#2A0A22]/30'}`} />
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-sm font-bold text-gray-900">#{order.id}</span>
+                            <span className="text-sm font-bold text-[#2A0A22]">#{order.id}</span>
                             <StatusBadge status={order.status} />
                             {isNew && (
-                              <span className="text-[10px] font-bold text-[#ff3131] bg-[#ff3131]/10 px-2 py-0.5 rounded-full">New Order</span>
+                              <span className="text-[10px] font-bold text-[#E11D74] bg-[#E11D74]/10 px-2 py-0.5 rounded-full">New Order</span>
                             )}
                           </div>
-                          <p className="text-xs text-gray-400 mt-0.5">{formatDate(order.date_created)}</p>
+                          <p className="text-xs text-[#2A0A22]/40 mt-0.5">{formatDate(order.date_created)}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 shrink-0 ml-2">
                         <div className="text-right hidden sm:block">
-                          <p className="text-[11px] text-gray-400">Total</p>
-                          <p className="text-sm font-bold text-gray-900">₹{parseFloat(order.total).toLocaleString('en-IN')}</p>
+                          <p className="text-[11px] text-[#2A0A22]/40">Total</p>
+                          <p className="text-sm font-bold text-[#2A0A22]">₹{parseFloat(order.total).toLocaleString('en-IN')}</p>
                         </div>
-                        {isExpanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                        {isExpanded ? <ChevronUp className="w-4 h-4 text-[#2A0A22]/30" /> : <ChevronDown className="w-4 h-4 text-[#2A0A22]/30" />}
                       </div>
                     </div>
 
                     {isExpanded && (
-                      <div className="border-t border-gray-100 p-4 bg-gray-50/50 space-y-4">
+                      <div className="border-t border-[#FFE9DD] p-4 bg-[#FFF6EF]/50 space-y-4">
                         <div>
-                          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide mb-2">Items Ordered</p>
+                          <p className="text-[11px] font-bold text-[#2A0A22]/40 uppercase tracking-wide mb-2">Items Ordered</p>
                           <div className="space-y-1.5">
                             {order.line_items.map((item) => (
                               <div key={item.id} className="flex justify-between text-sm">
-                                <span className="text-gray-700">{item.name} <span className="text-gray-400">×{item.quantity}</span></span>
-                                <span className="font-semibold text-gray-900 shrink-0 ml-2">₹{parseFloat(item.total).toLocaleString('en-IN')}</span>
+                                <span className="text-[#2A0A22]/80">{item.name} <span className="text-[#2A0A22]/40">×{item.quantity}</span></span>
+                                <span className="font-semibold text-[#2A0A22] shrink-0 ml-2">₹{parseFloat(item.total).toLocaleString('en-IN')}</span>
                               </div>
                             ))}
                           </div>
                         </div>
 
                         <div>
-                          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide mb-1">Delivery Address</p>
-                          <p className="text-sm text-gray-700">
+                          <p className="text-[11px] font-bold text-[#2A0A22]/40 uppercase tracking-wide mb-1">Delivery Address</p>
+                          <p className="text-sm text-[#2A0A22]/80">
                             {order.billing.first_name} {order.billing.last_name}
                             {order.billing.address_1 && `, ${order.billing.address_1}`}
                             {order.billing.city && `, ${order.billing.city}`}
@@ -561,17 +561,17 @@ export default function Dashboard() {
                             {order.billing.postcode && ` ${order.billing.postcode}`}
                           </p>
                           {order.billing.phone && (
-                            <p className="text-xs text-gray-400 mt-0.5">📞 {order.billing.phone}</p>
+                            <p className="text-xs text-[#2A0A22]/40 mt-0.5">📞 {order.billing.phone}</p>
                           )}
                         </div>
 
                         <div className="sm:hidden">
-                          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wide mb-1">Order Total</p>
-                          <p className="text-base font-bold text-gray-900">₹{parseFloat(order.total).toLocaleString('en-IN')}</p>
-                          <p className="text-xs text-gray-400">{order.payment_method_title}</p>
+                          <p className="text-[11px] font-bold text-[#2A0A22]/40 uppercase tracking-wide mb-1">Order Total</p>
+                          <p className="text-base font-bold text-[#2A0A22]">₹{parseFloat(order.total).toLocaleString('en-IN')}</p>
+                          <p className="text-xs text-[#2A0A22]/40">{order.payment_method_title}</p>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
+                        <div className="flex flex-wrap gap-2 pt-2 border-t border-[#FFE9DD]">
                           {canCancel && (
                             <button
                               onClick={() => openModal('cancel', order.id)}
@@ -602,9 +602,9 @@ export default function Dashboard() {
       {/* ── MODAL ── */}
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={closeModal} />
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 z-10">
-            <button onClick={closeModal} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+          <div className="absolute inset-0 bg-[#2A0A22]/40 backdrop-blur-sm" onClick={closeModal} />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 z-10 border border-[#FFE9DD]">
+            <button onClick={closeModal} className="absolute top-4 right-4 text-[#2A0A22]/30 hover:text-[#2A0A22]/60">
               <X className="w-5 h-5" />
             </button>
 
@@ -615,17 +615,17 @@ export default function Dashboard() {
                     <XCircle className="w-5 h-5 text-red-500" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900">Cancel Order #{modal.orderId}</h3>
-                    <p className="text-xs text-gray-500">This action cannot be undone.</p>
+                    <h3 className="font-bold text-[#2A0A22] font-serif">Cancel Order #{modal.orderId}</h3>
+                    <p className="text-xs text-[#2A0A22]/40">This action cannot be undone.</p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 mb-5">
+                <p className="text-sm text-[#2A0A22]/70 mb-5">
                   Are you sure you want to cancel this order? An SMS and email confirmation will be sent to you. If you paid online, refund will be processed within 5–7 business days.
                 </p>
                 {actionError && <div className="mb-4 flex items-start gap-2 p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600"><AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionError}</div>}
                 {actionSuccess && <div className="mb-4 flex items-start gap-2 p-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-700"><CheckCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionSuccess}</div>}
                 <div className="flex gap-3">
-                  <button onClick={closeModal} className="flex-1 py-2.5 border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all">Keep Order</button>
+                  <button onClick={closeModal} className="flex-1 py-2.5 border border-[#FFE9DD] text-[#2A0A22] rounded-xl text-sm font-semibold hover:bg-[#FFE9DD]/30 transition-all">Keep Order</button>
                   <button
                     onClick={handleCancel}
                     disabled={actionLoading || !!actionSuccess}
@@ -642,28 +642,28 @@ export default function Dashboard() {
                     <RotateCcw className="w-5 h-5 text-orange-500" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900">Refund Request — Order #{modal.orderId}</h3>
-                    <p className="text-xs text-gray-500">We&apos;ll review within 2–3 business days.</p>
+                    <h3 className="font-bold text-[#2A0A22] font-serif">Refund Request — Order #{modal.orderId}</h3>
+                    <p className="text-xs text-[#2A0A22]/40">We&apos;ll review within 2–3 business days.</p>
                   </div>
                 </div>
                 <div className="mb-5">
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">Reason for Refund *</label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/60 uppercase tracking-wide mb-2">Reason for Refund *</label>
                   <textarea
                     value={refundReason}
                     onChange={(e) => setRefundReason(e.target.value)}
                     rows={4}
-                    className="w-full px-4 py-3 border-2 border-gray-100 rounded-xl bg-gray-50 text-sm focus:outline-none focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10 focus:bg-white transition-all placeholder:text-gray-400 resize-none"
+                    className="w-full px-4 py-3 border-2 border-[#FFE9DD] rounded-xl bg-[#FFE9DD]/30 text-sm text-[#2A0A22] focus:outline-none focus:border-[#E11D74] focus:ring-2 focus:ring-[#E11D74]/10 focus:bg-white transition-all placeholder:text-[#2A0A22]/40 resize-none"
                     placeholder="e.g. Wrong item received, Item damaged, Changed my mind..."
                   />
                 </div>
                 {actionError && <div className="mb-4 flex items-start gap-2 p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600"><AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionError}</div>}
                 {actionSuccess && <div className="mb-4 flex items-start gap-2 p-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-700"><CheckCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionSuccess}</div>}
                 <div className="flex gap-3">
-                  <button onClick={closeModal} className="flex-1 py-2.5 border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all">Cancel</button>
+                  <button onClick={closeModal} className="flex-1 py-2.5 border border-[#FFE9DD] text-[#2A0A22] rounded-xl text-sm font-semibold hover:bg-[#FFE9DD]/30 transition-all">Cancel</button>
                   <button
                     onClick={handleRefund}
                     disabled={actionLoading || !!actionSuccess}
-                    className="flex-1 py-2.5 bg-[#ff3131] hover:bg-[#cc0000] disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
+                    className="flex-1 py-2.5 mag-btn disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
                   >
                     {actionLoading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Submitting...</> : 'Submit Request'}
                   </button>
@@ -680,12 +680,12 @@ export default function Dashboard() {
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-10 h-10 bg-[#ff3131]/10 rounded-full flex items-center justify-center shrink-0">
+      <div className="w-10 h-10 bg-[#E11D74]/10 rounded-full flex items-center justify-center shrink-0">
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-[11px] text-gray-400 uppercase tracking-wide">{label}</p>
-        <p className="text-sm font-semibold text-gray-800 truncate">{value}</p>
+        <p className="text-[11px] text-[#2A0A22]/40 uppercase tracking-wide">{label}</p>
+        <p className="text-sm font-semibold text-[#2A0A22] truncate">{value}</p>
       </div>
     </div>
   );

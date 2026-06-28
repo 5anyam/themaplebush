@@ -16,15 +16,15 @@ import {
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 const WOOCOMMERCE_CONFIG = {
-  BASE_URL: "https://cms.kdbookbazaar.com",
-  CONSUMER_KEY: process.env.NEXT_PUBLIC_CONSUMER_KEY || "ck_b2cff698fa447d779aa56d980ea00fea049721a7",
-  CONSUMER_SECRET: process.env.NEXT_PUBLIC_CONSUMER_SECRET || "cs_1f8a7857e2e4030a0a8222979673ef040c763848",
+  BASE_URL: "https://cms.thecurioshelf.com",
+  CONSUMER_KEY: process.env.NEXT_PUBLIC_CONSUMER_KEY || "ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8",
+  CONSUMER_SECRET: process.env.NEXT_PUBLIC_CONSUMER_SECRET || "cs_545794f655a7bf793ff45df324118c96a8713af2",
 };
 
 const RAZORPAY_CONFIG = {
   KEY_ID: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T6YBXprJ5J3n9D",
-  COMPANY_NAME: "KD Book Bazaar",
-  THEME_COLOR: "#ff3131",
+  COMPANY_NAME: "The Curio Shelf",
+  THEME_COLOR: "#E11D74",
 };
 
 // ── INTERFACES ───────────────────────────────────────────────────────────────
@@ -165,9 +165,9 @@ function FieldError({ msg }: { msg?: string }) {
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="px-6 pt-5 pb-3 border-b border-gray-100">
-        <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider">{title}</h2>
+    <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm overflow-hidden">
+      <div className="px-6 pt-5 pb-3 border-b border-[#FFE9DD]">
+        <h2 className="text-xs font-bold text-[#2A0A22]/60 uppercase tracking-wider font-serif">{title}</h2>
       </div>
       <div className="p-6">{children}</div>
     </div>
@@ -212,9 +212,9 @@ export default function Checkout(): React.ReactElement {
     }));
     // Fetch saved billing address from WooCommerce
     const auth = btoa(
-      `${process.env.NEXT_PUBLIC_CONSUMER_KEY || "ck_b2cff698fa447d779aa56d980ea00fea049721a7"}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || "cs_1f8a7857e2e4030a0a8222979673ef040c763848"}`
+      `${process.env.NEXT_PUBLIC_CONSUMER_KEY || "ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8"}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || "cs_545794f655a7bf793ff45df324118c96a8713af2"}`
     );
-    fetch(`https://cms.kdbookbazaar.com/wp-json/wc/v3/customers/${user.id}`, {
+    fetch(`https://cms.thecurioshelf.com/wp-json/wc/v3/customers/${user.id}`, {
       headers: { Authorization: `Basic ${auth}` },
     })
       .then((r) => r.json())
@@ -346,7 +346,7 @@ export default function Checkout(): React.ReactElement {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             phone: form.phone,
-            message: `KD Book Bazaar: Order #${wooOrder.id} placed! Total: Rs.${finalTotal}. We'll deliver soon. Track at kdbookbazaar.com/dashboard`,
+            message: `The Curio Shelf: Order #${wooOrder.id} placed! Total: Rs.${finalTotal}. We'll deliver soon. Track at thecurioshelf.in/dashboard`,
           }),
         });
       }
@@ -370,7 +370,7 @@ export default function Checkout(): React.ReactElement {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             phone: form.phone,
-            message: `KD Book Bazaar: Payment received! Order #${wooOrder.id} confirmed. Total: Rs.${finalTotal}. Track at kdbookbazaar.com/dashboard`,
+            message: `The Curio Shelf: Payment received! Order #${wooOrder.id} confirmed. Total: Rs.${finalTotal}. Track at thecurioshelf.in/dashboard`,
           }),
         });
       }
@@ -433,15 +433,15 @@ export default function Checkout(): React.ReactElement {
   };
 
   const inputClass = (hasError?: string) =>
-    `w-full px-4 py-3 border-2 rounded-xl bg-gray-50 text-sm text-gray-900 focus:outline-none focus:bg-white transition-all placeholder:text-gray-400 ${
-      hasError ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100" : "border-gray-100 focus:border-[#ff3131] focus:ring-2 focus:ring-[#ff3131]/10"
+    `w-full px-4 py-3 border-2 rounded-xl bg-[#FFE9DD]/30 text-sm text-[#2A0A22] focus:outline-none focus:bg-white transition-all placeholder:text-[#2A0A22]/40 ${
+      hasError ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100" : "border-[#FFE9DD] focus:border-[#E11D74] focus:ring-2 focus:ring-[#E11D74]/10"
     }`;
 
   // ── AUTH LOADING ──
   if (authLoading) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-gray-200 border-t-[#ff3131] rounded-full animate-spin" />
+      <main className="min-h-screen bg-[#FFF6EF] flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin" />
       </main>
     );
   }
@@ -449,32 +449,32 @@ export default function Checkout(): React.ReactElement {
   // ── LOGIN REQUIRED ──
   if (!user) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <main className="min-h-screen bg-[#FFF6EF] flex items-center justify-center px-4">
         <div className="max-w-sm w-full text-center space-y-6">
-          <div className="w-16 h-16 bg-[#ff3131]/10 rounded-2xl flex items-center justify-center mx-auto">
-            <Lock className="w-8 h-8 text-[#ff3131]" />
+          <div className="w-16 h-16 bg-[#E11D74]/10 rounded-2xl flex items-center justify-center mx-auto">
+            <Lock className="w-8 h-8 text-[#E11D74]" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Login Required</h2>
-            <p className="text-sm text-gray-500">
+            <h2 className="text-xl font-bold text-[#2A0A22] mb-2 font-serif">Login Required</h2>
+            <p className="text-sm text-[#2A0A22]/60">
               Please login or create an account to place your order and track it easily.
             </p>
           </div>
           <div className="space-y-3">
             <Link
               href="/login?redirect=/checkout"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 mag-btn text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
             >
               Login to Continue <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/register?redirect=/checkout"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-[#2A0A22] text-[#2A0A22] hover:bg-[#2A0A22] hover:text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all"
             >
               Create New Account
             </Link>
           </div>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-[#2A0A22]/40">
             Your cart items are saved and will be ready after you login.
           </p>
         </div>
@@ -485,18 +485,18 @@ export default function Checkout(): React.ReactElement {
   // ── EMPTY CART ──
   if (items.length === 0) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <main className="min-h-screen bg-[#FFF6EF] flex items-center justify-center px-4">
         <div className="text-center max-w-sm space-y-5">
-          <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto">
-            <ShoppingBag className="w-8 h-8 text-gray-400" />
+          <div className="w-16 h-16 bg-[#FFE9DD] rounded-2xl flex items-center justify-center mx-auto">
+            <ShoppingBag className="w-8 h-8 text-[#E11D74]" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-900 mb-1">Your Cart is Empty</h2>
-            <p className="text-sm text-gray-500">Add products to your cart and come back here.</p>
+            <h2 className="text-lg font-bold text-[#2A0A22] mb-1 font-serif">Your Cart is Empty</h2>
+            <p className="text-sm text-[#2A0A22]/60">Add products to your cart and come back here.</p>
           </div>
           <button
             onClick={() => router.push("/shop")}
-            className="inline-flex items-center gap-2 px-7 py-3 bg-[#ff3131] hover:bg-[#cc0000] text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
+            className="inline-flex items-center gap-2 px-7 py-3 mag-btn text-white rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md"
           >
             <ShoppingBag className="w-4 h-4" /> Start Shopping <ArrowRight className="w-4 h-4" />
           </button>
@@ -506,19 +506,19 @@ export default function Checkout(): React.ReactElement {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-12">
+    <main className="min-h-screen bg-[#FFF6EF] pb-12">
 
       {/* ── HERO ── */}
-      <div className="bg-[#1a1a1a] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#ff3131]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#2A0A22] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#E11D74]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto px-4 py-10 relative z-10">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-9 h-9 bg-[#ff3131] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <div className="w-9 h-9 mag-btn rounded-xl flex items-center justify-center shadow-lg shadow-[#E11D74]/30">
               <Lock className="w-4 h-4 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Secure Checkout</h1>
+            <h1 className="text-2xl font-bold text-white font-serif">Secure Checkout</h1>
           </div>
-          <p className="text-blue-200 text-sm pl-12">Complete your purchase on <span className="text-[#ff3131] font-semibold">KD Book Bazaar</span></p>
+          <p className="text-[#FFE9DD]/70 text-sm pl-12">Complete your purchase on <span className="text-[#FF6A2B] font-semibold">The Curio Shelf</span></p>
         </div>
       </div>
 
@@ -526,11 +526,11 @@ export default function Checkout(): React.ReactElement {
 
         {/* Auth banners */}
         {!user ? (
-          <div className="flex items-center gap-3 p-4 bg-red-50 border border-[#ff3131]/20 rounded-2xl">
-            <User className="w-4 h-4 text-[#ff3131] flex-shrink-0" />
-            <p className="text-sm text-gray-700">
+          <div className="flex items-center gap-3 p-4 bg-[#FFE9DD] border border-[#E11D74]/20 rounded-2xl">
+            <User className="w-4 h-4 text-[#E11D74] flex-shrink-0" />
+            <p className="text-sm text-[#2A0A22]">
               Already have an account?{" "}
-              <Link href="/login" className="text-[#ff3131] font-bold hover:underline">Login here</Link>{" "}
+              <Link href="/login" className="text-[#E11D74] font-bold hover:underline">Login here</Link>{" "}
               to track your orders easily.
             </p>
           </div>
@@ -544,41 +544,46 @@ export default function Checkout(): React.ReactElement {
         )}
 
         {/* ── ORDER SUMMARY ── */}
-        <SectionCard title="Order Summary">
-          <div className="space-y-3">
-            {items.map((item) => (
-              <div key={item.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                <div className="flex items-center gap-3">
-                  {item.images?.[0]?.src && (
-                    <div className="w-10 h-10 rounded-lg overflow-hidden border border-gray-100 relative flex-shrink-0">
-                      <Image src={item.images[0].src} alt={item.name} fill className="object-contain p-0.5" sizes="40px" />
+        <div className="bg-[#2A0A22] rounded-2xl overflow-hidden shadow-sm">
+          <div className="px-6 pt-5 pb-3 border-b border-white/10">
+            <h2 className="text-xs font-bold text-[#FFE9DD]/70 uppercase tracking-wider font-serif">Order Summary</h2>
+          </div>
+          <div className="p-6">
+            <div className="space-y-3">
+              {items.map((item) => (
+                <div key={item.id} className="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
+                  <div className="flex items-center gap-3">
+                    {item.images?.[0]?.src && (
+                      <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/10 relative flex-shrink-0 bg-white/5">
+                        <Image src={item.images[0].src} alt={item.name} fill className="object-contain p-0.5" sizes="40px" />
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-sm font-semibold text-white line-clamp-1">{item.name}</p>
+                      <p className="text-xs text-[#FFE9DD]/50">Qty: {item.quantity}</p>
                     </div>
-                  )}
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900 line-clamp-1">{item.name}</p>
-                    <p className="text-xs text-gray-400">Qty: {item.quantity}</p>
                   </div>
+                  <span className="text-sm font-bold text-[#FF6A2B]">₹{(parseFloat(item.price) * item.quantity).toLocaleString("en-IN")}</span>
                 </div>
-                <span className="text-sm font-bold text-gray-900">₹{(parseFloat(item.price) * item.quantity).toLocaleString("en-IN")}</span>
-              </div>
-            ))}
+              ))}
 
-            <div className="pt-2 space-y-2">
-              <div className="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₹{subtotal.toLocaleString("en-IN")}</span></div>
-              {couponDiscount > 0 && <div className="flex justify-between text-sm text-green-600 font-semibold"><span>Coupon ({appliedCoupon})</span><span>−₹{couponDiscount.toLocaleString("en-IN")}</span></div>}
-              <div className="flex justify-between text-sm text-gray-600"><span>Delivery</span><span className="text-green-600 font-semibold">Free</span></div>
-              {codCharges > 0 && <div className="flex justify-between text-sm text-orange-600"><span>COD Charges</span><span>₹{codCharges}</span></div>}
-              <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                <span className="text-sm font-bold text-gray-900 uppercase tracking-wide">Total</span>
-                <span className="text-xl font-black text-gray-900">₹{finalTotal.toLocaleString("en-IN")}</span>
+              <div className="pt-2 space-y-2">
+                <div className="flex justify-between text-sm text-[#FFE9DD]/70"><span>Subtotal</span><span className="text-white">₹{subtotal.toLocaleString("en-IN")}</span></div>
+                {couponDiscount > 0 && <div className="flex justify-between text-sm text-green-400 font-semibold"><span>Coupon ({appliedCoupon})</span><span>−₹{couponDiscount.toLocaleString("en-IN")}</span></div>}
+                <div className="flex justify-between text-sm text-[#FFE9DD]/70"><span>Delivery</span><span className="text-green-400 font-semibold">Free</span></div>
+                {codCharges > 0 && <div className="flex justify-between text-sm text-[#FF6A2B]"><span>COD Charges</span><span>₹{codCharges}</span></div>}
+                <div className="flex justify-between items-center pt-3 border-t border-white/10">
+                  <span className="text-sm font-bold text-[#FFE9DD]/70 uppercase tracking-wide">Total</span>
+                  <span className="text-xl font-black text-white">₹{finalTotal.toLocaleString("en-IN")}</span>
+                </div>
               </div>
             </div>
           </div>
-        </SectionCard>
+        </div>
 
         {/* ── COUPON ── */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="bg-[#ff3131] px-6 py-4 text-center">
+        <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm overflow-hidden">
+          <div style={{ background: "linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)" }} className="px-6 py-4 text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
               <Tag className="w-4 h-4 text-white" />
               <h3 className="text-white font-bold text-sm uppercase tracking-wide">Special Offer</h3>
@@ -612,8 +617,8 @@ export default function Checkout(): React.ReactElement {
                 disabled={isApplyingCoupon}
                 className={`px-5 py-3 rounded-xl text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-60 flex items-center gap-2 ${
                   appliedCoupon
-                    ? "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                    : "bg-[#ff3131] hover:bg-[#cc0000] text-white shadow-md"
+                    ? "bg-[#FFE9DD] hover:bg-[#FFE9DD]/80 text-[#2A0A22]"
+                    : "mag-btn text-white shadow-md"
                 }`}
               >
                 {isApplyingCoupon ? (
@@ -634,41 +639,41 @@ export default function Checkout(): React.ReactElement {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Name <span className="text-[#ff3131]">*</span></label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">Name <span className="text-[#E11D74]">*</span></label>
                   <input name="name" value={form.name} onChange={onChange} className={inputClass(errors.name)} placeholder="Full name" required />
                   <FieldError msg={errors.name} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Email <span className="text-[#ff3131]">*</span></label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">Email <span className="text-[#E11D74]">*</span></label>
                   <input name="email" type="email" value={form.email} onChange={onChange} className={inputClass(errors.email)} placeholder="your@email.com" required readOnly={!!user} />
                   <FieldError msg={errors.email} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Phone <span className="text-[#ff3131]">*</span></label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">Phone <span className="text-[#E11D74]">*</span></label>
                   <input name="phone" type="tel" value={form.phone} onChange={onChange} className={inputClass(errors.phone)} placeholder="10-digit number" required />
                   <FieldError msg={errors.phone} />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Address <span className="text-[#ff3131]">*</span></label>
+                <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">Address <span className="text-[#E11D74]">*</span></label>
                 <textarea name="address" rows={3} value={form.address} onChange={onChange} className={`${inputClass(errors.address)} resize-none`} placeholder="House no., Street, Landmark..." required />
                 <FieldError msg={errors.address} />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Pincode <span className="text-[#ff3131]">*</span></label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">Pincode <span className="text-[#E11D74]">*</span></label>
                   <input name="pincode" value={form.pincode} onChange={onChange} className={inputClass(errors.pincode)} placeholder="6-digit" required />
                   <FieldError msg={errors.pincode} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">City <span className="text-[#ff3131]">*</span></label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">City <span className="text-[#E11D74]">*</span></label>
                   <input name="city" value={form.city} onChange={onChange} className={inputClass(errors.city)} placeholder="City" required />
                   <FieldError msg={errors.city} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">State <span className="text-[#ff3131]">*</span></label>
+                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">State <span className="text-[#E11D74]">*</span></label>
                   <select name="state" value={form.state} onChange={onChange} className={inputClass(errors.state)} required>
                     <option value="">Select State</option>
                     {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -678,15 +683,15 @@ export default function Checkout(): React.ReactElement {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Order Notes <span className="text-gray-400 font-normal normal-case">(optional)</span></label>
+                <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-1.5">Order Notes <span className="text-[#2A0A22]/30 font-normal normal-case">(optional)</span></label>
                 <textarea name="notes" rows={2} value={form.notes} onChange={onChange} className={`${inputClass()} resize-none`} placeholder="Special instructions..." />
               </div>
             </div>
           </SectionCard>
 
           {/* ── PAYMENT METHOD ── */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mt-5">
-            <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">Payment Method</h2>
+          <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-6 mt-5">
+            <h2 className="text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wider mb-4 font-serif">Payment Method</h2>
             <div className="grid grid-cols-2 gap-3">
               {(["razorpay", "cod"] as const).map((m) => (
                 <button
@@ -695,23 +700,23 @@ export default function Checkout(): React.ReactElement {
                   onClick={() => setPaymentMethod(m)}
                   className={`p-3.5 rounded-xl border-2 text-sm font-bold transition-all ${
                     paymentMethod === m
-                      ? "border-[#ff3131] bg-red-50 text-[#ff3131]"
-                      : "border-gray-100 bg-gray-50 text-gray-600 hover:border-gray-200"
+                      ? "border-[#E11D74] bg-[#E11D74]/5 text-[#E11D74]"
+                      : "border-[#FFE9DD] bg-[#FFF6EF] text-[#2A0A22]/60 hover:border-[#FFE9DD]"
                   }`}
                 >
                   {m === "razorpay" ? "💳 Online Payment" : "🏠 Cash on Delivery"}
-                  {m === "cod" && <span className="block text-[10px] font-normal text-orange-500 mt-0.5">+₹100 handling fee</span>}
+                  {m === "cod" && <span className="block text-[10px] font-normal text-[#FF6A2B] mt-0.5">+₹100 handling fee</span>}
                 </button>
               ))}
             </div>
           </div>
 
           {/* ── SUBMIT ── */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mt-5 space-y-4">
+          <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-6 mt-5 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-bold text-gray-500 uppercase tracking-wide">Amount to Pay</span>
+              <span className="text-sm font-bold text-[#2A0A22]/50 uppercase tracking-wide">Amount to Pay</span>
               <div className="text-right">
-                <p className="text-2xl font-black text-gray-900">₹{finalTotal.toLocaleString("en-IN")}</p>
+                <p className="text-2xl font-black text-[#2A0A22] font-serif">₹{finalTotal.toLocaleString("en-IN")}</p>
                 {couponDiscount > 0 && <p className="text-xs text-green-600 font-semibold">You saved ₹{couponDiscount.toLocaleString("en-IN")}</p>}
               </div>
             </div>
@@ -719,7 +724,7 @@ export default function Checkout(): React.ReactElement {
             <button
               type="submit"
               disabled={loading || step === "processing"}
-              className="w-full bg-[#ff3131] hover:bg-[#cc0000] disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-orange-200 flex items-center justify-center gap-2"
+              className="w-full mag-btn disabled:opacity-60 disabled:cursor-not-allowed text-white py-4 rounded-xl text-sm font-bold uppercase tracking-wide transition-all shadow-md hover:shadow-lg hover:shadow-[#E11D74]/20 flex items-center justify-center gap-2"
             >
               {loading || step === "processing" ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -736,9 +741,9 @@ export default function Checkout(): React.ReactElement {
               )}
             </button>
 
-            <div className="flex items-center justify-center gap-5 text-xs text-gray-400 pt-1">
+            <div className="flex items-center justify-center gap-5 text-xs text-[#2A0A22]/40 pt-1">
               {["SSL Secured", "Encrypted Payments", "Free Delivery"].map((t) => (
-                <span key={t} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-[#ff3131]" />{t}</span>
+                <span key={t} className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-[#E11D74]" />{t}</span>
               ))}
             </div>
           </div>

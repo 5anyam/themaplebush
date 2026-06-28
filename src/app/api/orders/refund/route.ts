@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const WC_BASE = 'https://cms.kdbookbazaar.com/wp-json/wc/v3';
+const WC_BASE = 'https://cms.thecurioshelf.com/wp-json/wc/v3';
 const CONSUMER_KEY = process.env.CONSUMER_KEY || '';
 const CONSUMER_SECRET = process.env.CONSUMER_SECRET || '';
 

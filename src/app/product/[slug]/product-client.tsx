@@ -69,13 +69,13 @@ const triggerConfetti = () => {
       ...defaults,
       particleCount,
       origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-      colors: ['#ff3131', '#1a1a1a', '#FFD700', '#ff8c00', '#ffffff'],
+      colors: ['#E11D74', '#2A0A22', '#FF6A2B', '#FF8A3D', '#FFE9DD'],
     })
     confetti({
       ...defaults,
       particleCount,
       origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-      colors: ['#ff3131', '#1a1a1a', '#FFD700', '#ff8c00', '#ffffff'],
+      colors: ['#E11D74', '#2A0A22', '#FF6A2B', '#FF8A3D', '#FFE9DD'],
     })
   }, 250)
 }
@@ -179,13 +179,13 @@ export default function ProductClient({
   // ── LOADING STATE ──
   if (isLoading && !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-[#FFF6EF]">
         <div className="text-center">
           <div className="relative w-16 h-16 mx-auto mb-4">
-            <div className="absolute inset-0 rounded-full border-2 border-[#ff3131] border-t-transparent animate-spin" />
-            <ShoppingCart className="absolute inset-0 m-auto w-6 h-6 text-[#ff3131]" />
+            <div className="absolute inset-0 rounded-full border-2 border-[#E11D74] border-t-transparent animate-spin" />
+            <ShoppingCart className="absolute inset-0 m-auto w-6 h-6 text-[#E11D74]" />
           </div>
-          <p className="text-gray-500 text-sm">Loading product...</p>
+          <p className="text-[#2A0A22]/50 text-sm">Loading product...</p>
         </div>
       </div>
     )
@@ -194,18 +194,18 @@ export default function ProductClient({
   // ── ERROR STATE ──
   if (error || (!products && !product) || !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#FFF6EF]">
         <div className="text-center max-w-md p-8">
-          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-5">
-            <Package className="w-10 h-10 text-[#ff3131]" />
+          <div className="w-20 h-20 bg-[#FFE9DD] rounded-full flex items-center justify-center mx-auto mb-5">
+            <Package className="w-10 h-10 text-[#E11D74]" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">Product Not Found</h2>
-          <p className="text-sm text-gray-500 mb-8">
+          <h2 className="text-2xl font-bold text-[#2A0A22] mb-3 font-serif">Product Not Found</h2>
+          <p className="text-sm text-[#2A0A22]/50 mb-8">
             The product you are looking for does not exist or may have been removed.
           </p>
           <button
             onClick={() => router.push('/shop')}
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#ff3131] text-white font-semibold rounded-xl hover:bg-[#cc0000] transition-all shadow-lg hover:shadow-orange-200"
+            className="inline-flex items-center gap-2 px-8 py-3.5 mag-btn text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-[#E11D74]/20"
           >
             <ShoppingCart className="w-4 h-4" />
             Continue Shopping
@@ -303,21 +303,21 @@ export default function ProductClient({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24 lg:pb-12">
+    <div className="min-h-screen bg-[#FFF6EF] pb-24 lg:pb-12">
 
       {/* ── BREADCRUMB ── */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="bg-[#FFF6EF] border-b border-[#FFE9DD]">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-1.5 text-xs text-gray-500">
-            <button onClick={() => router.push('/')} className="hover:text-[#ff3131] transition-colors">
+          <div className="flex items-center gap-1.5 text-xs text-[#2A0A22]/50">
+            <button onClick={() => router.push('/')} className="hover:text-[#E11D74] transition-colors">
               Home
             </button>
-            <ChevronRight className="w-3 h-3 text-gray-400" />
-            <button onClick={() => router.push('/shop')} className="hover:text-[#ff3131] transition-colors">
+            <ChevronRight className="w-3 h-3 text-[#2A0A22]/30" />
+            <button onClick={() => router.push('/shop')} className="hover:text-[#E11D74] transition-colors">
               Shop
             </button>
-            <ChevronRight className="w-3 h-3 text-gray-400" />
-            <span className="text-gray-900 font-medium truncate max-w-[200px]">{product.name}</span>
+            <ChevronRight className="w-3 h-3 text-[#2A0A22]/30" />
+            <span className="text-[#2A0A22] font-medium truncate max-w-[200px]">{product.name}</span>
           </div>
         </div>
       </div>
@@ -328,14 +328,17 @@ export default function ProductClient({
         {/* LEFT — Image Gallery */}
         <div className="lg:w-1/2">
           <div className="sticky top-24">
-            <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#FFE9DD]">
               <ImageGallery images={galleryImages} />
             </div>
 
             {/* Badges over image */}
             <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
               {hasSale && discountPercent > 0 && (
-                <span className="bg-[#ff3131] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1">
+                <span
+                  className="text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1"
+                  style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
+                >
                   <Tag className="w-3 h-3" />
                   {discountPercent}% OFF
                 </span>
@@ -350,14 +353,14 @@ export default function ProductClient({
             {/* Wishlist button */}
             <button
               onClick={() => setIsWishlisted(!isWishlisted)}
-              className="absolute top-3 right-3 p-2.5 bg-white rounded-full shadow-md border border-gray-100 hover:border-[#ff3131]/30 transition-all group"
+              className="absolute top-3 right-3 p-2.5 bg-white rounded-full shadow-md border border-[#FFE9DD] hover:border-[#E11D74]/30 transition-all group"
               aria-label="Wishlist"
             >
               <Heart
                 className={`w-4 h-4 transition-all duration-300 ${
                   isWishlisted
-                    ? 'fill-[#ff3131] text-[#ff3131]'
-                    : 'text-gray-400 group-hover:text-[#ff3131]'
+                    ? 'fill-[#E11D74] text-[#E11D74]'
+                    : 'text-[#2A0A22]/30 group-hover:text-[#E11D74]'
                 }`}
               />
             </button>
@@ -369,14 +372,14 @@ export default function ProductClient({
 
           {/* Category tag */}
           {product.categories && product.categories.length > 0 && (
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#ff3131] uppercase tracking-widest bg-red-50 px-3 py-1 rounded-full border border-[#ff3131]/20">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#E11D74] uppercase tracking-widest bg-[#E11D74]/10 px-3 py-1 rounded-full border border-[#E11D74]/20">
               <Tag className="w-3 h-3" />
               {product.categories[0]?.name}
             </span>
           )}
 
           {/* Product Name */}
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight animate-fade-in">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#2A0A22] leading-tight animate-fade-in font-serif">
             {product.name}
           </h1>
 
@@ -384,11 +387,11 @@ export default function ProductClient({
           <div className="flex items-center gap-3 flex-wrap">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-[#ff3131] fill-[#ff3131]" />
+                <Star key={i} className="w-4 h-4 text-[#FF6A2B] fill-[#FF6A2B]" />
               ))}
             </div>
-            <span className="text-sm text-gray-600 font-medium">{productRating}</span>
-            <span className="text-sm text-gray-400">({reviewCount} reviews)</span>
+            <span className="text-sm text-[#2A0A22] font-medium">{productRating}</span>
+            <span className="text-sm text-[#2A0A22]/40">({reviewCount} reviews)</span>
             <span className="text-xs text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded-full border border-green-200 flex items-center gap-1">
               <Check className="w-3 h-3" /> Verified Reviews
             </span>
@@ -397,25 +400,25 @@ export default function ProductClient({
           {/* Short Description */}
           {product.short_description && (
             <div
-              className="text-sm text-gray-600 leading-relaxed prose prose-sm max-w-none"
+              className="text-sm text-[#2A0A22]/70 leading-relaxed prose prose-sm max-w-none"
               dangerouslySetInnerHTML={{ __html: product.short_description }}
             />
           )}
 
           {/* ── VARIATION SELECTORS ── */}
           {isVariableProduct(product) && variationAttributes.length > 0 && (
-            <div className="space-y-5 py-5 border-y border-gray-100">
+            <div className="space-y-5 py-5 border-y border-[#FFE9DD]">
               {variationsLoading ? (
                 <div className="text-center py-4">
-                  <div className="inline-block w-6 h-6 border-2 border-[#ff3131] border-t-transparent rounded-full animate-spin" />
+                  <div className="inline-block w-6 h-6 border-2 border-[#E11D74] border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : (
                 variationAttributes.map((attr) => (
                   <div key={attr.id}>
-                    <label className="block text-xs font-semibold text-gray-700 mb-3 uppercase tracking-wider">
+                    <label className="block text-xs font-semibold text-[#2A0A22]/70 mb-3 uppercase tracking-wider">
                       {attr.name}
                       {selectedAttributes[attr.name.toLowerCase()] && (
-                        <span className="ml-2 text-[#ff3131] normal-case font-normal tracking-normal">
+                        <span className="ml-2 text-[#E11D74] normal-case font-normal tracking-normal">
                           — {selectedAttributes[attr.name.toLowerCase()]}
                         </span>
                       )}
@@ -432,10 +435,10 @@ export default function ProductClient({
                             disabled={!available}
                             className={`px-5 py-2.5 border-2 text-sm font-medium transition-all duration-200 rounded-xl
                               ${isSelected
-                                ? 'bg-[#ff3131] text-white border-[#ff3131] shadow-md shadow-orange-200'
+                                ? 'bg-[#E11D74] text-white border-[#E11D74] shadow-md shadow-[#E11D74]/20'
                                 : available
-                                ? 'bg-white text-gray-800 border-gray-200 hover:border-[#ff3131] hover:text-[#ff3131]'
-                                : 'bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed line-through'
+                                ? 'bg-white text-[#2A0A22] border-[#FFE9DD] hover:border-[#E11D74] hover:text-[#E11D74]'
+                                : 'bg-[#FFF6EF] text-[#2A0A22]/20 border-[#FFE9DD]/50 cursor-not-allowed line-through'
                               }`}
                           >
                             {option}
@@ -450,14 +453,14 @@ export default function ProductClient({
           )}
 
           {/* ── PRICE SECTION ── */}
-          <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+          <div className="bg-white rounded-2xl p-5 border border-[#FFE9DD] shadow-sm">
             <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-3xl font-bold text-[#2A0A22] font-serif">
                 ₹{totalPrice.toLocaleString('en-IN')}
               </span>
               {hasSale && (
                 <>
-                  <span className="text-lg text-gray-400 line-through font-normal">
+                  <span className="text-lg text-[#2A0A22]/30 line-through font-normal">
                     ₹{totalRegularPrice.toLocaleString('en-IN')}
                   </span>
                   <span className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full flex items-center gap-1">
@@ -469,7 +472,7 @@ export default function ProductClient({
             </div>
 
             {quantity > 1 && (
-              <p className="text-xs text-gray-500 mb-3">
+              <p className="text-xs text-[#2A0A22]/40 mb-3">
                 ₹{salePrice.toLocaleString('en-IN')} per unit × {quantity} units
               </p>
             )}
@@ -489,27 +492,27 @@ export default function ProductClient({
 
           {/* ── QUANTITY SELECTOR ── */}
           <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-3 uppercase tracking-wider">
+            <label className="block text-xs font-semibold text-[#2A0A22]/70 mb-3 uppercase tracking-wider">
               Quantity
             </label>
             <div className="flex items-center gap-4">
-              <div className="flex items-center border-2 border-gray-200 hover:border-[#ff3131]/50 transition-colors rounded-xl overflow-hidden">
+              <div className="flex items-center border-2 border-[#FFE9DD] hover:border-[#E11D74]/50 transition-colors rounded-xl overflow-hidden">
                 <button
                   onClick={() => handleQuantityChange(-1)}
-                  className="p-3.5 hover:bg-red-50 transition-colors disabled:opacity-40"
+                  className="p-3.5 hover:bg-[#FFE9DD]/50 transition-colors disabled:opacity-40"
                   disabled={quantity <= 1}
                 >
-                  <Minus className="w-4 h-4 text-gray-600" />
+                  <Minus className="w-4 h-4 text-[#2A0A22]/70" />
                 </button>
-                <span className="px-6 py-3.5 font-semibold text-gray-900 text-base border-x-2 border-gray-200 min-w-[60px] text-center">
+                <span className="px-6 py-3.5 font-semibold text-[#2A0A22] text-base border-x-2 border-[#FFE9DD] min-w-[60px] text-center">
                   {quantity}
                 </span>
                 <button
                   onClick={() => handleQuantityChange(1)}
-                  className="p-3.5 hover:bg-red-50 transition-colors disabled:opacity-40"
+                  className="p-3.5 hover:bg-[#FFE9DD]/50 transition-colors disabled:opacity-40"
                   disabled={!isInStock}
                 >
-                  <Plus className="w-4 h-4 text-gray-600" />
+                  <Plus className="w-4 h-4 text-[#2A0A22]/70" />
                 </button>
               </div>
               {hasSale && quantity > 1 && (
@@ -525,7 +528,7 @@ export default function ProductClient({
             <button
               onClick={handleBuyNow}
               disabled={isBuyingNow || !isInStock}
-              className={`group relative w-full bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-red-200 flex items-center justify-center gap-2.5 ${
+              className={`group relative w-full mag-btn text-white font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-[#E11D74]/20 flex items-center justify-center gap-2.5 ${
                 isBuyingNow || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
@@ -544,7 +547,7 @@ export default function ProductClient({
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart || !isInStock}
-              className={`relative w-full border-2 border-[#1a1a1a] text-[#1a1a1a] font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl hover:bg-[#1a1a1a] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 ${
+              className={`relative w-full border-2 border-[#2A0A22] text-[#2A0A22] font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl hover:bg-[#2A0A22] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 ${
                 isAddingToCart || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
@@ -559,23 +562,23 @@ export default function ProductClient({
           </div>
 
           {/* ── TRUST BADGES ── */}
-          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100">
+          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-[#FFE9DD]">
             {[
               { icon: <Truck className="w-5 h-5" />, label: 'Free Shipping', sub: 'On all orders', bg: 'bg-blue-50', color: 'text-blue-600' },
               { icon: <Shield className="w-5 h-5" />, label: '100% Authentic', sub: 'Genuine products', bg: 'bg-green-50', color: 'text-green-600' },
               { icon: <RotateCcw className="w-5 h-5" />, label: 'Easy Returns', sub: '7-day policy', bg: 'bg-purple-50', color: 'text-purple-600' },
-              { icon: <CreditCard className="w-5 h-5" />, label: 'Secure Payment', sub: 'Protected checkout', bg: 'bg-red-50', color: 'text-[#ff3131]' },
+              { icon: <CreditCard className="w-5 h-5" />, label: 'Secure Payment', sub: 'Protected checkout', bg: 'bg-[#E11D74]/10', color: 'text-[#E11D74]' },
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-3 p-3.5 bg-white rounded-xl border border-gray-100 hover:border-[#ff3131]/20 hover:shadow-sm transition-all duration-200"
+                className="flex items-center gap-3 p-3.5 bg-white rounded-xl border border-[#FFE9DD] hover:border-[#E11D74]/20 hover:shadow-sm transition-all duration-200"
               >
                 <div className={`flex-shrink-0 w-9 h-9 ${item.bg} rounded-lg flex items-center justify-center`}>
                   <span className={item.color}>{item.icon}</span>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-gray-900">{item.label}</p>
-                  <p className="text-[11px] text-gray-500">{item.sub}</p>
+                  <p className="text-xs font-semibold text-[#2A0A22]">{item.label}</p>
+                  <p className="text-[11px] text-[#2A0A22]/50">{item.sub}</p>
                 </div>
               </div>
             ))}
@@ -585,7 +588,7 @@ export default function ProductClient({
 
       {/* ── MOBILE BOTTOM BAR ── */}
       <div
-        className={`lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] transition-all duration-300 z-40 ${
+        className={`lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#FFE9DD] p-4 shadow-[0_-4px_20px_rgba(42,10,34,0.08)] transition-all duration-300 z-40 ${
           isCartOpen ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
         }`}
       >
@@ -593,27 +596,27 @@ export default function ProductClient({
           {/* Price + Quantity */}
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[11px] text-gray-500 uppercase tracking-wider">Total</p>
+              <p className="text-[11px] text-[#2A0A22]/40 uppercase tracking-wider">Total</p>
               <div className="flex items-baseline gap-2">
-                <span className="text-xl font-bold text-gray-900">
+                <span className="text-xl font-bold text-[#2A0A22] font-serif">
                   ₹{totalPrice.toLocaleString('en-IN')}
                 </span>
                 {hasSale && (
-                  <span className="text-sm text-gray-400 line-through">
+                  <span className="text-sm text-[#2A0A22]/30 line-through">
                     ₹{totalRegularPrice.toLocaleString('en-IN')}
                   </span>
                 )}
               </div>
             </div>
-            <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
-              <button onClick={() => handleQuantityChange(-1)} className="p-2.5 hover:bg-red-50 transition-colors" disabled={quantity <= 1}>
-                <Minus className="w-3.5 h-3.5 text-gray-700" />
+            <div className="flex items-center border-2 border-[#FFE9DD] rounded-xl overflow-hidden">
+              <button onClick={() => handleQuantityChange(-1)} className="p-2.5 hover:bg-[#FFE9DD]/50 transition-colors" disabled={quantity <= 1}>
+                <Minus className="w-3.5 h-3.5 text-[#2A0A22]/70" />
               </button>
-              <span className="px-4 py-2.5 text-sm font-bold border-x-2 border-gray-200 text-gray-900 min-w-[44px] text-center">
+              <span className="px-4 py-2.5 text-sm font-bold border-x-2 border-[#FFE9DD] text-[#2A0A22] min-w-[44px] text-center">
                 {quantity}
               </span>
-              <button onClick={() => handleQuantityChange(1)} className="p-2.5 hover:bg-red-50 transition-colors" disabled={!isInStock}>
-                <Plus className="w-3.5 h-3.5 text-gray-700" />
+              <button onClick={() => handleQuantityChange(1)} className="p-2.5 hover:bg-[#FFE9DD]/50 transition-colors" disabled={!isInStock}>
+                <Plus className="w-3.5 h-3.5 text-[#2A0A22]/70" />
               </button>
             </div>
           </div>
@@ -623,7 +626,7 @@ export default function ProductClient({
             <button
               onClick={handleBuyNow}
               disabled={isBuyingNow || !isInStock}
-              className="flex-1 bg-[#ff3131] hover:bg-[#cc0000] text-white font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl transition-all shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
+              className="flex-1 mag-btn text-white font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl transition-all shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
             >
               <Tag className="w-4 h-4" />
               {isBuyingNow ? 'Processing...' : !isInStock ? 'Unavailable' : 'Buy Now'}
@@ -631,7 +634,7 @@ export default function ProductClient({
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart || !isInStock}
-              className="flex-1 border-2 border-[#1a1a1a] text-[#1a1a1a] font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl hover:bg-[#1a1a1a] hover:text-white transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+              className="flex-1 border-2 border-[#2A0A22] text-[#2A0A22] font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl hover:bg-[#2A0A22] hover:text-white transition-all disabled:opacity-60 flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-4 h-4" />
               {isAddingToCart ? 'Added!' : !isInStock ? 'Out of Stock' : 'Add to Cart'}
@@ -642,15 +645,15 @@ export default function ProductClient({
 
       {/* ── TABS SECTION ── */}
       <div className="max-w-7xl mx-auto mt-16 px-4">
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm overflow-hidden">
           <Tab.Group>
-            <Tab.List className="flex border-b border-gray-100 overflow-x-auto">
+            <Tab.List className="flex border-b border-[#FFE9DD] overflow-x-auto">
               {['Description', 'Specifications', 'Care Instructions'].map((label, idx) => (
                 <Tab
                   key={idx}
                   className={({ selected }) =>
                     `flex-shrink-0 px-6 py-4 text-xs font-semibold outline-none transition-all uppercase tracking-wider whitespace-nowrap relative ${
-                      selected ? 'text-[#ff3131]' : 'text-gray-500 hover:text-gray-700'
+                      selected ? 'text-[#E11D74]' : 'text-[#2A0A22]/40 hover:text-[#2A0A22]/70'
                     }`
                   }
                 >
@@ -658,7 +661,7 @@ export default function ProductClient({
                     <>
                       {label}
                       {selected && (
-                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ff3131] rounded-full" />
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E11D74] rounded-full" />
                       )}
                     </>
                   )}
@@ -668,15 +671,15 @@ export default function ProductClient({
             <Tab.Panels className="p-6 md:p-8">
               <Tab.Panel>
                 <div
-                  className="prose prose-sm max-w-none text-gray-700 leading-relaxed"
+                  className="prose prose-sm max-w-none text-[#2A0A22]/80 leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: product.description || '' }}
                 />
               </Tab.Panel>
               <Tab.Panel>
-                <p className="text-sm text-gray-500">Specifications coming soon.</p>
+                <p className="text-sm text-[#2A0A22]/50">Specifications coming soon.</p>
               </Tab.Panel>
               <Tab.Panel>
-                <p className="text-sm text-gray-500">Care instructions coming soon.</p>
+                <p className="text-sm text-[#2A0A22]/50">Care instructions coming soon.</p>
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

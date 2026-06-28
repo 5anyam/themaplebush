@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const WC_BASE = 'https://cms.kdbookbazaar.com/wp-json/wc/v3';
-const CK = process.env.CONSUMER_KEY || 'ck_b2cff698fa447d779aa56d980ea00fea049721a7';
-const CS = process.env.CONSUMER_SECRET || 'cs_1f8a7857e2e4030a0a8222979673ef040c763848';
+const WC_BASE = 'https://cms.thecurioshelf.com/wp-json/wc/v3';
+const CK = process.env.CONSUMER_KEY || 'ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8';
+const CS = process.env.CONSUMER_SECRET || 'cs_545794f655a7bf793ff45df324118c96a8713af2';
 
 export async function PUT(req: NextRequest) {
   try {

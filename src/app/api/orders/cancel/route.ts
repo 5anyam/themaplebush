@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const WC_BASE = 'https://cms.kdbookbazaar.com/wp-json/wc/v3';
+const WC_BASE = 'https://cms.thecurioshelf.com/wp-json/wc/v3';
 const CONSUMER_KEY = process.env.CONSUMER_KEY || '';
 const CONSUMER_SECRET = process.env.CONSUMER_SECRET || '';
 const FAST2SMS_KEY = process.env.FAST2SMS_API_KEY || '';
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
     if (phone) {
       void sendSMS(
         phone,
-        `KD Book Bazaar: Order #${orderId} cancelled. For refund queries contact support@kdbookbazaar.com`
+        `The Curio Shelf: Order #${orderId} cancelled. For refund queries contact hello@thecurioshelf.in`
       );
     }
 

@@ -1,23 +1,23 @@
 import Link from "next/link";
+import { fetchProductCategories } from "../lib/woocommerceApi";
 
-const SHOP_LINKS = [
-  { name: "All Products",      to: "/collections" },
-  { name: "Cosmetic Pouches",  to: "/category/cosmetic-pouches" },
-  { name: "Lunch Bags",        to: "/category/lunch-bags" },
-  { name: "Organisers",        to: "/category/organisers" },
-  { name: "Laptop Bags",       to: "/category/laptop-bags" },
-  { name: "Travel Bags",       to: "/category/travel-bags" },
-  { name: "Sale & Deals",      to: "/sale" },
-];
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  count: number;
+}
 
 const HELP_LINKS = [
-  { name: "My Account",           to: "/dashboard" },
-  { name: "Returns & Refunds",    to: "/returns-and-refunds-policy" },
-  { name: "Shipping Policy",      to: "/shipping-policy" },
-  { name: "Cancellation Policy",  to: "/cancellation-policy" },
-  { name: "Privacy Policy",       to: "/privacy-policy" },
-  { name: "Terms & Conditions",   to: "/terms-and-conditions" },
-  { name: "Contact Us",           to: "/contact" },
+  { name: "My Account",              to: "/dashboard" },
+  { name: "Returns & Refunds",       to: "/returns-and-refunds-policy" },
+  { name: "Shipping Policy",         to: "/shipping-policy" },
+  { name: "Cancellation Policy",     to: "/cancellation-policy" },
+  { name: "Warranty & Replacement",  to: "/warranty-replacement-policy" },
+  { name: "Privacy Policy",          to: "/privacy-policy" },
+  { name: "Terms & Conditions",      to: "/terms-and-conditions" },
+  { name: "Disclaimer",              to: "/disclaimer" },
+  { name: "Contact Us",              to: "/contact" },
 ];
 
 function InstagramIcon() {
@@ -44,7 +44,17 @@ function YoutubeIcon() {
   );
 }
 
-export default function Footer() {
+export default async function Footer() {
+  let categories: Category[] = [];
+  try {
+    const all = await fetchProductCategories(100, true);
+    categories = (all as Category[])
+      .filter((c) => c.slug !== 'uncategorized' && c.name.toLowerCase() !== 'uncategorized')
+      .sort((a, b) => b.count - a.count);
+  } catch {
+    categories = [];
+  }
+
   return (
     <footer className="relative mt-16 overflow-hidden" style={{ background: '#2A0A22', color: '#FFE9DD' }}>
       {/* Subtle mesh glow */}
@@ -53,62 +63,52 @@ export default function Footer() {
         <div className="absolute -bottom-20 right-0 w-80 h-80 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, #E11D74 0%, transparent 70%)' }} />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-12 gap-10">
+      <div className="relative max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-12 gap-10">
 
         {/* Brand column */}
-        <div className="md:col-span-4">
-          <Link href="/">
-            <img src="/logo.jpg" alt="The Curio Shelf" className="h-10 w-auto" />
+        <div className="md:col-span-3">
+          <Link href="/" className="inline-block mb-4">
+            <img src="/logo.jpeg" alt="The Curio Shelf" className="h-16 w-auto object-contain" />
           </Link>
-          <p className="text-[#FFE9DD]/65 text-[13.5px] mt-4 max-w-xs leading-relaxed font-sans">
-            A shelf of curiosities you actually use. Curated, characterful carry goods — premium, warm, and proudly made in India.
+          <p className="text-[#FFE9DD]/65 text-[13.5px] mt-2 max-w-[220px] leading-relaxed font-sans">
+            A shelf of curiosities you actually use. Curated, characterful carry goods — made in India.
           </p>
           <div className="flex gap-3 mt-5">
-            <a
-              href="https://instagram.com/thecurioshelf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 grid place-items-center transition-colors text-[#FFE9DD]"
-              aria-label="Instagram"
-            >
+            <a href="https://instagram.com/thecurioshelf" target="_blank" rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 grid place-items-center transition-colors text-[#FFE9DD]" aria-label="Instagram">
               <InstagramIcon />
             </a>
-            <a
-              href="https://pinterest.com/thecurioshelf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 grid place-items-center transition-colors text-[#FFE9DD]"
-              aria-label="Pinterest"
-            >
+            <a href="https://pinterest.com/thecurioshelf" target="_blank" rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 grid place-items-center transition-colors text-[#FFE9DD]" aria-label="Pinterest">
               <PinterestIcon />
             </a>
-            <a
-              href="https://youtube.com/@thecurioshelf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 grid place-items-center transition-colors text-[#FFE9DD]"
-              aria-label="YouTube"
-            >
+            <a href="https://youtube.com/@thecurioshelf" target="_blank" rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 grid place-items-center transition-colors text-[#FFE9DD]" aria-label="YouTube">
               <YoutubeIcon />
             </a>
           </div>
+          <p className="text-[#FFE9DD]/40 text-[12px] mt-5">
+            📍 Delhi, India &nbsp;·&nbsp; ✉ hello@thecurioshelf.in
+          </p>
         </div>
 
-        {/* Shop links */}
-        <div className="md:col-span-3">
-          <h4 className="font-serif text-[15px] font-semibold mb-4 text-white">Shop</h4>
-          <ul className="space-y-2.5">
-            {SHOP_LINKS.map((link) => (
-              <li key={link.to}>
-                <Link
-                  href={link.to}
-                  className="text-[13.5px] text-[#FFE9DD]/60 hover:text-[#FF8A4C] transition-colors"
-                >
-                  {link.name}
-                </Link>
-              </li>
+        {/* Shop / Categories — dynamic */}
+        <div className="md:col-span-4">
+          <h4 className="font-serif text-[15px] font-semibold mb-4 text-white">Shop by Category</h4>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
+            <Link href="/collections" className="text-[13px] text-[#FFE9DD]/60 hover:text-[#FF8A4C] transition-colors font-medium">
+              All Products
+            </Link>
+            {categories.map((cat) => (
+              <Link key={cat.slug} href={`/category/${cat.slug}`}
+                className="text-[13px] text-[#FFE9DD]/60 hover:text-[#FF8A4C] transition-colors">
+                {cat.name}
+              </Link>
             ))}
-          </ul>
+            <Link href="/sale" className="text-[13px] font-semibold transition-colors" style={{ color: '#FF8A4C' }}>
+              Sale &amp; Deals ✦
+            </Link>
+          </div>
         </div>
 
         {/* Help links */}
@@ -117,10 +117,7 @@ export default function Footer() {
           <ul className="space-y-2.5">
             {HELP_LINKS.map((link) => (
               <li key={link.to}>
-                <Link
-                  href={link.to}
-                  className="text-[13.5px] text-[#FFE9DD]/60 hover:text-[#FF8A4C] transition-colors"
-                >
+                <Link href={link.to} className="text-[13px] text-[#FFE9DD]/60 hover:text-[#FF8A4C] transition-colors">
                   {link.name}
                 </Link>
               </li>
@@ -134,17 +131,28 @@ export default function Footer() {
           <p className="text-[#FFE9DD]/60 text-[13.5px] mb-4 leading-relaxed">
             Little drops, big magic. Get first dibs on new arrivals.
           </p>
-          <NewsletterForm />
-          <p className="text-[#FFE9DD]/40 text-[12px] mt-4">
-            📍 Delhi · India base &nbsp;·&nbsp; ✉ hello@thecurioshelf.in
-          </p>
+          <div className="flex gap-2">
+            <input type="email" placeholder="you@email.com"
+              className="flex-1 bg-white/10 rounded-full px-4 py-2.5 text-[13.5px] outline-none placeholder-[#FFE9DD]/40 focus:bg-white/15 text-[#FFE9DD] border border-white/10 focus:border-white/20 transition-colors" />
+            <button className="px-4 rounded-full text-white font-semibold text-sm hover:opacity-90 transition-opacity flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}>
+              →
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div className="relative border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12.5px] text-[#FFE9DD]/45">
-          <span>© {new Date().getFullYear()} The Curio Shelf · Made in India 🇮🇳</span>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <span>© {new Date().getFullYear()} The Curio Shelf · Made in India 🇮🇳</span>
+            <span className="hidden sm:inline text-[#FFE9DD]/20">·</span>
+            <a href="https://www.adshouz.com" target="_blank" rel="noopener noreferrer"
+              className="hover:text-[#FF8A4C] transition-colors">
+              Developed by <span className="font-semibold text-[#FFE9DD]/60">Adshouz Digital</span>
+            </a>
+          </div>
           <span className="flex items-center gap-2">
             {['UPI', 'VISA', 'RuPay', 'COD'].map((b) => (
               <span key={b} className="px-2.5 py-1 rounded-md bg-white/10 font-semibold tracking-wide text-[#FFE9DD]/60">
@@ -155,23 +163,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function NewsletterForm() {
-  return (
-    <div className="flex gap-2">
-      <input
-        type="email"
-        placeholder="you@email.com"
-        className="flex-1 bg-white/10 rounded-full px-4 py-2.5 text-[13.5px] outline-none placeholder-[#FFE9DD]/40 focus:bg-white/15 text-[#FFE9DD] border border-white/10 focus:border-white/20 transition-colors"
-      />
-      <button
-        className="px-4 rounded-full text-white font-semibold text-sm hover:opacity-90 transition-opacity"
-        style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
-      >
-        →
-      </button>
-    </div>
   );
 }

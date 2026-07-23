@@ -16,6 +16,24 @@ interface CartItem {
 export default function CartDrawer() {
   const { items, increment, decrement, removeFromCart, isCartOpen, setIsCartOpen } = useCart();
   const [showAddedNotification, setShowAddedNotification] = useState<boolean>(false);
+  /* mounted = whether the drawer is in the DOM; sliding = whether it should be translated in */
+  const [mounted, setMounted] = useState(false);
+  const [sliding, setSliding] = useState(false);
+
+  /* Sync isCartOpen → mount + slide animation */
+  useEffect(() => {
+    if (isCartOpen) {
+      setMounted(true);
+      /* tiny delay so the translate transition fires after the element is in the DOM */
+      const t = requestAnimationFrame(() => setSliding(true));
+      return () => cancelAnimationFrame(t);
+    } else {
+      /* slide out first, then unmount after transition */
+      setSliding(false);
+      const t = setTimeout(() => setMounted(false), 310);
+      return () => clearTimeout(t);
+    }
+  }, [isCartOpen]);
 
   const total: number = items.reduce((sum: number, i: CartItem) => sum + parseFloat(i.price) * i.quantity, 0);
   const totalItems: number = items.reduce((sum: number, i: CartItem) => sum + i.quantity, 0);
@@ -37,11 +55,7 @@ export default function CartDrawer() {
 
   /* Lock body scroll when drawer is open */
   useEffect(() => {
-    if (isCartOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = isCartOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isCartOpen]);
 
@@ -64,21 +78,21 @@ export default function CartDrawer() {
         )}
       </button>
 
-      {/* Backdrop */}
-      {isCartOpen && (
+      {/* Backdrop — only in DOM when drawer is mounted */}
+      {mounted && (
         <div
-          className="fixed inset-0 bg-black/50 z-[9998]"
+          className="fixed inset-0 bg-black/50 z-[9998] transition-opacity duration-300"
+          style={{ opacity: sliding ? 1 : 0 }}
           onClick={() => setIsCartOpen(false)}
           aria-hidden="true"
         />
       )}
 
-      {/* Drawer — flex column so footer always stays at bottom */}
+      {/* Drawer — only mounted when open; slides in/out via CSS transition */}
+      {mounted && (
       <div
-        className={`fixed top-0 right-0 h-[100dvh] w-[92%] sm:w-[420px] max-w-[420px] z-[9999] flex flex-col shadow-2xl transform transition-transform duration-300 ease-in-out ${
-          isCartOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-        style={{ background: '#FFF6EF' }}
+        className="fixed top-0 right-0 h-[100dvh] w-[92%] sm:w-[420px] max-w-[420px] z-[9999] flex flex-col shadow-2xl transition-transform duration-300 ease-in-out"
+        style={{ background: '#FFF6EF', transform: sliding ? 'translateX(0)' : 'translateX(100%)' }}
       >
         {/* ── Header ── */}
         <div className="flex-shrink-0 flex items-center justify-between px-4 py-3.5 border-b border-[#FFE9DD]">
@@ -260,6 +274,7 @@ export default function CartDrawer() {
           </div>
         )}
       </div>
+      )}
     </>
   );
 }

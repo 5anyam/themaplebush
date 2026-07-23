@@ -19,7 +19,7 @@ export const metadata = {
     siteName: 'The Curio Shelf',
     images: [
       {
-        url: '/logo.jpg',
+        url: '/logo.jpeg',
         width: 1200,
         height: 630,
         alt: 'The Curio Shelf',
@@ -32,7 +32,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'The Curio Shelf — Carry a little wonder.',
     description: 'Curated, characterful carry goods. Made in India.',
-    images: ['/logo.jpg'],
+    images: ['/logo.jpeg'],
   },
   robots: {
     index: true,
@@ -50,10 +50,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Favicon */}
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/logo.jpeg" type="image/jpeg" sizes="any" />
+        <link rel="apple-touch-icon" href="/logo.jpeg" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#FF6A2B" />
 
@@ -66,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
 
         {/* Preload logo */}
-        <link rel="preload" href="/logo.jpg" as="image" type="image/jpeg" />
+        <link rel="preload" href="/logo.jpeg" as="image" type="image/jpeg" />
 
         {/* SEO */}
         <meta name="language" content="English" />
@@ -83,7 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "name": "The Curio Shelf",
               "description": "Curated, characterful carry goods. A shelf of curiosities you actually use. Made in India.",
               "url": "https://thecurioshelf.in",
-              "logo": "https://thecurioshelf.in/logo.jpg",
+              "logo": "https://thecurioshelf.in/logo.jpeg",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Delhi",

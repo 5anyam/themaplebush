@@ -82,7 +82,7 @@ function SearchDropdown({
   if (query.length < 2) return null;
 
   return (
-    <div className="absolute top-full left-0 right-0 bg-[#FFF6EF] border border-[#FFE9DD] shadow-lift z-50 mt-1 overflow-hidden rounded-2xl" style={{ boxShadow: '0 18px 50px -18px rgba(255,106,43,.32), 0 8px 24px -12px rgba(225,29,116,.18)' }}>
+    <div className="absolute top-full left-0 right-0 border border-[#F5DDD2] z-50 mt-1 overflow-hidden rounded-2xl" style={{ background: '#FAF0E8', boxShadow: '0 18px 50px -18px rgba(255,106,43,.32), 0 8px 24px -12px rgba(225,29,116,.18)' }}>
       {loading ? (
         <div className="flex items-center justify-center gap-2 py-6 text-sm text-[#2A0A22]/50">
           <div className="w-4 h-4 border-2 border-[#E11D74]/30 border-t-[#E11D74] rounded-full animate-spin" />
@@ -265,16 +265,17 @@ export default function Header() {
       <header
         className={`sticky top-0 z-40 transition-all duration-300 nav-blur ${
           scrolled
-            ? 'bg-[#FFF6EF]/90 shadow-soft border-b border-[#FFE9DD]'
-            : 'bg-[#FFF6EF]/80 border-b border-[#FFE9DD]/60'
+            ? 'shadow-soft border-b border-[#F5DDD2]'
+            : 'border-b border-[#F0D8CB]/60'
         }`}
-        style={{ backdropFilter: 'blur(16px) saturate(160%)' }}
+        style={{ backdropFilter: 'blur(16px) saturate(160%)', background: scrolled ? 'rgba(250,240,232,0.96)' : 'rgba(250,240,232,0.88)' }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center gap-4 h-16 md:h-[68px]">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6">
 
-            {/* Mobile hamburger */}
-            {isMobile && (
+          {/* ── MOBILE HEADER ── */}
+          {isMobile ? (
+            <div className="relative flex items-center justify-between h-14">
+              {/* Left: hamburger */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 className="w-10 h-10 grid place-items-center rounded-full hover:bg-[#FFE9DD] transition-colors text-[#2A0A22] flex-shrink-0"
@@ -282,77 +283,14 @@ export default function Header() {
               >
                 <MenuIcon />
               </button>
-            )}
 
-            {/* Logo */}
-            <Link href="/" className="flex-shrink-0 flex flex-col leading-none select-none">
-              <span className="font-script text-[13px] tracking-wide" style={{ color: '#E11D74', lineHeight: 1 }}>the</span>
-              <span className="font-serif font-bold text-[22px] md:text-[24px] tracking-tight" style={{ color: '#2A0A22', lineHeight: 1.05 }}>Curio Shelf</span>
-            </Link>
+              {/* Center: logo — absolutely centered so it's always in the middle */}
+              <Link href="/" className="absolute left-1/2 -translate-x-1/2 select-none">
+                <img src="/logo.jpeg" alt="The Curio Shelf" className="h-10 w-auto object-contain" draggable={false} />
+              </Link>
 
-            {/* Desktop nav */}
-            {!isMobile && (
-              <nav className="hidden lg:flex items-center gap-1 ml-6">
-                {NAV_LINKS.map((item) => (
-                  <Link
-                    key={item.to}
-                    href={item.to}
-                    className={`px-3.5 py-2 rounded-full text-[13.5px] font-semibold transition-all duration-200 ${
-                      location === item.to
-                        ? 'bg-[#FFE9DD] text-[#E11D74]'
-                        : 'text-[#2A0A22]/70 hover:text-[#2A0A22] hover:bg-[#FFE9DD]/60'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </nav>
-            )}
-
-            {/* Desktop search */}
-            {!isMobile && (
-              <div ref={desktopSearchRef} className="flex-1 relative max-w-sm ml-auto">
-                <form
-                  onSubmit={handleSearch}
-                  className="flex items-center bg-white/70 border border-[#FFE9DD] hover:border-[#FF6A2B]/40 focus-within:border-[#E11D74]/60 focus-within:bg-white transition-all duration-200 rounded-full overflow-hidden"
-                >
-                  <span className="ml-4 text-[#2A0A22]/40 flex-shrink-0">
-                    <SearchIcon size={16} />
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Search bags, pouches…"
-                    className="flex-1 bg-transparent py-2.5 px-3 text-sm text-[#2A0A22] focus:outline-none placeholder-[#2A0A22]/35"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    onFocus={() => { if (search.length >= 2) setShowDropdown(true); }}
-                    autoComplete="off"
-                  />
-                  <button
-                    type="submit"
-                    className="px-4 py-2.5 mr-1 rounded-full text-white text-xs font-bold tracking-wide transition-transform hover:scale-105 flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
-                  >
-                    Go
-                  </button>
-                </form>
-                {showDropdown && (
-                  <SearchDropdown
-                    query={search}
-                    suggestions={suggestions}
-                    loading={suggestionsLoading}
-                    onSelect={() => { setShowDropdown(false); setSearch(""); }}
-                    onViewAll={handleViewAll}
-                  />
-                )}
-              </div>
-            )}
-
-            {/* Right actions */}
-            <div className="flex items-center gap-1 ml-2">
-
-              {/* Mobile search */}
-              {isMobile && (
+              {/* Right: search + cart */}
+              <div className="flex items-center flex-shrink-0">
                 <button
                   onClick={() => setShowMobileSearch(true)}
                   className="w-10 h-10 grid place-items-center rounded-full hover:bg-[#FFE9DD] transition-colors text-[#2A0A22]"
@@ -360,61 +298,119 @@ export default function Header() {
                 >
                   <SearchIcon size={19} />
                 </button>
+                <CartIcon />
+              </div>
+            </div>
+          ) : (
+
+          /* ── DESKTOP HEADER ── */
+          <div className="flex items-center gap-4 h-[68px]">
+
+            {/* Logo */}
+            <Link href="/" className="flex-shrink-0 select-none">
+              <img src="/logo.jpeg" alt="The Curio Shelf" className="h-12 w-auto object-contain" draggable={false} />
+            </Link>
+
+            {/* Nav */}
+            <nav className="hidden lg:flex items-center gap-1 ml-6">
+              {NAV_LINKS.map((item) => (
+                <Link
+                  key={item.to}
+                  href={item.to}
+                  className={`px-3.5 py-2 rounded-full text-[13.5px] font-semibold transition-all duration-200 ${
+                    location === item.to
+                      ? 'bg-[#FFE9DD] text-[#E11D74]'
+                      : 'text-[#2A0A22]/70 hover:text-[#2A0A22] hover:bg-[#FFE9DD]/60'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Search */}
+            <div ref={desktopSearchRef} className="flex-1 relative max-w-sm ml-auto">
+              <form
+                onSubmit={handleSearch}
+                className="flex items-center bg-white/70 border border-[#FFE9DD] hover:border-[#FF6A2B]/40 focus-within:border-[#E11D74]/60 focus-within:bg-white transition-all duration-200 rounded-full overflow-hidden"
+              >
+                <span className="ml-4 text-[#2A0A22]/40 flex-shrink-0">
+                  <SearchIcon size={16} />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Search bags, pouches…"
+                  className="flex-1 bg-transparent py-2.5 px-3 text-sm text-[#2A0A22] focus:outline-none placeholder-[#2A0A22]/35"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onFocus={() => { if (search.length >= 2) setShowDropdown(true); }}
+                  autoComplete="off"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2.5 mr-1 rounded-full text-white text-xs font-bold tracking-wide transition-transform hover:scale-105 flex-shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
+                >
+                  Go
+                </button>
+              </form>
+              {showDropdown && (
+                <SearchDropdown
+                  query={search}
+                  suggestions={suggestions}
+                  loading={suggestionsLoading}
+                  onSelect={() => { setShowDropdown(false); setSearch(""); }}
+                  onViewAll={handleViewAll}
+                />
               )}
+            </div>
 
-              {/* Auth — desktop */}
-              {!isMobile && (
-                <div className="relative" ref={userMenuRef}>
-                  {user ? (
-                    <button
-                      onClick={() => setShowUserMenu(!showUserMenu)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-[#FFE9DD] transition-colors text-[#2A0A22] group"
-                    >
-                      <span className="w-7 h-7 rounded-full grid place-items-center text-white text-[12px] font-bold" style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #E11D74 100%)' }}>
-                        {(user.first_name || user.username || 'U')[0].toUpperCase()}
-                      </span>
-                      <span className="text-[13px] font-semibold text-[#2A0A22] max-w-[90px] truncate">
-                        {user.first_name || user.username}
-                      </span>
-                    </button>
-                  ) : (
-                    <Link
-                      href="/login"
-                      className="w-10 h-10 grid place-items-center rounded-full hover:bg-[#FFE9DD] transition-colors text-[#2A0A22]"
-                      aria-label="Sign in"
-                    >
-                      <UserIcon size={19} />
-                    </Link>
-                  )}
-
-                  {showUserMenu && user && (
-                    <div className="absolute right-0 top-full mt-2 w-56 bg-[#FFF6EF] border border-[#FFE9DD] shadow-lift py-2 z-50 rounded-2xl overflow-hidden">
-                      <div className="px-4 py-3 border-b border-[#FFE9DD]">
-                        <p className="text-[10px] text-[#2A0A22]/40 uppercase tracking-wider mb-0.5">Signed in as</p>
-                        <p className="text-xs font-bold text-[#2A0A22] truncate">{user.first_name ? `${user.first_name} ${user.last_name}`.trim() : user.username}</p>
-                        <p className="text-[10px] text-[#2A0A22]/40 truncate">{user.email}</p>
-                      </div>
-                      <Link
-                        href="/dashboard"
-                        onClick={() => setShowUserMenu(false)}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-[#2A0A22] hover:bg-[#FFE9DD] transition-colors font-medium"
-                      >
-                        My Orders
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-[#E11D74] hover:bg-[#FFE9DD] transition-colors border-t border-[#FFE9DD] font-medium"
-                      >
-                        Logout
-                      </button>
+            {/* Auth + Cart */}
+            <div className="flex items-center gap-1 ml-2">
+              <div className="relative" ref={userMenuRef}>
+                {user ? (
+                  <button
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-[#FFE9DD] transition-colors text-[#2A0A22] group"
+                  >
+                    <span className="w-7 h-7 rounded-full grid place-items-center text-white text-[12px] font-bold" style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #E11D74 100%)' }}>
+                      {(user.first_name || user.username || 'U')[0].toUpperCase()}
+                    </span>
+                    <span className="text-[13px] font-semibold text-[#2A0A22] max-w-[90px] truncate">
+                      {user.first_name || user.username}
+                    </span>
+                  </button>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="w-10 h-10 grid place-items-center rounded-full hover:bg-[#FFE9DD] transition-colors text-[#2A0A22]"
+                    aria-label="Sign in"
+                  >
+                    <UserIcon size={19} />
+                  </Link>
+                )}
+                {showUserMenu && user && (
+                  <div className="absolute right-0 top-full mt-2 w-56 border border-[#FFE9DD] shadow-lift py-2 z-50 rounded-2xl overflow-hidden" style={{ background: '#FAF0E8' }}>
+                    <div className="px-4 py-3 border-b border-[#FFE9DD]">
+                      <p className="text-[10px] text-[#2A0A22]/40 uppercase tracking-wider mb-0.5">Signed in as</p>
+                      <p className="text-xs font-bold text-[#2A0A22] truncate">{user.first_name ? `${user.first_name} ${user.last_name}`.trim() : user.username}</p>
+                      <p className="text-[10px] text-[#2A0A22]/40 truncate">{user.email}</p>
                     </div>
-                  )}
-                </div>
-              )}
-
+                    <Link href="/dashboard" onClick={() => setShowUserMenu(false)}
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-[#2A0A22] hover:bg-[#FFE9DD] transition-colors font-medium">
+                      My Orders
+                    </Link>
+                    <button onClick={handleLogout}
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-[#E11D74] hover:bg-[#FFE9DD] transition-colors border-t border-[#FFE9DD] font-medium">
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
               <CartIcon />
             </div>
           </div>
+          )}
         </div>
       </header>
 
@@ -425,11 +421,10 @@ export default function Header() {
             className="fixed inset-0 bg-[#2A0A22]/40 backdrop-blur-sm z-40"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed top-0 right-0 h-full w-[82%] max-w-sm bg-[#FFF6EF] z-50 overflow-y-auto shadow-lift">
+          <div className="fixed top-0 right-0 h-full w-[82%] max-w-sm z-50 overflow-y-auto shadow-lift" style={{ background: '#FAF0E8' }}>
             <div className="flex items-center justify-between p-5 border-b border-[#FFE9DD]">
-              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex flex-col leading-none select-none">
-                <span className="font-script text-[12px] tracking-wide" style={{ color: '#E11D74', lineHeight: 1 }}>the</span>
-                <span className="font-serif font-bold text-[20px] tracking-tight" style={{ color: '#2A0A22', lineHeight: 1.05 }}>Curio Shelf</span>
+              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="select-none">
+                <img src="/logo.jpeg" alt="The Curio Shelf" className="h-10 w-auto object-contain" draggable={false} />
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -503,7 +498,7 @@ export default function Header() {
 
       {/* Mobile Search Modal */}
       {showMobileSearch && (
-        <div className="fixed inset-0 bg-[#FFF6EF] z-[60] flex flex-col">
+        <div className="fixed inset-0 z-[60] flex flex-col" style={{ background: '#FAF0E8' }}>
           <div className="flex items-center px-4 pt-5 pb-4 gap-3 border-b border-[#FFE9DD] flex-shrink-0">
             <form onSubmit={handleSearch} className="flex-1 flex items-center border-b-2 border-[#E11D74] pb-2">
               <span className="text-[#2A0A22]/40 mr-3"><SearchIcon size={19} /></span>

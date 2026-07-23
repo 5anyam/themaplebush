@@ -175,6 +175,14 @@ export default function TermsOfService() {
   return (
     <main className="min-h-screen" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
 
+      {/* Logo bar */}
+      <div className="border-b border-[#FFE9DD]" style={{ background: '#FAF0E8' }}>
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link href="/"><img src="/logo.jpeg" alt="The Curio Shelf" className="h-9 w-auto" /></Link>
+          <Link href="/collections" className="text-[12px] font-semibold hover:text-[#E11D74] transition-colors" style={{ color: 'rgba(42,10,34,0.5)' }}>Shop Now →</Link>
+        </div>
+      </div>
+
       {/* ── HERO ── */}
       <section className="py-14 px-4 relative overflow-hidden" style={{ background: GRADIENT }}>
         <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none" />

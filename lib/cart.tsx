@@ -5,8 +5,10 @@ import React, {
   createContext,
   useReducer,
   useEffect,
+  useLayoutEffect,
   useState,
 } from 'react'
+import { usePathname } from 'next/navigation'
 import type { VariationAttribute } from './woocommerceApi' // type-only import, safe [web:50]
 
 export type Product = {
@@ -113,6 +115,12 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [] })
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const pathname = usePathname()
+
+  // Close cart synchronously on every route change (before paint, no flash)
+  useLayoutEffect(() => {
+    setIsCartOpen(false)
+  }, [pathname])
 
   // Load from localStorage
   useEffect(() => {

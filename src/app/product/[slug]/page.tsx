@@ -65,8 +65,8 @@ export async function generateMetadata(
 
   if (!product) {
     return {
-      title: 'Product not found | KD Book Bazaar',
-      description: 'The book you are looking for is unavailable.',
+      title: 'Product not found | The Curio Shelf',
+      description: 'The piece you are looking for is unavailable.',
       robots: { index: false, follow: false },
     }
   }
@@ -81,76 +81,75 @@ export async function generateMetadata(
     'price',
     'reviews',
     'India',
-    'KD Book Bazaar',
+    'made in India',
+    'The Curio Shelf',
   ]
 
 
   let intentKeywords: string[] = []
-  let catchyBenefit = 'Books Online India'
+  let catchyBenefit = 'Curated Carry Goods'
   let description =
-    'Discover a wide range of books across all genres at the best prices. Shop online at KD Book Bazaar for fast delivery across India.'
+    'Curated, characterful carry goods you will actually reach for every day. Shop The Curio Shelf for lunch bags, pouches, organisers and more — made in India, delivered pan-India.'
 
 
-  // Phone Case specific keywords
-  if (slugLower.includes('case') || slugLower.includes('cover')) {
+  // Lunch bags & tiffin carriers
+  if (/lunch|tiffin|casserole|insulat|thermal|bento/.test(slugLower)) {
     intentKeywords = [
-      'phone case India',
-      'mobile cover online',
-      'protective phone case',
-      'slim phone case',
-      'shockproof cover',
-      'premium phone case',
-      'designer phone cover',
+      'insulated lunch bag India',
+      'tiffin bag online',
+      'office lunch bag',
+      'thermal lunch bag',
+      'lunch bag for women',
+      'tiffin carrier bag',
     ]
-    catchyBenefit = 'Premium Protection & Style'
+    catchyBenefit = 'Warm Till Lunchtime'
     description =
-      'Military-grade protection meets elegant design. Premium phone cases with shockproof technology, raised edges for camera protection, and precise cutouts. Authentic quality guaranteed.'
-  } else if (slugLower.includes('screen') || slugLower.includes('protector') || slugLower.includes('guard')) {
+      'Insulated lunch bags that keep food warm for 4–6 hours. Food-safe lining, sturdy zips and roomy enough for a multi-tier tiffin. Made in India, delivered pan-India.'
+  } else if (/pouch|cosmetic|makeup|make-up|vanity|toiletr|purse|wallet|clutch/.test(slugLower)) {
     intentKeywords = [
-      'screen protector',
-      'tempered glass',
-      'screen guard India',
-      '9H hardness',
-      'anti-scratch protector',
-      'bubble-free installation',
+      'makeup pouch online India',
+      'cosmetic bag',
+      'travel toiletry pouch',
+      'vanity pouch for women',
+      'small makeup bag',
+      'zip pouch India',
     ]
-    catchyBenefit = 'Crystal Clear Protection'
+    catchyBenefit = 'Small Outside, Roomy Inside'
     description =
-      '9H tempered glass screen protector with bubble-free installation, oleophobic coating, and ultra-clear transparency. Military-grade protection for your phone screen.'
-  } else if (slugLower.includes('charger') || slugLower.includes('cable') || slugLower.includes('adapter')) {
+      'Makeup and travel pouches that hold far more than they look. Smooth reinforced zips, wipe-clean lining and cabin-friendly sizes. Made in India, delivered pan-India.'
+  } else if (/organi[sz]er|organi[sz]ing|storage|divider|drawer|caddy/.test(slugLower)) {
     intentKeywords = [
-      'fast charger India',
-      'USB cable',
-      'phone charger online',
-      'quick charge adapter',
-      'type-c cable',
-      'lightning cable',
+      'wardrobe organiser India',
+      'drawer organiser',
+      'storage organiser online',
+      'foldable storage box',
+      'travel organiser set',
     ]
-    catchyBenefit = 'Fast & Reliable Charging'
+    catchyBenefit = 'Finally, A Tidy Drawer'
     description =
-      'Premium fast charging cables and adapters with durable construction, tangle-free design, and intelligent charging technology. Certified safe and efficient.'
-  } else if (slugLower.includes('stand') || slugLower.includes('holder') || slugLower.includes('mount')) {
+      'Storage and wardrobe organisers that hold their shape when full and fold flat when empty. Sized for Indian wardrobes and drawers. Made in India, delivered pan-India.'
+  } else if (/bag|tote|backpack|sling|duffel|handbag|shopper/.test(slugLower)) {
     intentKeywords = [
-      'phone stand India',
-      'mobile holder',
-      'desk stand',
-      'car mount',
-      'adjustable phone stand',
+      'tote bag India',
+      'sling bag online',
+      'everyday bag for women',
+      'travel bag India',
+      'stylish handbag online',
     ]
-    catchyBenefit = 'Hands-Free Convenience'
+    catchyBenefit = 'Everyday Carry, Elevated'
     description =
-      'Premium phone stands and holders with adjustable angles, stable grip, and elegant design. Perfect for desk, car, or bedside use.'
+      'Bags built for real days — sturdy stitching, honest capacity and a shape that still looks good at 6pm. Made in India, delivered pan-India with 7-day easy returns.'
   }
 
 
   const keywords = Array.from(new Set([...baseKeywords, ...intentKeywords]))
 
 
-  const brand = 'KD Book Bazaar'
+  const brand = 'The Curio Shelf'
   const title = `${product.name} – ${catchyBenefit} | ${brand}`
 
 
-  const canonical = new URL(`/products/${product.slug}`, 'https://www.thecurioshelf.in')
+  const canonical = new URL(`/product/${product.slug}`, 'https://www.thecurioshelf.in')
   const imageUrl =
     product.images?.[0]?.src
       ? new URL(product.images[0].src, 'https://www.thecurioshelf.in').toString()

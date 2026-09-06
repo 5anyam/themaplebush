@@ -3,7 +3,7 @@ import { fetchProducts } from '../../../lib/woocommerceApi'
 import SaleClient from './SaleClient'
 
 export const metadata = {
-  title: 'Sale — KD Book Bazaar',
+  title: 'Sale — The Curio Shelf',
   description: 'Best deals across all categories. Limited time offers.',
 }
 

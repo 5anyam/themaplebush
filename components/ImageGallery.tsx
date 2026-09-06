@@ -120,7 +120,7 @@ export default function ImageGallery({ images }: { images: Image[] }) {
           {/* Loading shimmer */}
           {isLoading && (
             <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#f9f8f6]">
-              <div className="w-10 h-10 rounded-full border-4 border-gray-200 border-t-[#ff3131] animate-spin" />
+              <div className="w-10 h-10 rounded-full border-4 border-gray-200 border-t-[#E11D74] animate-spin" />
             </div>
           )}
 
@@ -220,7 +220,7 @@ export default function ImageGallery({ images }: { images: Image[] }) {
               aria-label={`Image ${i + 1}`}
               className={`flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-200 focus:outline-none
                 ${i === active
-                  ? "border-[#ff3131] shadow-md scale-105"
+                  ? "border-[#E11D74] shadow-md scale-105"
                   : "border-transparent opacity-60 hover:opacity-100 hover:border-gray-300"
                 }`}
             >
@@ -248,7 +248,7 @@ export default function ImageGallery({ images }: { images: Image[] }) {
               aria-label={`Go to ${i + 1}`}
               className={`rounded-full transition-all duration-300 ${
                 i === active
-                  ? "w-5 h-1.5 bg-[#ff3131]"
+                  ? "w-5 h-1.5 bg-[#E11D74]"
                   : "w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400"
               }`}
             />

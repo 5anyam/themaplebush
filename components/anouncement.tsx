@@ -29,7 +29,7 @@ export default function AnnouncementBar({ onClose }: AnnouncementBarProps) {
       icon: '✦',
       text: (
         <span>
-          Free shipping pan-India &nbsp;·&nbsp; <span className="font-bold text-white">COD available</span>
+          Free shipping over ₹499 &nbsp;·&nbsp; <span className="font-bold text-white">COD available</span>
         </span>
       ),
     },

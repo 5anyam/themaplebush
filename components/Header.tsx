@@ -245,7 +245,7 @@ export default function Header() {
           style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
         >
           <span className="font-script text-base leading-none">✦</span>
-          Free shipping pan-India · COD available · 7-day easy returns
+          Free shipping over ₹499 · COD available · 7-day easy returns
           <button
             onClick={() => {
               setAnnouncementVisible(false);

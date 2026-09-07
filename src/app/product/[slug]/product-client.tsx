@@ -52,6 +52,21 @@ const getVariationAttributes = (product: Product): ProductAttribute[] => {
   return product.attributes.filter((attr) => attr.variation)
 }
 
+/**
+ * Does a variation satisfy the currently chosen attributes?
+ *
+ * WooCommerce returns an empty `option` for an attribute set to "Any", and such
+ * a variation matches whatever the shopper picked for that attribute.
+ */
+const variationMatches = (
+  variation: ProductVariation,
+  selected: Record<string, string>
+): boolean =>
+  variation.attributes.every((attr) => {
+    if (!attr.option) return true // "Any" — matches every value
+    return selected[attr.name.toLowerCase()] === attr.option
+  })
+
 const triggerConfetti = () => {
   const duration = 2.5 * 1000
   const animationEnd = Date.now() + duration
@@ -147,10 +162,9 @@ export default function ProductClient({
   const handleAttributeChange = (attributeName: string, option: string) => {
     const newAttributes = { ...selectedAttributes, [attributeName.toLowerCase()]: option }
     setSelectedAttributes(newAttributes)
-    const match = variations.find((v) =>
-      v.attributes.every((attr) => newAttributes[attr.name.toLowerCase()] === attr.option)
-    )
-    if (match) setSelectedVariation(match)
+    // Clear the selection when the new combination has no variation, otherwise
+    // the price and stock badge would keep describing the previous choice.
+    setSelectedVariation(variations.find((v) => variationMatches(v, newAttributes)) ?? null)
   }
 
   const currentPrice = selectedVariation?.price || product?.price || '0'
@@ -217,24 +231,53 @@ export default function ProductClient({
 
   const handleQuantityChange = (delta: number) => setQuantity(Math.max(1, quantity + delta))
 
+  const variationAttributes = isVariableProduct(product) ? getVariationAttributes(product) : []
+
+  /**
+   * The canonical option list lives on the product attribute. Variations are
+   * only a fallback, because an attribute set to "Any" contributes no option
+   * names of its own.
+   */
   const getAttributeOptions = (attributeName: string): string[] => {
+    const fromProduct = variationAttributes.find(
+      (a) => a.name.toLowerCase() === attributeName.toLowerCase()
+    )?.options
+    if (fromProduct?.length) return fromProduct
+
     const options = new Set<string>()
     variations.forEach((v) => {
       const attr = v.attributes.find((a) => a.name.toLowerCase() === attributeName.toLowerCase())
-      if (attr) options.add(attr.option)
+      if (attr?.option) options.add(attr.option)
     })
     return Array.from(options)
   }
 
   const isOptionAvailable = (attributeName: string, option: string): boolean => {
     const tempAttrs = { ...selectedAttributes, [attributeName.toLowerCase()]: option }
-    return variations.some((v) => {
-      const matches = v.attributes.every((attr) => tempAttrs[attr.name.toLowerCase()] === attr.option)
-      return matches && v.stock_status === 'instock'
-    })
+    return variations.some((v) => variationMatches(v, tempAttrs) && v.stock_status === 'instock')
   }
 
-  const variationAttributes = isVariableProduct(product) ? getVariationAttributes(product) : []
+
+  // ── Content from the "Curio Shelf — Product Panel" WordPress plugin ──
+  const specifications = (product.tcs_specifications || []).filter(
+    (s) => s && s.label?.trim() && s.value?.trim()
+  )
+  const careInstructions = (product.tcs_care_instructions || [])
+    .map((line) => (typeof line === 'string' ? line.trim() : ''))
+    .filter(Boolean)
+
+  // Only offer a tab when there is something behind it.
+  const productTabs: Array<{ key: 'description' | 'specifications' | 'care'; label: string }> = [
+    ...(product.description?.trim()
+      ? ([{ key: 'description', label: 'Description' }] as const)
+      : []),
+    ...(specifications.length
+      ? ([{ key: 'specifications', label: 'Specifications' }] as const)
+      : []),
+    ...(careInstructions.length
+      ? ([{ key: 'care', label: 'Care Instructions' }] as const)
+      : []),
+  ]
 
   const galleryImages: ImageData[] = selectedVariation?.image
     ? [{ src: selectedVariation.image.src, alt: selectedVariation.image.alt }]
@@ -449,6 +492,13 @@ export default function ProductClient({
                   </div>
                 ))
               )}
+
+              {/* The shopper landed on a combination that has no variation behind it. */}
+              {!variationsLoading && variations.length > 0 && !selectedVariation && (
+                <p className="text-[13px] font-medium text-[#E11D74]">
+                  This combination isn&apos;t available — try a different option.
+                </p>
+              )}
             </div>
           )}
 
@@ -643,48 +693,83 @@ export default function ProductClient({
         </div>
       </div>
 
-      {/* ── TABS SECTION ── */}
-      <div className="max-w-7xl mx-auto mt-16 px-4">
-        <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm overflow-hidden">
-          <Tab.Group>
-            <Tab.List className="flex border-b border-[#FFE9DD] overflow-x-auto">
-              {['Description', 'Specifications', 'Care Instructions'].map((label, idx) => (
-                <Tab
-                  key={idx}
-                  className={({ selected }) =>
-                    `flex-shrink-0 px-6 py-4 text-xs font-semibold outline-none transition-all uppercase tracking-wider whitespace-nowrap relative ${
-                      selected ? 'text-[#E11D74]' : 'text-[#2A0A22]/40 hover:text-[#2A0A22]/70'
-                    }`
-                  }
-                >
-                  {({ selected }) => (
-                    <>
-                      {label}
-                      {selected && (
-                        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E11D74] rounded-full" />
-                      )}
-                    </>
-                  )}
-                </Tab>
-              ))}
-            </Tab.List>
-            <Tab.Panels className="p-6 md:p-8">
-              <Tab.Panel>
-                <div
-                  className="prose prose-sm max-w-none text-[#2A0A22]/80 leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: product.description || '' }}
-                />
-              </Tab.Panel>
-              <Tab.Panel>
-                <p className="text-sm text-[#2A0A22]/50">Specifications coming soon.</p>
-              </Tab.Panel>
-              <Tab.Panel>
-                <p className="text-sm text-[#2A0A22]/50">Care instructions coming soon.</p>
-              </Tab.Panel>
-            </Tab.Panels>
-          </Tab.Group>
+      {/* ── TABS SECTION ──
+          Specifications and care instructions come from the "Curio Shelf —
+          Product Panel" WordPress plugin. A tab is only rendered when the shop
+          has actually filled that section in for this product. */}
+      {productTabs.length > 0 && (
+        <div className="max-w-7xl mx-auto mt-16 px-4">
+          <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm overflow-hidden">
+            <Tab.Group>
+              <Tab.List className="flex border-b border-[#FFE9DD] overflow-x-auto no-scrollbar">
+                {productTabs.map((tab) => (
+                  <Tab
+                    key={tab.key}
+                    className={({ selected }) =>
+                      `flex-shrink-0 px-6 py-4 text-xs font-semibold outline-none transition-all uppercase tracking-wider whitespace-nowrap relative ${
+                        selected ? 'text-[#E11D74]' : 'text-[#2A0A22]/40 hover:text-[#2A0A22]/70'
+                      }`
+                    }
+                  >
+                    {({ selected }) => (
+                      <>
+                        {tab.label}
+                        {selected && (
+                          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E11D74] rounded-full" />
+                        )}
+                      </>
+                    )}
+                  </Tab>
+                ))}
+              </Tab.List>
+              <Tab.Panels className="p-6 md:p-8">
+                {productTabs.map((tab) => (
+                  <Tab.Panel key={tab.key}>
+                    {tab.key === 'description' && (
+                      <div
+                        className="prose prose-sm max-w-none text-[#2A0A22]/80 leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: product.description || '' }}
+                      />
+                    )}
+
+                    {tab.key === 'specifications' && (
+                      <dl className="grid sm:grid-cols-2 gap-x-10 gap-y-0 max-w-3xl">
+                        {specifications.map((spec, i) => (
+                          <div
+                            key={`${spec.label}-${i}`}
+                            className="flex items-baseline justify-between gap-4 py-3 border-b border-[#FFE9DD]"
+                          >
+                            <dt className="text-[13px] font-semibold text-[#2A0A22]/55 uppercase tracking-wider">
+                              {spec.label}
+                            </dt>
+                            <dd className="text-[14px] text-[#2A0A22] text-right font-medium">
+                              {spec.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+
+                    {tab.key === 'care' && (
+                      <ul className="space-y-3 max-w-2xl">
+                        {careInstructions.map((line, i) => (
+                          <li key={i} className="flex gap-3 items-start">
+                            <span
+                              className="mt-[7px] w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              style={{ background: 'linear-gradient(135deg,#FF8A3D,#E11D74)' }}
+                            />
+                            <span className="text-[14px] leading-relaxed text-[#2A0A22]/75">{line}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Tab.Panel>
+                ))}
+              </Tab.Panels>
+            </Tab.Group>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="max-w-7xl mx-auto mt-10 px-4">
         <ProductFAQ productSlug={slug} productName={product.name} />

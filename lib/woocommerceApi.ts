@@ -68,6 +68,15 @@ export interface Product {
   type?: 'simple' | 'variable' | 'grouped' | 'external';  // ⭐ ADDED
   variations?: number[];  // ⭐ ADDED
   categories?: WCCategoryRef[];
+  /** Added by the "Curio Shelf — Product Panel" WordPress plugin. */
+  tcs_specifications?: ProductSpecification[];
+  /** Added by the "Curio Shelf — Product Panel" WordPress plugin. */
+  tcs_care_instructions?: string[];
+}
+
+export interface ProductSpecification {
+  label: string;
+  value: string;
 }
 
 export interface Category {

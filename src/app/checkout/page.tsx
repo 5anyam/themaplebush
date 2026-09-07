@@ -22,8 +22,10 @@ const WOOCOMMERCE_CONFIG = {
 };
 
 const RAZORPAY_CONFIG = {
-  KEY_ID: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_T6YBXprJ5J3n9D",
+  KEY_ID: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
+  // Shown as the merchant name inside the Razorpay modal.
   COMPANY_NAME: "The Curio Shelf",
+  LOGO: "https://www.thecurioshelf.in/logo.jpeg",
   THEME_COLOR: "#E11D74",
 };
 
@@ -65,8 +67,11 @@ interface RazorpayOptions {
   key: string;
   amount: number;
   currency: string;
+  /** Razorpay order id created server-side; required for signature verification. */
+  order_id: string;
   name: string;
   description: string;
+  image?: string;
   handler: (response: RazorpayHandlerResponse) => void;
   modal?: { ondismiss?: () => void };
   prefill?: { name?: string; email?: string; contact?: string };
@@ -101,6 +106,37 @@ const loadRazorpayScript = (): Promise<boolean> =>
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
+
+/** Asks our server to open a Razorpay order. The key secret stays on the server. */
+const createRazorpayOrder = async (
+  amount: number,
+  receipt: string,
+  notes: Record<string, string>
+): Promise<{ id: string; amount: number; currency: string }> => {
+  const res = await fetch("/api/razorpay/create-order", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount, receipt, notes }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data?.id) throw new Error(data?.error || "Could not start the payment");
+  return data;
+};
+
+/** Server-side HMAC check. A payment is only trusted once this returns true. */
+const verifyRazorpayPayment = async (payload: RazorpayHandlerResponse): Promise<boolean> => {
+  try {
+    const res = await fetch("/api/razorpay/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    return res.ok && data?.valid === true;
+  } catch {
+    return false;
+  }
+};
 
 const createWooCommerceOrder = async (
   orderData: Record<string, unknown>
@@ -357,6 +393,21 @@ export default function Checkout(): React.ReactElement {
   };
 
   const handlePaymentSuccess = async (wooOrder: WooCommerceOrder, response: RazorpayHandlerResponse) => {
+    // Never trust the browser callback on its own — the server recomputes the
+    // signature before the order is allowed to move to "processing".
+    const verified = await verifyRazorpayPayment(response);
+    if (!verified) {
+      try { await updateWooCommerceOrderStatus(wooOrder.id, "on-hold"); } catch { /* ignore */ }
+      toast({
+        title: "Payment could not be verified",
+        description: "If money was debited it will be refunded, or write to hello@thecurioshelf.in.",
+        variant: "destructive",
+      });
+      setLoading(false); setStep("form");
+      setTimeout(() => router.push(`/payment-failed?error=Payment+verification+failed&amount=${finalTotal.toFixed(2)}`), 1200);
+      return;
+    }
+
     try {
       await updateWooCommerceOrderStatus(wooOrder.id, "processing", response);
       const cartItems: CartItem[] = items.map((i) => ({ id: i.id, name: i.name, price: parseFloat(i.price), quantity: i.quantity }));
@@ -410,11 +461,20 @@ export default function Checkout(): React.ReactElement {
         setLoading(false); setStep("form"); return;
       }
       wooOrder = await createWooCommerceOrder(buildOrderData("razorpay"));
+
+      // Server-created Razorpay order — this id is what makes the payment verifiable.
+      const rzpOrder = await createRazorpayOrder(finalTotal, `wc_${wooOrder.id}`, {
+        wc_order_id: String(wooOrder.id),
+        customer: form.name,
+      });
+
       const rzp = new window.Razorpay({
         key: RAZORPAY_CONFIG.KEY_ID,
-        amount: Math.round(finalTotal * 100),
-        currency: "INR",
+        amount: rzpOrder.amount,
+        currency: rzpOrder.currency,
+        order_id: rzpOrder.id,
         name: RAZORPAY_CONFIG.COMPANY_NAME,
+        image: RAZORPAY_CONFIG.LOGO,
         description: `Order #${wooOrder.id}`,
         handler: (res) => { void handlePaymentSuccess(wooOrder!, res); },
         modal: { ondismiss: () => { void handlePaymentDismiss(wooOrder); } },

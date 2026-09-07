@@ -7,6 +7,8 @@ import { AuthProvider } from '../../lib/AuthContext';
 import Script from 'next/script';
 import { ThemeProvider } from '../../components/ThemeProvider';
 import Loader from '../../components/Loader';
+import Preloader from '../../components/Preloader';
+import WhatsAppButton from '../../components/WhatsAppButton';
 
 export const metadata = {
   title: 'The Curio Shelf — Carry a little wonder.',
@@ -158,6 +160,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
 
       <body className="overflow-x-hidden overflow-y-scroll antialiased transition-colors duration-300" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
+        <Preloader />
         <Loader />
 
         <ThemeProvider>
@@ -169,6 +172,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   {children}
                 </main>
                 <Footer />
+                <WhatsAppButton />
               </AuthProvider>
             </CartProvider>
           </ReactQueryProvider>

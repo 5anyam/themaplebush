@@ -5,12 +5,16 @@ import { usePathname } from 'next/navigation';
 
 /**
  * Floating WhatsApp button.
+ *
  * The number comes from NEXT_PUBLIC_WHATSAPP_NUMBER (digits only, with country
- * code, e.g. 918076013164). If it is not set the button renders nothing rather
- * than linking somewhere wrong.
+ * code). NEXT_PUBLIC_* values are inlined at build time, so a dev server or a
+ * deploy that started before the variable existed would otherwise render no
+ * button at all with no error — hence the hardcoded fallback below. The env
+ * var still wins whenever it is set.
  */
 
-const RAW_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
+const FALLBACK_NUMBER = '918076013164';
+const RAW_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || FALLBACK_NUMBER;
 const NUMBER = RAW_NUMBER.replace(/\D/g, '');
 
 // Checkout is the one place a floating button gets in the way of the form.

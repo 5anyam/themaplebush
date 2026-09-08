@@ -1,8 +1,8 @@
 'use client';
 import ProductCard from "../../components/ProductCard";
+import HeroBanners from "../../components/HeroBanners";
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 
 interface Product {
   id: number;
@@ -33,10 +33,6 @@ const MARQUEE = [
   '✦ 7-day easy returns','✦ COD available','✦ 10,000+ happy carries',
   '✦ Curated · Characterful · Carry-worthy',
 ];
-
-/* Words that cycle through the hero headline */
-const HERO_WORDS = ['wonder', 'character', 'mischief', 'chaos', 'magic'];
-const LONGEST_WORD = HERO_WORDS.reduce((a, b) => (b.length > a.length ? b : a), '');
 
 function ArrowRight({ size = 16 }: { size?: number }) {
   return (
@@ -168,103 +164,6 @@ function CountUp({ to, decimals = 0, suffix = '', run }: { to: number; decimals?
     return () => cancelAnimationFrame(raf);
   }, [run, to]);
   return <>{val.toFixed(decimals)}{suffix}</>;
-}
-
-/* ── Rotating hero word ──────────────────────────────────── */
-function RotatingWord() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    const id = setInterval(() => setI(v => (v + 1) % HERO_WORDS.length), 2600);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    /* block on small screens so the word always gets its own line instead of
-       pushing the headline past the viewport edge */
-    <span className="relative block sm:inline-block align-baseline w-fit">
-      {/* invisible sizer keeps the line from jumping */}
-      <span className="invisible" aria-hidden>{LONGEST_WORD}</span>
-      <span className="sr-only">{HERO_WORDS[i]}</span>
-      {HERO_WORDS.map((w, idx) => (
-        <span
-          key={w}
-          aria-hidden
-          className="absolute left-0 top-0 whitespace-nowrap grad-text grad-pan"
-          style={{
-            opacity: idx === i ? 1 : 0,
-            transform: idx === i ? 'translateY(0) rotateX(0deg)' : 'translateY(.32em) rotateX(-55deg)',
-            transition: 'opacity .55s cubic-bezier(.16,.84,.44,1), transform .55s cubic-bezier(.16,.84,.44,1)',
-            transformOrigin: '50% 100%',
-          }}
-        >
-          {w}
-        </span>
-      ))}
-      {/* hand-drawn underline, redrawn on every word change */}
-      <svg key={i} className="absolute left-0" width="100%" height="16" viewBox="0 0 220 16" fill="none" preserveAspectRatio="none"
-        style={{ bottom: '-.24em', pointerEvents: 'none' }} aria-hidden>
-        <path className="underline-path" d="M4 10C44 3 86 2 120 7C150 11 188 13 216 5"
-          stroke="#E11D74" strokeWidth="4" strokeLinecap="round"/>
-      </svg>
-    </span>
-  );
-}
-
-/* Floating framed product card for hero */
-function HeroFrame({ product, style, delay = 0, parallax = 0 }: { product: Product; style: React.CSSProperties; delay?: number; parallax?: number }) {
-  const img = product.images?.[0]?.src;
-  return (
-    <Link
-      href={`/product/${product.slug}`}
-      className="absolute group"
-      style={{ ...style, animationDelay: `${delay}s` }}
-    >
-      <div
-        className="relative rounded-[6px] overflow-visible transition-[translate] duration-500 ease-out"
-        style={{
-          padding: 10,
-          background: 'linear-gradient(#FFFDFB,#FFF1E9)',
-          boxShadow: '0 40px 60px -24px rgba(42,10,34,.45), 0 12px 28px -12px rgba(176,19,97,.28), inset 0 0 0 1px rgba(255,255,255,.7), inset 0 0 0 7px rgba(255,255,255,.65), inset 0 0 0 8px rgba(225,29,116,.45)',
-          animation: `floatFrame ${4 + delay}s ease-in-out infinite alternate`,
-          translate: `0 ${parallax}px`,
-        }}
-      >
-        {/* Outer frame border */}
-        <div className="absolute inset-0 rounded-[6px] pointer-events-none" style={{
-          background: 'linear-gradient(150deg,#3A0E2A,#7a1450 32%,#3A0E2A 72%)',
-          padding: 2,
-          WebkitMask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
-          WebkitMaskComposite: 'xor',
-          mask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
-          maskComposite: 'exclude',
-        }} />
-        {/* Image */}
-        <div className="overflow-hidden rounded-[3px]" style={{ width: '100%', height: '100%' }}>
-          {img
-            ? <img src={img} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" draggable={false} />
-            : <div className="w-full h-full flex items-center justify-center" style={{ background: '#FFE9DD' }}>
-                <span className="font-serif text-4xl font-bold" style={{ color: '#2A0A22', opacity: 0.15 }}>{product.name[0]}</span>
-              </div>
-          }
-          {/* Glass sheen */}
-          <div className="absolute inset-[10px] rounded-[3px] pointer-events-none" style={{
-            background: 'linear-gradient(125deg,rgba(255,255,255,.4),rgba(255,255,255,.05) 30%,transparent 46%)',
-          }} />
-          {/* Hover shine sweep */}
-          <div className="absolute inset-[10px] rounded-[3px] pointer-events-none overflow-hidden">
-            <span className="shine-sweep" />
-          </div>
-        </div>
-        {/* Catalogue plate */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 -bottom-3.5 whitespace-nowrap font-serif text-[9px] font-semibold tracking-[.14em] uppercase text-white px-3 py-1 rounded-sm z-10"
-          style={{ background: 'linear-gradient(135deg,#FF8A3D 0%,#FF4D6D 50%,#E11D74 100%)', boxShadow: '0 4px 10px -4px rgba(42,10,34,.5)' }}
-        >
-          {product.name.length > 18 ? product.name.slice(0, 16) + '…' : product.name}
-        </div>
-      </div>
-    </Link>
-  );
 }
 
 /* ── Category slider (replaces the ragged category grid) ─── */
@@ -399,25 +298,7 @@ function CategoryRail({ categories }: { categories: Category[] }) {
 }
 
 export default function HomePageClient({ products, categories }: { products: Product[]; categories: Category[] }) {
-  const router = useRouter();
-  const [heroSearch, setHeroSearch] = useState('');
   const [statsRef, statsVis] = useReveal<HTMLElement>();
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    const q = heroSearch.trim();
-    if (q) router.push(`/search?q=${encodeURIComponent(q)}`);
-  }
-
-  /* Gentle pointer parallax for the hero vitrine (desktop only) */
-  function handleHeroMove(e: React.MouseEvent<HTMLDivElement>) {
-    const r = e.currentTarget.getBoundingClientRect();
-    setTilt({
-      x: (e.clientX - r.left) / r.width - 0.5,
-      y: (e.clientY - r.top) / r.height - 0.5,
-    });
-  }
 
   const chipCategories = categories;
 
@@ -448,9 +329,6 @@ export default function HomePageClient({ products, categories }: { products: Pro
   const leftoverCols = fitCols(leftovers.length);
   const leftoverVis = wholeRows(leftovers.length);
 
-  /* Pick up to 3 products with images for the hero vitrine */
-  const heroProducts = products.filter(p => p.images?.[0]?.src).slice(0, 3);
-
   const STATS = [
     { to: 10,  dec: 0, suffix: 'K+', l: 'Happy Carries' },
     { to: 4.9, dec: 1, suffix: '★',  l: 'Avg Rating'    },
@@ -462,164 +340,15 @@ export default function HomePageClient({ products, categories }: { products: Pro
     <div className="min-h-screen font-sans overflow-x-hidden" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
 
       <style>{`
-        @keyframes floatFrame { 0%{transform:translateY(0) rotate(var(--r,0deg))} 100%{transform:translateY(-10px) rotate(var(--r,0deg))} }
-        @keyframes driftBlob  { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(5%,-6%) scale(1.14)} }
-        @keyframes fadeUp     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes underlineDraw { from{stroke-dashoffset:240} to{stroke-dashoffset:0} }
-        @keyframes gradPan    { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-        @keyframes sweep      { 0%{transform:translateX(-120%) skewX(-18deg)} 100%{transform:translateX(220%) skewX(-18deg)} }
-        @keyframes scrollHint { 0%,100%{transform:translateY(0);opacity:.5} 50%{transform:translateY(6px);opacity:1} }
-        .hero-fade { animation: fadeUp .9s ease both; }
-        .hero-fade-1 { animation-delay: .05s }
-        .hero-fade-2 { animation-delay: .18s }
-        .hero-fade-3 { animation-delay: .30s }
-        .hero-fade-4 { animation-delay: .44s }
-        .hero-fade-5 { animation-delay: .58s }
-        .hero-fade-6 { animation-delay: .70s }
-        .underline-path { stroke-dasharray:240; stroke-dashoffset:240; animation: underlineDraw 1.1s .35s cubic-bezier(.4,0,.2,1) forwards; }
-        .grad-pan { background-size: 220% 220%; animation: gradPan 7s ease-in-out infinite; }
-        .shine-sweep {
-          position:absolute; top:0; bottom:0; width:42%; left:0; opacity:0;
-          background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
-        }
-        .group:hover .shine-sweep { opacity:1; animation: sweep .9s cubic-bezier(.4,0,.2,1); }
-        .scroll-hint { animation: scrollHint 2s ease-in-out infinite; }
+        @keyframes driftBlob { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(5%,-6%) scale(1.14)} }
         .prow { display:none; }
         @media (min-width:768px)  { .prow { display:grid; gap:1rem; grid-template-columns: repeat(var(--n-md,4), minmax(0,1fr)); } }
         @media (min-width:1024px) { .prow { gap:1.25rem; grid-template-columns: repeat(var(--n-lg,5), minmax(0,1fr)); } }
         @media (min-width:1280px) { .prow { grid-template-columns: repeat(var(--n-xl,6), minmax(0,1fr)); } }
-        .grain-overlay { position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.055;
-          background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-          background-size:160px 160px; }
-        @media (prefers-reduced-motion: reduce) {
-          .hero-fade, .grad-pan, .shine-sweep, .scroll-hint { animation: none !important; }
-          .underline-path { animation: none !important; stroke-dashoffset: 0 !important; }
-        }
       `}</style>
 
-      {/* ═══════════════════ HERO ═══════════════════ */}
-      <section className="relative overflow-hidden pt-14 pb-16 sm:pt-20 sm:pb-24 px-4">
-
-        {/* Ambient blobs */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute rounded-full" style={{ width:'54%', height:'70%', left:'-12%', top:'-18%', background:'radial-gradient(closest-side,rgba(255,178,102,.48),transparent)', filter:'blur(52px)', animation:'driftBlob 22s ease-in-out infinite' }} />
-          <div className="absolute rounded-full" style={{ width:'52%', height:'66%', right:'-14%', top:'4%', background:'radial-gradient(closest-side,rgba(255,77,109,.38),transparent)', filter:'blur(52px)', animation:'driftBlob 18s ease-in-out infinite', animationDelay:'-9s' }} />
-          <div className="absolute rounded-full" style={{ width:'30%', height:'38%', left:'35%', bottom:'-8%', background:'radial-gradient(closest-side,rgba(225,29,116,.22),transparent)', filter:'blur(48px)', animation:'driftBlob 26s ease-in-out infinite', animationDelay:'-14s' }} />
-        </div>
-        <div className="grain-overlay" aria-hidden />
-
-        <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
-
-          {/* ── Left: Copy ── */}
-          <div className="min-w-0">
-            <div className="hero-fade hero-fade-1 inline-flex items-center gap-2 mb-5 text-[11.5px] font-bold tracking-[.18em] uppercase" style={{ color: '#E11D74' }}>
-              <span className="w-5 h-px" style={{ background: '#E11D74' }} />
-              A shelf of small wonders · Made in India
-            </div>
-
-            <h1 className="hero-fade hero-fade-2 font-serif font-black leading-[.94] tracking-tight mb-5 break-words"
-              style={{ fontSize: 'clamp(2.3rem,6vw,4.8rem)' }}>
-              Carry a little{' '}
-              <RotatingWord />
-            </h1>
-
-            <p className="hero-fade hero-fade-3 font-script mb-5" style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', color: '#E11D74', lineHeight: 1.15 }}>
-              all your curiosities, one shelf
-            </p>
-
-            <p className="hero-fade hero-fade-3 text-base sm:text-lg leading-relaxed mb-8 max-w-lg" style={{ color: 'rgba(42,10,34,.62)' }}>
-              Lunch bags that keep lunch warm till 2pm. Pouches that somehow swallow an entire handbag.
-              Organisers that finally make the drawer make sense. Handpicked, honestly priced, made in India.
-            </p>
-
-            {/* Search */}
-            <form onSubmit={handleSearch} className="hero-fade hero-fade-4 flex items-center max-w-sm mb-8 rounded-full overflow-hidden border border-[#FFE9DD] bg-white/80 focus-within:border-[#E11D74]/50 focus-within:shadow-[0_10px_30px_-14px_rgba(225,29,116,.55)] transition-all duration-300 shadow-sm">
-              <svg className="ml-4 flex-shrink-0" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ color:'rgba(42,10,34,.35)' }}>
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-              </svg>
-              <input type="text" value={heroSearch} onChange={e => setHeroSearch(e.target.value)}
-                placeholder="Search bags, pouches…"
-                aria-label="Search products"
-                className="flex-1 bg-transparent py-3.5 px-3 text-sm focus:outline-none placeholder-[#2A0A22]/30"
-                style={{ color: '#2A0A22' }} />
-              <button type="submit" className="m-1 px-4 py-2.5 rounded-full text-white text-xs font-bold tracking-wide hover:opacity-90 active:scale-95 transition-all duration-200"
-                style={{ background: 'linear-gradient(135deg,#FF8A3D 0%,#FF4D6D 50%,#E11D74 100%)' }}>
-                Search
-              </button>
-            </form>
-
-            {/* CTAs */}
-            <div className="hero-fade hero-fade-5 flex flex-wrap gap-3 mb-8">
-              <Link href="/collections" className="mag-btn text-[14px] px-7 py-3.5 group">
-                Shop the shelf
-                <span className="transition-transform duration-300 group-hover:translate-x-1"><ArrowRight /></span>
-              </Link>
-              <Link href="/sale" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-[14px] border-2 border-[#2A0A22]/15 hover:border-[#E11D74]/40 hover:bg-[#FFE9DD] hover:-translate-y-0.5 transition-all duration-300" style={{ color: '#2A0A22' }}>
-                Sale &amp; Deals
-              </Link>
-            </div>
-
-            {/* Category chips */}
-            {chipCategories.length > 0 && (
-              <div className="hero-fade hero-fade-6 flex flex-wrap gap-2">
-                {chipCategories.slice(0, 6).map(cat => (
-                  <Link key={cat.slug} href={`/category/${cat.slug}`}
-                    className="px-3.5 py-1.5 rounded-full text-[12px] font-semibold border hover:bg-[#FFE9DD] hover:border-[#E11D74]/40 hover:-translate-y-0.5 transition-all duration-300"
-                    style={{ color: '#2A0A22', borderColor: 'rgba(42,10,34,0.18)' }}>
-                    {cat.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* ── Right: Vitrine (floating framed products) ── */}
-          <div
-            className="hidden lg:block relative"
-            style={{ height: 560 }}
-            onMouseMove={handleHeroMove}
-            onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-          >
-            {heroProducts[0] && (
-              <HeroFrame product={heroProducts[0]} delay={0} parallax={tilt.y * -18}
-                style={{ left: '18%', top: '4%', width: '46%', aspectRatio: '3/4', '--r':'-1.5deg' } as React.CSSProperties} />
-            )}
-            {heroProducts[1] && (
-              <HeroFrame product={heroProducts[1]} delay={1.8} parallax={tilt.y * 12}
-                style={{ right: '2%', top: '12%', width: '40%', aspectRatio: '3/4', '--r':'2deg' } as React.CSSProperties} />
-            )}
-            {heroProducts[2] && (
-              <HeroFrame product={heroProducts[2]} delay={3.2} parallax={tilt.y * 22}
-                style={{ left: '4%', bottom: '4%', width: '36%', aspectRatio: '3/4', '--r':'-2.5deg' } as React.CSSProperties} />
-            )}
-            {/* Floating tag */}
-            <div className="absolute z-10 font-script text-white text-2xl px-4 py-1.5 rounded-[4px] float-soft"
-              style={{ right: '8%', top: '3%', background: 'linear-gradient(135deg,#FF8A3D,#E11D74)', boxShadow: '0 14px 24px -10px rgba(176,19,97,.5)', transform: 'rotate(-2.5deg)', animationDelay: '1.2s' }}>
-              handpicked
-            </div>
-            {/* New season chip */}
-            <div className="absolute z-10 flex items-center gap-2 text-[#FFE9DD] text-[11px] font-semibold tracking-[.14em] uppercase px-4 py-2.5 rounded-[4px] float-soft"
-              style={{ left: '2%', top: '30%', background: 'linear-gradient(#3A0E2A,#2A0A22)', boxShadow: '0 16px 28px -12px rgba(42,10,34,.6), inset 0 0 0 1px rgba(225,29,116,.45)', animationDelay: '2.4s' }}>
-              <span className="w-2 h-2 rounded-full breathe" style={{ background: 'linear-gradient(135deg,#FF8A3D,#E11D74)' }} />
-              new season
-            </div>
-          </div>
-
-          {/* Mobile: simple image strip instead of vitrine */}
-          {heroProducts.length > 0 && (
-            <div className="lg:hidden flex gap-3 overflow-x-auto no-scrollbar snap-x -mx-4 px-4 pb-1">
-              {heroProducts.slice(0, 3).map(p => (
-                <Link key={p.id} href={`/product/${p.slug}`} className="flex-shrink-0 w-36 snap-start active:scale-95 transition-transform">
-                  <div className="rounded-2xl overflow-hidden border border-[#FFE9DD]" style={{ aspectRatio:'3/4', background:'#FFE9DD' }}>
-                    {p.images?.[0]?.src && <img src={p.images[0].src} alt={p.name} className="w-full h-full object-cover" />}
-                  </div>
-                  <p className="text-[12px] font-semibold mt-1.5 line-clamp-1" style={{ color: '#2A0A22' }}>{p.name}</p>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* ═══════════════════ HERO BANNERS ═══════════════════ */}
+      <HeroBanners />
 
       {/* ═══════════════════ MARQUEE ═══════════════════ */}
       <div className="py-3.5 overflow-hidden border-y border-[#2A0A22]/10" style={{ background: '#2A0A22' }}>

@@ -161,6 +161,11 @@ body {
   transform: translateX(-50%);
   z-index: 6;
   white-space: nowrap;
+  /* Long product names used to run past both edges of a narrow card and spill
+     over its neighbours. Keep the plate inside the frame and ellipsise. */
+  max-width: calc(100% - 16px);
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-family: 'Fraunces', serif;
   font-size: 10px;
   font-weight: 600;

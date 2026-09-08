@@ -6,6 +6,7 @@ import CartIcon from "./CartIcon";
 import { useIsMobile } from "../hooks/use-mobile";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useAuth } from "../lib/AuthContext";
+import { Sparkles, X } from "lucide-react";
 
 const QUICK_CHIPS = ['Pouches', 'Lunch Bags', 'Organisers', 'Laptop Bags', 'Cosmetic Bags'];
 
@@ -241,20 +242,27 @@ export default function Header() {
       {/* Announcement bar */}
       {announcementVisible && (
         <div
-          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center gap-3 px-4 py-2 text-white text-[12px] font-semibold tracking-wide"
+          className="fixed top-0 left-0 right-0 z-50 h-9 flex items-center justify-center px-10 text-white text-[11.5px] sm:text-[12px] font-semibold tracking-wide"
           style={{ background: 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)' }}
         >
-          <span className="font-script text-base leading-none">✦</span>
-          Free shipping over ₹499 · COD available · 7-day easy returns
+          {/* One line always — the spacer below is a fixed 36px, so a wrap here
+              would slide the bar over the top of the page content. */}
+          <span className="inline-flex items-center gap-2 min-w-0 whitespace-nowrap">
+            <Sparkles className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.2} />
+            <span className="truncate">
+              <span className="sm:hidden">Free shipping over ₹499 · COD available</span>
+              <span className="hidden sm:inline">Free shipping over ₹499 · COD available · 7-day easy returns</span>
+            </span>
+          </span>
           <button
             onClick={() => {
               setAnnouncementVisible(false);
               localStorage.setItem('announcementBarClosed', 'true');
             }}
-            className="ml-3 opacity-70 hover:opacity-100 transition-opacity"
-            aria-label="Close"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 grid place-items-center opacity-70 hover:opacity-100 transition-opacity"
+            aria-label="Close announcement"
           >
-            ✕
+            <X className="w-4 h-4" strokeWidth={2.4} />
           </button>
         </div>
       )}

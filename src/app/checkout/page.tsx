@@ -10,8 +10,7 @@ import type { CartItem } from "../../../lib/facebook-pixel";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  ShoppingBag, User, CheckCircle, AlertCircle,
-  Tag, X, ArrowRight, Lock
+  AlertCircle, ArrowRight, Banknote, CheckCircle, CreditCard, Lock, ShoppingBag, Tag, User, X
 } from "lucide-react";
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
@@ -764,7 +763,11 @@ export default function Checkout(): React.ReactElement {
                       : "border-[#FFE9DD] bg-[#FFF6EF] text-[#2A0A22]/60 hover:border-[#FFE9DD]"
                   }`}
                 >
-                  {m === "razorpay" ? "💳 Online Payment" : "🏠 Cash on Delivery"}
+                  <span className="inline-flex items-center justify-center gap-1.5">
+                    {m === "razorpay"
+                      ? <><CreditCard className="w-4 h-4 flex-shrink-0" strokeWidth={2} />Online Payment</>
+                      : <><Banknote className="w-4 h-4 flex-shrink-0" strokeWidth={2} />Cash on Delivery</>}
+                  </span>
                   {m === "cod" && <span className="block text-[10px] font-normal text-[#FF6A2B] mt-0.5">+₹100 handling fee</span>}
                 </button>
               ))}

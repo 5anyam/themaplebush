@@ -561,7 +561,7 @@ export default function Dashboard() {
                             {order.billing.postcode && ` ${order.billing.postcode}`}
                           </p>
                           {order.billing.phone && (
-                            <p className="text-xs text-[#2A0A22]/40 mt-0.5">📞 {order.billing.phone}</p>
+                            <p className="text-xs text-[#2A0A22]/40 mt-0.5 flex items-center gap-1.5"><Phone className="w-3 h-3 flex-shrink-0" strokeWidth={2} />{order.billing.phone}</p>
                           )}
                         </div>
 

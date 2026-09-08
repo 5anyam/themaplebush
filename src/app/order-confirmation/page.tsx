@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { CheckCircle, Package, Home, ShoppingBag, Copy, Check } from "lucide-react";
+import {
+  Check, CheckCircle, Copy, Home, Package, ShoppingBag, Sparkles
+} from "lucide-react";
 
 function OrderConfirmationContent() {
   const params = useSearchParams();
@@ -44,7 +46,9 @@ function OrderConfirmationContent() {
             <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center">
               <CheckCircle className="w-10 h-10 text-green-500" strokeWidth={1.5} />
             </div>
-            <span className="absolute -top-1 -right-1 text-xl">🎉</span>
+            <span className="absolute -top-1 -right-1 w-7 h-7 rounded-full grid place-items-center" style={{ background: 'linear-gradient(135deg,#FF8A3D,#E11D74)' }}>
+              <Sparkles className="w-3.5 h-3.5 text-white" strokeWidth={2.2} />
+            </span>
           </div>
 
           <h1 className="text-2xl font-bold mb-2 font-serif" style={{ color: '#2A0A22' }}>Order Confirmed!</h1>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Truck, Clock, MapPin, Bell, Shield, Package, ChevronRight, Mail, CheckCircle, LucideIcon } from 'lucide-react';
+import { Building2, Store, Mountain } from "lucide-react";
 import Link from 'next/link';
 
 const GRADIENT = 'linear-gradient(135deg, #FF8A3D 0%, #FF4D6D 50%, #E11D74 100%)';
@@ -165,16 +166,18 @@ export default function ShippingPolicy() {
           <h3 className="text-sm font-bold font-serif uppercase tracking-wide mb-5" style={{ color: '#2A0A22' }}>Pan-India Delivery Coverage</h3>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { region: 'Metro Cities', time: '2–3 Business Days', icon: '🏙️', examples: 'Delhi, Mumbai, Bangalore, Chennai' },
-              { region: 'Tier 2 Cities', time: '3–5 Business Days', icon: '🌆', examples: 'Jaipur, Lucknow, Bhopal, Surat' },
-              { region: 'Remote Areas', time: '5–7 Business Days', icon: '🏞️', examples: 'Northeast, J&K, Andaman' },
+              { region: 'Metro Cities', time: '2–3 Business Days', Icon: Building2, examples: 'Delhi, Mumbai, Bangalore, Chennai' },
+              { region: 'Tier 2 Cities', time: '3–5 Business Days', Icon: Store, examples: 'Jaipur, Lucknow, Bhopal, Surat' },
+              { region: 'Remote Areas', time: '5–7 Business Days', Icon: Mountain, examples: 'Northeast, J&K, Andaman' },
             ].map((area, index) => (
               <div
                 key={index}
                 className="text-center p-5 rounded-xl border hover:shadow-sm transition-all"
                 style={{ background: '#FFF6EF', borderColor: '#FFE9DD' }}
               >
-                <div className="text-3xl mb-2">{area.icon}</div>
+                <div className="w-11 h-11 mx-auto mb-3 rounded-xl grid place-items-center" style={{ background: 'linear-gradient(135deg,#FF8A3D,#E11D74)' }}>
+                  <area.Icon className="w-5 h-5 text-white" strokeWidth={1.9} />
+                </div>
                 <h4 className="text-sm font-bold mb-1" style={{ color: '#2A0A22' }}>{area.region}</h4>
                 <p className="text-xs font-semibold mb-2" style={{ color: '#E11D74' }}>{area.time}</p>
                 <p className="text-[11px]" style={{ color: '#2A0A22', opacity: 0.5 }}>{area.examples}</p>

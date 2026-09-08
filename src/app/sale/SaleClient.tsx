@@ -118,7 +118,7 @@ export default function SaleClient({
       images: (product.images || []).map((img) => ({ src: img.src, alt: img.alt })),
     }
     addToCart(cartProduct)
-    toast({ title: '🛒 Added!', description: `${product.name} added to cart` })
+    toast({ title: 'Added to cart', description: `${product.name} added to cart` })
     setTimeout(() => setAddingId(null), 1200)
   }
 

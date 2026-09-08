@@ -1,6 +1,10 @@
 'use client';
 import ProductCard from "../../components/ProductCard";
 import HeroBanners from "../../components/HeroBanners";
+import {
+  Truck, RotateCcw, ShieldCheck, Headphones,
+  Sparkles, MapPin, Lock, MessageCircle,
+} from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from 'react';
 
@@ -363,17 +367,19 @@ export default function HomePageClient({ products, categories }: { products: Pro
       <section className="py-5 px-4 border-b border-[#FFE9DD]" style={{ background: 'rgba(255,233,221,.2)' }}>
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { icon: '🚚', t: 'Free Shipping',  s: 'On orders over ₹499'   },
-            { icon: '↩️', t: 'Easy Returns',   s: '7-day hassle-free'     },
-            { icon: '🔒', t: 'Secure Payment', s: '100% encrypted'        },
-            { icon: '💬', t: '24/7 Support',   s: 'Real humans, fast replies' },
+            { Icon: Truck,       t: 'Free Shipping',  s: 'On orders over ₹499'   },
+            { Icon: RotateCcw,   t: 'Easy Returns',   s: '7-day hassle-free'     },
+            { Icon: ShieldCheck, t: 'Secure Payment', s: '100% encrypted'        },
+            { Icon: Headphones,  t: '24/7 Support',   s: 'Real humans, fast replies' },
           ].map((x, i) => (
             <Reveal key={i} delay={i * 70} y={14}>
-              <div className="flex items-center gap-3 py-2.5 px-3 rounded-xl h-full transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-16px_rgba(42,10,34,.5)]" style={{ background: 'white' }}>
-                <span className="text-xl flex-shrink-0">{x.icon}</span>
+              <div className="flex items-center gap-2.5 sm:gap-3 py-2.5 px-2.5 sm:px-3 rounded-xl h-full transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-16px_rgba(42,10,34,.5)]" style={{ background: 'white' }}>
+                <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg grid place-items-center flex-shrink-0" style={{ background: '#FFE9DD' }}>
+                  <x.Icon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" strokeWidth={1.9} style={{ color: '#E11D74' }} />
+                </span>
                 <div>
-                  <p className="text-[12.5px] font-bold leading-tight" style={{ color: '#2A0A22' }}>{x.t}</p>
-                  <p className="text-[11px] leading-tight" style={{ color: 'rgba(42,10,34,.45)' }}>{x.s}</p>
+                  <p className="text-[12px] sm:text-[12.5px] font-bold leading-tight" style={{ color: '#2A0A22' }}>{x.t}</p>
+                  <p className="text-[10.5px] sm:text-[11px] leading-tight mt-0.5" style={{ color: 'rgba(42,10,34,.45)' }}>{x.s}</p>
                 </div>
               </div>
             </Reveal>
@@ -383,7 +389,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
 
       {/* ═══════════════════ CATEGORIES ═══════════════════ */}
       {chipCategories.length > 0 && (
-        <section className="py-16 px-4">
+        <section className="py-11 sm:py-16 px-4">
           <div className="max-w-7xl mx-auto">
             <Reveal>
               <div className="flex items-end justify-between mb-8">
@@ -393,7 +399,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
                   </div>
                   <h2 className="font-serif text-3xl sm:text-4xl font-bold" style={{ color: '#2A0A22' }}>Shop by Category</h2>
                   <p className="text-[13px] mt-1.5" style={{ color: 'rgba(42,10,34,.45)' }}>
-                    {chipCategories.length} shelves to rummage through — swipe or use the arrows.
+                    {chipCategories.length} shelves to rummage through<span className="hidden sm:inline"> — swipe or use the arrows</span><span className="sm:hidden"> — swipe to browse</span>.
                   </p>
                 </div>
                 <Link href="/collections" className="hidden sm:flex items-center gap-1.5 text-[13px] font-semibold hover:gap-2.5 transition-all" style={{ color: '#E11D74' }}>
@@ -443,7 +449,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
       {/* ═══════════════════ PRODUCT SECTIONS ═══════════════════ */}
       {showcaseCategories.length > 0 ? (
         showcaseCategories.map((cat, idx) => (
-          <section key={cat.slug} className="py-12 px-4 border-t border-[#FFE9DD]" style={{ background: idx % 2 === 1 ? 'rgba(255,233,221,.12)' : '#FFF6EF' }}>
+          <section key={cat.slug} className="py-9 sm:py-12 px-4 border-t border-[#FFE9DD]" style={{ background: idx % 2 === 1 ? 'rgba(255,233,221,.12)' : '#FFF6EF' }}>
             <div className="max-w-7xl mx-auto">
               <Reveal>
                 <div className="flex items-center justify-between mb-7">
@@ -487,7 +493,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
           </section>
         ))
       ) : products.length > 0 ? (
-        <section className="py-12 px-4 border-t border-[#FFE9DD]">
+        <section className="py-9 sm:py-12 px-4 border-t border-[#FFE9DD]">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-7">
               <h2 className="font-serif text-2xl sm:text-3xl font-bold" style={{ color: '#2A0A22' }}>All Products</h2>
@@ -504,7 +510,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
 
       {/* ═══════════════════ MORE FROM THE SHELF ═══════════════════ */}
       {showcaseCategories.length > 0 && leftovers.length > 0 && (
-        <section className="py-12 px-4 border-t border-[#FFE9DD]">
+        <section className="py-9 sm:py-12 px-4 border-t border-[#FFE9DD]">
           <div className="max-w-7xl mx-auto">
             <Reveal>
               <div className="flex items-end justify-between mb-7">
@@ -543,7 +549,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
       )}
 
       {/* ═══════════════════ STATS ═══════════════════ */}
-      <section ref={statsRef as React.RefObject<HTMLElement>} className="py-16 px-4" style={{ background: 'linear-gradient(135deg,#FF8A3D 0%,#FF4D6D 50%,#E11D74 100%)' }}>
+      <section ref={statsRef as React.RefObject<HTMLElement>} className="py-11 sm:py-16 px-4" style={{ background: 'linear-gradient(135deg,#FF8A3D 0%,#FF4D6D 50%,#E11D74 100%)' }}>
         <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
           {STATS.map((s, i) => (
             <div key={i} className="text-center transition-all duration-700" style={{ opacity: statsVis ? 1 : 0, transform: statsVis ? 'none' : 'translateY(22px)', transitionDelay: `${i * 110}ms` }}>
@@ -557,7 +563,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
       </section>
 
       {/* ═══════════════════ TESTIMONIALS ═══════════════════ */}
-      <section className="py-16 px-4" style={{ background: '#FFF6EF' }}>
+      <section className="py-11 sm:py-16 px-4" style={{ background: '#FFF6EF' }}>
         <div className="max-w-5xl mx-auto">
           <Reveal>
             <div className="text-center mb-10">
@@ -594,7 +600,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
       </section>
 
       {/* ═══════════════════ WHY US ═══════════════════ */}
-      <section className="py-14 px-4 border-t border-[#FFE9DD]">
+      <section className="py-11 sm:py-14 px-4 border-t border-[#FFE9DD]">
         <div className="max-w-5xl mx-auto">
           <Reveal>
             <div className="text-center mb-10">
@@ -606,16 +612,18 @@ export default function HomePageClient({ products, categories }: { products: Pro
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { icon: '✦', t: 'Curated with care',  b: 'Every piece is hand-picked for quality, character and carry-worthiness. No duds, no dupes.' },
-              { icon: '🇮🇳', t: 'Made in India',     b: 'Proudly sourced and crafted in India. Supporting local artisans and quality manufacturing.' },
-              { icon: '↩️', t: '7-day easy returns', b: 'Not quite right? Return it hassle-free within 7 days. No questions, no drama.' },
-              { icon: '🚚', t: 'Free shipping',       b: 'Free pan-India shipping on orders over ₹499. Cash on delivery available almost everywhere.' },
-              { icon: '🔒', t: 'Secure checkout',     b: '100% encrypted payments via UPI, card, net banking & COD. Your data stays safe.' },
-              { icon: '💬', t: 'Real human support',  b: 'Chat with us on WhatsApp. We reply fast and actually care about your order.' },
+              { Icon: Sparkles,      t: 'Curated with care',  b: 'Every piece is hand-picked for quality, character and carry-worthiness. No duds, no dupes.' },
+              { Icon: MapPin,        t: 'Made in India',      b: 'Proudly sourced and crafted in India. Supporting local artisans and quality manufacturing.' },
+              { Icon: RotateCcw,     t: '7-day easy returns', b: 'Not quite right? Return it hassle-free within 7 days. No questions, no drama.' },
+              { Icon: Truck,         t: 'Free shipping',      b: 'Free pan-India shipping on orders over ₹499. Cash on delivery available almost everywhere.' },
+              { Icon: Lock,          t: 'Secure checkout',    b: '100% encrypted payments via UPI, card, net banking & COD. Your data stays safe.' },
+              { Icon: MessageCircle, t: 'Real human support', b: 'Chat with us on WhatsApp. We reply fast and actually care about your order.' },
             ].map((x, i) => (
               <Reveal key={i} delay={i * 70} y={20}>
                 <div className="flex gap-4 p-5 rounded-[20px] h-full lift-hover" style={{ background: '#FFE9DD' }}>
-                  <span className="text-2xl flex-shrink-0 mt-0.5">{x.icon}</span>
+                  <span className="w-10 h-10 rounded-xl grid place-items-center flex-shrink-0" style={{ background: 'linear-gradient(135deg,#FF8A3D,#E11D74)' }}>
+                    <x.Icon className="w-[19px] h-[19px] text-white" strokeWidth={1.9} />
+                  </span>
                   <div>
                     <h3 className="font-serif text-[15px] font-bold mb-1" style={{ color: '#2A0A22' }}>{x.t}</h3>
                     <p className="text-[13px] leading-relaxed" style={{ color: 'rgba(42,10,34,.58)' }}>{x.b}</p>
@@ -628,7 +636,7 @@ export default function HomePageClient({ products, categories }: { products: Pro
       </section>
 
       {/* ═══════════════════ NEWSLETTER ═══════════════════ */}
-      <section className="py-14 px-4" style={{ background: '#2A0A22' }}>
+      <section className="py-11 sm:py-14 px-4" style={{ background: '#2A0A22' }}>
         <Reveal>
           <div className="max-w-lg mx-auto text-center">
             <p className="font-script text-3xl mb-2" style={{ color: '#FF8A4C' }}>Stay in the loop</p>

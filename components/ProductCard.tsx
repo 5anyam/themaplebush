@@ -16,14 +16,6 @@ interface Product {
   badge?: "New" | "Sale" | "Hot";
 }
 
-function HeartIcon({ filled }: { filled?: boolean }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill={filled ? '#E11D74' : 'none'} stroke="#E11D74" strokeWidth="1.8" strokeLinejoin="round">
-      <path d="M12 21s-7-4.6-9.3-9C1 8.6 2.7 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.3 0 5 3.1 3.3 6.5C19 16.4 12 21 12 21Z" />
-    </svg>
-  );
-}
-
 export default function ProductCard({ product }: { product: Product }) {
   const productUrl = `/product/${productToSlug(product)}`;
   const salePrice = Number(product.price);
@@ -82,17 +74,19 @@ export default function ProductCard({ product }: { product: Product }) {
         <h3 className="font-serif text-[14px] font-semibold leading-snug line-clamp-2 mb-1.5 group-hover:text-[#E11D74] transition-colors" style={{ color: '#2A0A22' }}>
           {product.name}
         </h3>
-        <div className="flex items-center gap-2">
-          <span className="text-[15px] font-bold" style={{ color: '#2A0A22' }}>
+        {/* Wraps as whole chunks — on a narrow card the saving used to break
+            inside its own pill onto two lines. */}
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
+          <span className="text-[15px] font-bold whitespace-nowrap" style={{ color: '#2A0A22' }}>
             ₹{salePrice.toLocaleString('en-IN')}
           </span>
           {isOnSale && (
-            <span className="text-[12px] line-through" style={{ color: '#2A0A22', opacity: 0.4 }}>
+            <span className="text-[12px] line-through whitespace-nowrap" style={{ color: '#2A0A22', opacity: 0.4 }}>
               ₹{originalPrice.toLocaleString('en-IN')}
             </span>
           )}
           {isOnSale && (
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: '#FFE9DD', color: '#E11D74' }}>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap" style={{ background: '#FFE9DD', color: '#E11D74' }}>
               Save ₹{(originalPrice - salePrice).toLocaleString('en-IN')}
             </span>
           )}

@@ -311,7 +311,7 @@ export default function ProductClient({
       const variationText = selectedVariation
         ? ` (${selectedVariation.attributes.map((a) => a.option).join(', ')})`
         : ''
-      toast({ title: '🛒 Added to Cart!', description: `${quantity} × ${product.name}${variationText} added successfully.` })
+      toast({ title: 'Added to cart', description: `${quantity} × ${product.name}${variationText} added successfully.` })
     } catch (e: unknown) {
       console.error('Add to cart failed:', e)
       toast({ title: 'Error', description: 'Failed to add item to cart', variant: 'destructive' })

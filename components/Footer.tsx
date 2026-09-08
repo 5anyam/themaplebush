@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MapPin, Mail, Sparkles } from "lucide-react";
 import { fetchProductCategories } from "../lib/woocommerceApi";
 
 interface Category {
@@ -87,8 +88,14 @@ export default async function Footer() {
               <YoutubeIcon />
             </a>
           </div>
-          <p className="text-[#FFE9DD]/40 text-[12px] mt-5">
-            📍 Delhi, India &nbsp;·&nbsp; ✉ hello@thecurioshelf.in
+          <p className="text-[#FFE9DD]/40 text-[12px] mt-5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={1.9} />Delhi, India
+            </span>
+            <span className="text-[#FFE9DD]/20">·</span>
+            <a href="mailto:hello@thecurioshelf.in" className="inline-flex items-center gap-1.5 hover:text-[#FF8A4C] transition-colors">
+              <Mail className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={1.9} />hello@thecurioshelf.in
+            </a>
           </p>
         </div>
 
@@ -106,7 +113,7 @@ export default async function Footer() {
               </Link>
             ))}
             <Link href="/sale" className="text-[13px] font-semibold transition-colors" style={{ color: '#FF8A4C' }}>
-              Sale &amp; Deals ✦
+              <span className="inline-flex items-center gap-1.5">Sale &amp; Deals <Sparkles className="w-3.5 h-3.5" strokeWidth={2} /></span>
             </Link>
           </div>
         </div>
@@ -144,9 +151,11 @@ export default async function Footer() {
 
       {/* Bottom bar */}
       <div className="relative border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12.5px] text-[#FFE9DD]/45">
+        {/* Extra bottom room on small screens so the floating WhatsApp button
+            never sits on top of the payment badges. */}
+        <div className="max-w-7xl mx-auto px-6 pt-5 pb-24 sm:pb-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12.5px] text-[#FFE9DD]/45">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-            <span>© {new Date().getFullYear()} The Curio Shelf · Made in India 🇮🇳</span>
+            <span>© {new Date().getFullYear()} The Curio Shelf · Made in India</span>
             <span className="hidden sm:inline text-[#FFE9DD]/20">·</span>
             <a href="https://www.adshouz.com" target="_blank" rel="noopener noreferrer"
               className="hover:text-[#FF8A4C] transition-colors">

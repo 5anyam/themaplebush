@@ -150,7 +150,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId, productName 
         const errTxt = await res.text();
         throw new Error(errTxt || 'Failed to submit review');
       }
-      toast({ title: '🎉 Review Submitted!', description: 'Thank you for your feedback.' });
+      toast({ title: 'Review submitted!', description: 'Thank you for your feedback.' });
       setFormData({ reviewer: '', reviewer_email: '', review: '', rating: 0 });
       setShowForm(false);
       await loadReviews();

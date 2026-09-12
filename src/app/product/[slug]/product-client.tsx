@@ -199,8 +199,14 @@ export default function ProductClient({
 
   // WooCommerce refuses to sell a product with no price; don't offer one either.
   const hasPrice = salePrice > 0
-  const canBuy = isInStock && hasPrice && !variationsLoading
-  const blockedLabel = isInStock ? 'Unavailable' : 'Out of Stock'
+
+  // The product is meant to have options but none came back — usually the
+  // variations request failed rather than the product being unsellable.
+  const expectsVariations = (product?.variations?.length ?? 0) > 0
+  const variationsUnavailable = expectsVariations && !variationsLoading && variations.length === 0
+
+  const canBuy = isInStock && hasPrice && !variationsLoading && !variationsUnavailable
+  const blockedLabel = !isInStock ? 'Out of Stock' : 'Unavailable'
 
   // Deterministic rating per product (same product always shows same value)
   const productRating = product
@@ -556,7 +562,17 @@ export default function ProductClient({
             )}
 
             <div className="flex items-center gap-2">
-              {!hasPrice ? (
+              {variationsLoading ? (
+                <span className="text-xs font-semibold flex items-center gap-1.5 px-3 py-1 rounded-full border"
+                  style={{ color: 'rgba(42,10,34,.55)', background: '#FFF6EF', borderColor: '#FFE9DD' }}>
+                  Loading options…
+                </span>
+              ) : variationsUnavailable ? (
+                <span className="text-xs font-semibold flex items-center gap-1.5 px-3 py-1 rounded-full border"
+                  style={{ color: '#8a5c00', background: '#fcf3e4', borderColor: '#f0dcb8' }}>
+                  <Package className="w-3 h-3" /> Options unavailable — please refresh
+                </span>
+              ) : !hasPrice ? (
                 <span className="text-xs font-semibold flex items-center gap-1.5 px-3 py-1 rounded-full border"
                   style={{ color: '#8a5c00', background: '#fcf3e4', borderColor: '#f0dcb8' }}>
                   <Package className="w-3 h-3" /> Price coming soon

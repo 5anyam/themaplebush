@@ -27,6 +27,16 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: 'Invalid product id' }, { status: 400 });
   }
 
+  // No credentials means the deployment is missing its env vars. Say so plainly
+  // instead of passing empty auth to WooCommerce and surfacing a bare 401.
+  if (!CK || !CS) {
+    console.error('[variations] CONSUMER_KEY / CONSUMER_SECRET are not set in this environment');
+    return NextResponse.json(
+      { error: 'Store credentials are not configured on the server' },
+      { status: 503 }
+    );
+  }
+
   try {
     const url = `${WC_BASE}/products/${productId}/variations?per_page=100`;
     const res = await fetch(url, {
@@ -39,6 +49,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       // A simple product has no variations endpoint; an empty list is the
       // right answer for the caller rather than an error.
       if (res.status === 404) return NextResponse.json([]);
+      if (res.status === 401) {
+        console.error('[variations] WooCommerce rejected the credentials (401). Check CONSUMER_KEY / CONSUMER_SECRET.');
+        return NextResponse.json({ error: 'Store credentials were rejected' }, { status: 503 });
+      }
       console.error('[variations] WooCommerce returned', res.status, 'for product', productId);
       return NextResponse.json({ error: 'Could not load options' }, { status: res.status });
     }

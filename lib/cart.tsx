@@ -115,6 +115,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [] })
   const [isCartOpen, setIsCartOpen] = useState(false)
+  /** False until the stored cart has been read back and committed. */
+  const [loaded, setLoaded] = useState(false)
   const pathname = usePathname()
 
   // Close cart synchronously on every route change (before paint, no flash)
@@ -134,10 +136,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('cart')
       }
     }
+    setLoaded(true)
   }, [])
 
   // Save to localStorage
   useEffect(() => {
+    // Skip the mount pass. `state.items` is still the empty initial value while
+    // the load effect's dispatch is queued, so writing here would overwrite the
+    // stored cart with []. Under StrictMode's double-invoke the second load
+    // then reads that empty value back and the cart is gone for good.
+    if (!loaded) return
     try {
       if (typeof window !== 'undefined') {
         localStorage.setItem('cart', JSON.stringify(state.items))
@@ -145,7 +153,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error('Failed to save cart to localStorage:', error)
     }
-  }, [state.items])
+  }, [state.items, loaded])
 
   const addToCart = (product: Product) => {
     dispatch({ type: 'add', product })

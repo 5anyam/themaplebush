@@ -426,28 +426,34 @@ export async function fetchProduct(id: string | number): Promise<Product> {
   return data as Product;
 }
 
-// ⭐ NEW: Fetch Product Variations
+/**
+ * Fetch a variable product's variations.
+ *
+ * In the browser this goes through our own /api route rather than straight to
+ * WooCommerce. Calling WooCommerce directly meant the consumer secret rode
+ * along in the query string, and the Content-Type header on a GET turned it
+ * into a preflighted CORS request that the store answers without any
+ * access-control headers — so every response was discarded and the variation
+ * picker rendered as permanently out of stock.
+ */
 export async function fetchProductVariations(
   productId: number,
   page = 1,
   perPage = 100
 ): Promise<ProductVariation[]> {
-  const url = `${API_BASE}/products/${productId}/variations?${qs({
-    ...authParams,
-    per_page: perPage,
-    page,
-  })}`;
+  const url =
+    typeof window === 'undefined'
+      ? `${API_BASE}/products/${productId}/variations?${qs({ ...authParams, per_page: perPage, page })}`
+      : `/api/products/${productId}/variations`;
 
   try {
-    const res = await fetch(url, { 
-      headers: { 'Content-Type': 'application/json' },
-    });
-    
+    const res = await fetch(url);
+
     if (!res.ok) {
       if (res.status === 404) return [];
       throw new Error(`Failed to fetch variations: ${res.status} ${res.statusText}`);
     }
-    
+
     const data: unknown = await res.json();
     return isArray<ProductVariation>(data) ? data : [];
   } catch (error) {

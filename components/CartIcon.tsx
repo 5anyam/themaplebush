@@ -4,6 +4,8 @@ import { useCart } from "../lib/cart";
 import { Trash2, Minus, Plus, Package, X, ShoppingBag, CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
+// Mirrors the cart's own item shape; variationId and attributes are what keep
+// two colours of the same product separate.
 interface CartItem {
   id: number | string;
   name: string;
@@ -11,6 +13,8 @@ interface CartItem {
   regular_price?: string;
   quantity: number;
   images?: Array<{ src: string }>;
+  variationId?: number;
+  attributes?: Array<{ name: string; option: string }>;
 }
 
 export default function CartDrawer() {
@@ -142,7 +146,7 @@ export default function CartDrawer() {
                 const rp = item.regular_price;
                 const hasDiscount = !!(rp && parseFloat(rp) > parseFloat(item.price));
                 return (
-                  <div key={item.id} className="p-3 hover:bg-[#FFE9DD]/30 transition-colors">
+                  <div key={`${item.id}-${item.variationId ?? 0}`} className="p-3 hover:bg-[#FFE9DD]/30 transition-colors">
                     <div className="flex gap-3">
                       {/* Image */}
                       <div className="flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border border-[#FFE9DD]" style={{ background: '#FFE9DD' }}>
@@ -161,13 +165,20 @@ export default function CartDrawer() {
                           </h3>
                           <button
                             type="button"
-                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeFromCart(item.id as number); }}
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeFromCart(item.id as number, item.variationId); }}
                             className="flex-shrink-0 p-1 rounded-full hover:bg-red-50 transition-colors touch-manipulation"
                             aria-label="Remove item"
                           >
                             <Trash2 className="w-3.5 h-3.5" style={{ color: '#2A0A22', opacity: 0.4 }} />
                           </button>
                         </div>
+
+                        {/* Chosen variant */}
+                        {item.attributes && item.attributes.length > 0 && (
+                          <p className="text-[11.5px] mb-1" style={{ color: 'rgba(42,10,34,.5)' }}>
+                            {item.attributes.map((a) => `${a.name}: ${a.option}`).join(' · ')}
+                          </p>
+                        )}
 
                         {/* Price */}
                         <div className="flex items-center gap-1.5 mb-2">
@@ -186,7 +197,7 @@ export default function CartDrawer() {
                           <div className="flex items-center rounded-full overflow-hidden border border-[#FFE9DD]" style={{ background: 'white' }}>
                             <button
                               type="button"
-                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (item.quantity > 1) decrement(item.id as number); }}
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (item.quantity > 1) decrement(item.id as number, item.variationId); }}
                               disabled={item.quantity <= 1}
                               className="w-8 h-8 grid place-items-center transition-colors hover:bg-[#FFE9DD] disabled:opacity-40 touch-manipulation"
                               aria-label="Decrease quantity"
@@ -198,7 +209,7 @@ export default function CartDrawer() {
                             </span>
                             <button
                               type="button"
-                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); increment(item.id as number); }}
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); increment(item.id as number, item.variationId); }}
                               className="w-8 h-8 grid place-items-center transition-colors hover:bg-[#FFE9DD] touch-manipulation"
                               aria-label="Increase quantity"
                             >

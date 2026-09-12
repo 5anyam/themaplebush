@@ -3,7 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "cms.kdbookbazaar.com" },
+      // The live store. Without this every next/image pointing at product
+      // media throws "hostname is not configured" and takes the page down.
+      { protocol: "https", hostname: "cms.thecurioshelf.com" },
+      { protocol: "https", hostname: "www.thecurioshelf.in" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "**.wp.com" },
     ],

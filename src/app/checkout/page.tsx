@@ -350,7 +350,13 @@ export default function Checkout(): React.ReactElement {
       customer_id: user ? user.id : 0,
       billing: { first_name: form.name, last_name: "", address_1: form.address, city: form.city, state: form.state, postcode: form.pincode, country: "IN", email: form.email, phone: form.phone },
       shipping: { first_name: form.name, last_name: "", address_1: form.address, city: form.city, state: form.state, postcode: form.pincode, country: "IN" },
-      line_items: items.map((i) => ({ product_id: parseInt(String(i.id), 10), quantity: i.quantity })),
+      // variation_id has to travel with the line, otherwise WooCommerce records
+      // the parent product and the shop cannot tell which option was ordered.
+      line_items: items.map((i) => ({
+        product_id: parseInt(String(i.id), 10),
+        quantity: i.quantity,
+        ...(i.variationId ? { variation_id: i.variationId } : {}),
+      })),
       shipping_lines: method === "cod" && codCharges > 0 ? [{ method_id: "cod", method_title: "COD Handling Charges", total: codCharges.toString() }] : [],
       fee_lines: feeLines,
       coupon_lines: [],
@@ -610,7 +616,7 @@ export default function Checkout(): React.ReactElement {
           <div className="p-6">
             <div className="space-y-3">
               {items.map((item) => (
-                <div key={item.id} className="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
+                <div key={`${item.id}-${item.variationId ?? 0}`} className="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
                   <div className="flex items-center gap-3">
                     {item.images?.[0]?.src && (
                       <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/10 relative flex-shrink-0 bg-white/5">

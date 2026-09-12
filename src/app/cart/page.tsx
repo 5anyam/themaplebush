@@ -91,7 +91,7 @@ export default function CartPage() {
 
                 return (
                   <div
-                    key={item.id}
+                    key={`${item.id}-${item.variationId ?? 0}`}
                     className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-4 sm:p-5 hover:border-[#E11D74]/30 hover:shadow-md transition-all duration-300"
                   >
                     <div className="flex gap-4">
@@ -118,6 +118,13 @@ export default function CartPage() {
                           {item.name}
                         </h3>
 
+                        {/* Chosen variant */}
+                        {item.attributes && item.attributes.length > 0 && (
+                          <p className="text-xs mb-1" style={{ color: 'rgba(42,10,34,.5)' }}>
+                            {item.attributes.map((a) => `${a.name}: ${a.option}`).join(' · ')}
+                          </p>
+                        )}
+
                         {/* Price */}
                         <div className="flex items-baseline gap-2">
                           <span className="text-base font-bold" style={{ color: '#2A0A22' }}>
@@ -135,7 +142,7 @@ export default function CartPage() {
                           <div className="flex items-center border-2 border-[#FFE9DD] rounded-xl overflow-hidden">
                             <button
                               type="button"
-                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (item.quantity > 1) decrement(item.id); }}
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (item.quantity > 1) decrement(item.id, item.variationId); }}
                               disabled={item.quantity <= 1}
                               aria-label="Decrease quantity"
                               className="px-3 py-2 disabled:opacity-40 disabled:cursor-not-allowed transition-colors touch-manipulation hover:bg-[#FFE9DD]"
@@ -148,7 +155,7 @@ export default function CartPage() {
                             </span>
                             <button
                               type="button"
-                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); increment(item.id); }}
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); increment(item.id, item.variationId); }}
                               aria-label="Increase quantity"
                               className="px-3 py-2 transition-colors touch-manipulation hover:bg-[#FFE9DD]"
                               style={{ color: '#2A0A22' }}
@@ -163,7 +170,7 @@ export default function CartPage() {
                             </span>
                             <button
                               type="button"
-                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeFromCart(item.id); }}
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeFromCart(item.id, item.variationId); }}
                               aria-label="Remove item"
                               className="p-2 rounded-xl transition-colors touch-manipulation hover:bg-red-50 hover:text-red-500"
                               style={{ color: '#2A0A22', opacity: 0.4 }}

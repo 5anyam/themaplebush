@@ -177,10 +177,30 @@ export default function ProductClient({
   const totalSaving = hasSale ? totalRegularPrice - totalPrice : 0
   const discountPercent = hasSale ? Math.round(((regularPrice - salePrice) / regularPrice) * 100) : 0
 
-  const isInStock =
-    product && isVariableProduct(product)
-      ? selectedVariation?.stock_status === 'instock'
-      : true
+  /**
+   * Stock, resolved defensively.
+   *
+   * The old rule was "if the product says it's variable, demand a selected
+   * variation, otherwise assume in stock". Both halves misfired: a genuinely
+   * out-of-stock simple product still showed as available, and a product whose
+   * variations failed to load — or that was switched back to simple in
+   * WooCommerce while a cached copy still called it variable — was stuck
+   * showing Out of Stock with no way to buy it.
+   *
+   * Now the variation's stock only governs once variations have actually
+   * arrived; otherwise the product's own stock_status decides.
+   */
+  const productInStock = product?.stock_status !== 'outofstock'
+  const usingVariations = Boolean(product) && isVariableProduct(product as Product) && variations.length > 0
+
+  const isInStock = usingVariations
+    ? selectedVariation?.stock_status === 'instock'
+    : productInStock
+
+  // WooCommerce refuses to sell a product with no price; don't offer one either.
+  const hasPrice = salePrice > 0
+  const canBuy = isInStock && hasPrice && !variationsLoading
+  const blockedLabel = isInStock ? 'Unavailable' : 'Out of Stock'
 
   // Deterministic rating per product (same product always shows same value)
   const productRating = product
@@ -294,12 +314,16 @@ export default function ProductClient({
   })
 
   const handleAddToCart = async () => {
-    if (isVariableProduct(product) && !selectedVariation) {
+    if (usingVariations && !selectedVariation) {
       toast({ title: 'Select Options', description: 'Please select all product options before adding to cart', variant: 'destructive' })
       return
     }
     if (!isInStock) {
       toast({ title: 'Out of Stock', description: 'This product is currently out of stock', variant: 'destructive' })
+      return
+    }
+    if (!hasPrice) {
+      toast({ title: 'Not available yet', description: 'This product has no price set. Please check back soon.', variant: 'destructive' })
       return
     }
     setIsAddingToCart(true)
@@ -321,12 +345,16 @@ export default function ProductClient({
   }
 
   const handleBuyNow = async () => {
-    if (isVariableProduct(product) && !selectedVariation) {
+    if (usingVariations && !selectedVariation) {
       toast({ title: 'Select Options', description: 'Please select all product options before buying', variant: 'destructive' })
       return
     }
     if (!isInStock) {
       toast({ title: 'Out of Stock', description: 'This product is currently out of stock', variant: 'destructive' })
+      return
+    }
+    if (!hasPrice) {
+      toast({ title: 'Not available yet', description: 'This product has no price set. Please check back soon.', variant: 'destructive' })
       return
     }
     setIsBuyingNow(true)
@@ -506,7 +534,7 @@ export default function ProductClient({
           <div className="bg-white rounded-2xl p-5 border border-[#FFE9DD] shadow-sm">
             <div className="flex items-baseline gap-3 mb-2">
               <span className="text-3xl font-bold text-[#2A0A22] font-serif">
-                ₹{totalPrice.toLocaleString('en-IN')}
+                {hasPrice ? `₹${totalPrice.toLocaleString('en-IN')}` : '—'}
               </span>
               {hasSale && (
                 <>
@@ -528,7 +556,12 @@ export default function ProductClient({
             )}
 
             <div className="flex items-center gap-2">
-              {isInStock ? (
+              {!hasPrice ? (
+                <span className="text-xs font-semibold flex items-center gap-1.5 px-3 py-1 rounded-full border"
+                  style={{ color: '#8a5c00', background: '#fcf3e4', borderColor: '#f0dcb8' }}>
+                  <Package className="w-3 h-3" /> Price coming soon
+                </span>
+              ) : isInStock ? (
                 <span className="text-xs text-green-600 font-semibold flex items-center gap-1.5 bg-green-50 px-3 py-1 rounded-full border border-green-200">
                   <Check className="w-3 h-3" /> In Stock — Ready to Ship
                 </span>
@@ -577,17 +610,17 @@ export default function ProductClient({
           <div className="hidden lg:flex flex-col gap-3 pt-2">
             <button
               onClick={handleBuyNow}
-              disabled={isBuyingNow || !isInStock}
+              disabled={isBuyingNow || !canBuy}
               className={`group relative w-full mag-btn text-white font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-[#E11D74]/20 flex items-center justify-center gap-2.5 ${
-                isBuyingNow || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
+                isBuyingNow || !canBuy ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
-              {isInStock && (
+              {canBuy && (
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
               )}
               <span className="relative flex items-center gap-2">
-                {isBuyingNow ? 'Processing...' : !isInStock ? (
-                  <><Package className="w-4 h-4" /> Unavailable</>
+                {isBuyingNow ? 'Processing...' : !canBuy ? (
+                  <><Package className="w-4 h-4" /> {blockedLabel}</>
                 ) : (
                   <><Tag className="w-4 h-4" /> Buy Now</>
                 )}
@@ -596,15 +629,15 @@ export default function ProductClient({
 
             <button
               onClick={handleAddToCart}
-              disabled={isAddingToCart || !isInStock}
+              disabled={isAddingToCart || !canBuy}
               className={`relative w-full border-2 border-[#2A0A22] text-[#2A0A22] font-bold px-8 py-4 text-sm tracking-wide uppercase rounded-xl hover:bg-[#2A0A22] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 ${
-                isAddingToCart || !isInStock ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
+                isAddingToCart || !canBuy ? 'opacity-70 cursor-not-allowed' : 'hover:-translate-y-0.5 active:translate-y-0'
               }`}
             >
               {isAddingToCart ? (
                 <><Check className="w-4 h-4" /> Added to Cart!</>
-              ) : !isInStock ? (
-                <><Package className="w-4 h-4" /> Out of Stock</>
+              ) : !canBuy ? (
+                <><Package className="w-4 h-4" /> {blockedLabel}</>
               ) : (
                 <><ShoppingCart className="w-4 h-4" /> Add to Cart</>
               )}
@@ -675,19 +708,19 @@ export default function ProductClient({
           <div className="flex gap-3">
             <button
               onClick={handleBuyNow}
-              disabled={isBuyingNow || !isInStock}
+              disabled={isBuyingNow || !canBuy}
               className="flex-1 mag-btn text-white font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl transition-all shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
             >
               <Tag className="w-4 h-4" />
-              {isBuyingNow ? 'Processing...' : !isInStock ? 'Unavailable' : 'Buy Now'}
+              {isBuyingNow ? 'Processing...' : !canBuy ? blockedLabel : 'Buy Now'}
             </button>
             <button
               onClick={handleAddToCart}
-              disabled={isAddingToCart || !isInStock}
+              disabled={isAddingToCart || !canBuy}
               className="flex-1 border-2 border-[#2A0A22] text-[#2A0A22] font-bold py-3.5 text-xs tracking-wide uppercase rounded-xl hover:bg-[#2A0A22] hover:text-white transition-all disabled:opacity-60 flex items-center justify-center gap-2"
             >
               <ShoppingCart className="w-4 h-4" />
-              {isAddingToCart ? 'Added!' : !isInStock ? 'Out of Stock' : 'Add to Cart'}
+              {isAddingToCart ? 'Added!' : !canBuy ? blockedLabel : 'Add to Cart'}
             </button>
           </div>
         </div>

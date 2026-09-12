@@ -67,6 +67,10 @@ export interface Product {
   attributes?: ProductAttribute[];  // ⭐ FIXED: Changed from { option: string }[]
   type?: 'simple' | 'variable' | 'grouped' | 'external';  // ⭐ ADDED
   variations?: number[];  // ⭐ ADDED
+  /** WooCommerce's own stock flag for the product itself. */
+  stock_status?: 'instock' | 'outofstock' | 'onbackorder';
+  /** False when WooCommerce will not sell it — most often a missing price. */
+  purchasable?: boolean;
   categories?: WCCategoryRef[];
   /** Added by the "Curio Shelf — Product Panel" WordPress plugin. */
   tcs_specifications?: ProductSpecification[];

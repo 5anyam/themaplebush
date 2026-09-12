@@ -57,8 +57,8 @@ export default function RegisterPage() {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters.');
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters.');
       setLoading(false);
       return;
     }
@@ -73,13 +73,7 @@ export default function RegisterPage() {
       });
       router.push(redirectTo);
     } catch (err) {
-      const message = err instanceof Error ? err.message : '';
-      if (message === 'ACCOUNT_CREATED_LOGIN_FAILED') {
-        // Account was created but auto-login failed — send to login with a success hint
-        router.push(`/login?registered=1${redirectTo !== '/dashboard' ? `&redirect=${encodeURIComponent(redirectTo)}` : ''}`);
-        return;
-      }
-      setError(message || 'Registration failed. Please try again.');
+      setError(err instanceof Error && err.message ? err.message : 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -209,7 +203,7 @@ export default function RegisterPage() {
                   style={inputStyle}
                   placeholder="Min. 6 characters"
                   required
-                  minLength={6}
+                  minLength={8}
                 />
                 <button
                   type="button"

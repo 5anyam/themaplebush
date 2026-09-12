@@ -231,8 +231,8 @@ export default function Header() {
     setShowDropdown(false);
   }
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setShowUserMenu(false);
     router.push("/");
   };

@@ -1,104 +1,35 @@
-import { NextRequest, NextResponse } from 'next/server';
+// app/api/auth/register/route.ts
+//
+// Creates the account and signs the shopper straight in.
 
-const WC_BASE = 'https://cms.thecurioshelf.com/wp-json/wc/v3';
-const CK = process.env.CONSUMER_KEY || 'ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8';
-const CS = process.env.CONSUMER_SECRET || 'cs_545794f655a7bf793ff45df324118c96a8713af2';
+import { NextRequest, NextResponse } from 'next/server';
+import { accounts, setSessionCookie, errorResponse } from '../../../../../lib/tcsAccounts';
 
 export async function POST(req: NextRequest) {
   try {
-    const { username, email, password, first_name, last_name } = await req.json();
+    const body = await req.json();
+    const email = String(body.email || '').trim();
+    const password = String(body.password || '');
 
-    if (!username || !email || !password) {
-      return NextResponse.json({ error: 'Username, email and password are required.' }, { status: 400 });
+    if (!email || !password) {
+      return NextResponse.json(
+        { success: false, message: 'Email and password are required.' },
+        { status: 400 }
+      );
     }
-    if (password.length < 6) {
-      return NextResponse.json({ error: 'Password must be at least 6 characters.' }, { status: 400 });
-    }
 
-    const auth = Buffer.from(`${CK}:${CS}`).toString('base64');
-
-    const res = await fetch(`${WC_BASE}/customers`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${auth}`,
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        first_name: first_name || '',
-        last_name: last_name || '',
-      }),
+    const { token, expires, user, linked_orders } = await accounts.register({
+      email,
+      password,
+      first_name: String(body.first_name || '').trim(),
+      last_name: String(body.last_name || '').trim(),
+      phone: String(body.phone || '').trim(),
+      username: String(body.username || '').trim() || undefined,
     });
 
-    const data = await res.json();
-    console.log('[register] WC response status:', res.status, '| code:', data?.code);
-
-    if (!res.ok) {
-      const code: string = data.code || '';
-      if (code.includes('email-exists') || code.includes('email_exists')) {
-        return NextResponse.json({ error: 'An account with this email already exists. Please login instead.' }, { status: 409 });
-      }
-      if (code.includes('username-exists') || code.includes('username_exists')) {
-        return NextResponse.json({ error: 'This username is already taken. Please choose another.' }, { status: 409 });
-      }
-      // If WC customers endpoint fails, try custom plugin register endpoint
-      if (res.status === 404 || code === 'rest_no_route') {
-        return await registerViaPlugin({ username, email, password, first_name, last_name });
-      }
-      return NextResponse.json({ error: data.message || 'Registration failed. Please try again.' }, { status: 400 });
-    }
-
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: data.id,
-        email: data.email,
-        username: data.username,
-        first_name: data.first_name || '',
-        last_name: data.last_name || '',
-      },
-    });
+    const res = NextResponse.json({ success: true, user, linked_orders });
+    return setSessionCookie(res, token, expires);
   } catch (err) {
-    console.error('[register] error:', err);
-    return NextResponse.json({ error: 'Server error. Please try again.' }, { status: 500 });
-  }
-}
-
-async function registerViaPlugin(data: {
-  username: string; email: string; password: string;
-  first_name: string; last_name: string;
-}) {
-  try {
-    const res = await fetch('https://cms.thecurioshelf.com/wp-json/custom-api/v1/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    const result = await res.json();
-    console.log('[register] plugin fallback status:', res.status, result);
-
-    if (!res.ok) {
-      const code: string = result.code || '';
-      if (code === 'email_exists') return NextResponse.json({ error: 'An account with this email already exists. Please login instead.' }, { status: 409 });
-      if (code === 'username_exists') return NextResponse.json({ error: 'This username is already taken. Please choose another.' }, { status: 409 });
-      return NextResponse.json({ error: result.message || 'Registration failed.' }, { status: 400 });
-    }
-
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: result.data?.id,
-        email: result.data?.email || data.email,
-        username: result.data?.username || data.username,
-        first_name: result.data?.first_name || data.first_name,
-        last_name: result.data?.last_name || data.last_name,
-      },
-    });
-  } catch {
-    return NextResponse.json({
-      error: 'Registration is temporarily unavailable. Please contact support at hello@thecurioshelf.in',
-    }, { status: 503 });
+    return errorResponse(err);
   }
 }

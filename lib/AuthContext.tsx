@@ -1,22 +1,32 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
-interface User {
+/**
+ * Identity comes from the server, never from a cookie the browser can edit.
+ *
+ * The session token lives in an httpOnly cookie set by /api/auth/*, so this
+ * context only ever holds the profile the server vouched for. Previously a
+ * plain `thecurioshelf_user` cookie was trusted on sight, which meant editing
+ * one number in devtools was enough to read someone else's orders.
+ */
+
+export interface User {
   id: number;
   email: string;
   username: string;
   first_name: string;
   last_name: string;
+  billing?: Record<string, string>;
 }
 
 interface RegisterData {
   email: string;
-  username: string;
   password: string;
   first_name?: string;
   last_name?: string;
+  phone?: string;
+  username?: string;
 }
 
 interface AuthContextType {
@@ -24,79 +34,80 @@ interface AuthContextType {
   loading: boolean;
   login: (username: string, password: string) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+async function readMessage(res: Response, fallback: string) {
+  try {
+    const body = await res.json();
+    return typeof body?.message === 'string' && body.message ? body.message : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const saved = Cookies.get('thecurioshelf_user');
-    if (saved) {
-      try { setUser(JSON.parse(saved) as User); }
-      catch { Cookies.remove('thecurioshelf_user'); }
+  const refresh = useCallback(async () => {
+    try {
+      const res = await fetch('/api/auth/session', { cache: 'no-store' });
+      const data = await res.json();
+      setUser(data.user ?? null);
+    } catch {
+      setUser(null);
     }
-    setLoading(false);
   }, []);
 
-  const login = async (username: string, password: string) => {
+  useEffect(() => {
+    void refresh().finally(() => setLoading(false));
+  }, [refresh]);
+
+  const login = useCallback(async (username: string, password: string) => {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
 
-    const result = await res.json();
-
-    if (!res.ok || !result.success) {
-      throw new Error(result.message || 'Login failed. Please check your credentials.');
+    if (!res.ok) {
+      throw new Error(await readMessage(res, 'Incorrect email or password.'));
     }
 
-    const userData: User = {
-      id: result.data.id,
-      email: result.data.email,
-      username: result.data.username,
-      first_name: result.data.first_name || '',
-      last_name: result.data.last_name || '',
-    };
+    const data = await res.json();
+    setUser(data.user as User);
+  }, []);
 
-    setUser(userData);
-    Cookies.set('thecurioshelf_user', JSON.stringify(userData), { expires: 7 });
-    Cookies.set('caishen_token', result.data.token, { expires: 7 });
-  };
-
-  const register = async (data: RegisterData) => {
+  const register = useCallback(async (data: RegisterData) => {
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
 
-    const result = await res.json();
-
     if (!res.ok) {
-      throw new Error(result.error || 'Registration failed. Please try again.');
+      throw new Error(await readMessage(res, 'Registration failed. Please try again.'));
     }
 
-    // Auto-login after registration; propagate as LOGIN_FAILED so caller can redirect gracefully
+    const body = await res.json();
+    // Registration signs the shopper in, so there is no second login step to fail.
+    setUser(body.user as User);
+  }, []);
+
+  const logout = useCallback(async () => {
     try {
-      await login(data.username, data.password);
-    } catch {
-      throw new Error('ACCOUNT_CREATED_LOGIN_FAILED');
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } finally {
+      setUser(null);
     }
-  };
-
-  const logout = () => {
-    setUser(null);
-    Cookies.remove('thecurioshelf_user');
-    Cookies.remove('caishen_token');
-  };
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refresh }}>
       {children}
     </AuthContext.Provider>
   );

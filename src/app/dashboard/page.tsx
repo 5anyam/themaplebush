@@ -7,9 +7,16 @@ import {
   Package, Clock, CheckCircle, XCircle, Truck, LogOut,
   User, Mail, RefreshCw, AlertCircle, ShoppingBag,
   ChevronDown, ChevronUp, X, RotateCcw, Phone,
-  MapPin, Edit2, Save, Loader2
+  MapPin, Edit2, Save, Loader2, CreditCard, Circle,
 } from "lucide-react";
 import Link from "next/link";
+
+/**
+ * Everything here goes through /api/account/*, which reads the signed-in
+ * customer from an httpOnly session cookie. The browser never holds WooCommerce
+ * keys and never tells the server which customer it is — so one shopper cannot
+ * read another's orders by editing anything client-side.
+ */
 
 const INDIAN_STATES = [
   "Andhra Pradesh","Assam","Bihar","Chhattisgarh","Delhi","Goa","Gujarat",
@@ -23,26 +30,33 @@ interface LineItem {
   name: string;
   quantity: number;
   total: string;
+  slug: string;
+  image: string;
+}
+
+interface TimelineEvent {
+  key: string;
+  label: string;
+  description: string;
+  date: string;
 }
 
 interface Order {
   id: number;
+  number: string;
   status: string;
   total: string;
-  date_created: string;
-  customer_id: number;
+  subtotal: string;
+  shipping_total: string;
+  discount_total: string;
   payment_method_title: string;
-  billing: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-    address_1: string;
-    city: string;
-    state: string;
-    postcode: string;
-  };
+  date_created: string;
+  item_count: number;
+  can_cancel: boolean;
   line_items: LineItem[];
+  billing?: Record<string, string>;
+  shipping?: Record<string, string>;
+  timeline?: TimelineEvent[];
 }
 
 interface ProfileForm {
@@ -54,8 +68,6 @@ interface ProfileForm {
   state: string;
   postcode: string;
 }
-
-type ModalType = 'cancel' | 'refund' | null;
 
 const STATUS_STYLES: Record<string, string> = {
   completed:  'bg-green-100 text-green-800 border-green-200',
@@ -90,24 +102,106 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function formatDate(d: string) {
+  if (!d) return '';
   return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function formatDateTime(d: string) {
+  if (!d) return '';
+  return new Date(d).toLocaleString('en-IN', {
+    day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit',
+  });
+}
+
+const money = (v: string | number) => `₹${Number(v || 0).toLocaleString('en-IN')}`;
+
+/* ── Order timeline ──────────────────────────────────────────────────────
+   Milestones come from the order itself; the "Update" rows are the shop's
+   customer-visible order notes, so tracking numbers show up here too. */
+function OrderTimeline({ events, status }: { events: TimelineEvent[]; status: string }) {
+  if (!events.length) {
+    return (
+      <p className="text-xs" style={{ color: 'rgba(42,10,34,.45)' }}>
+        No updates yet. We&apos;ll post here as your order moves.
+      </p>
+    );
+  }
+
+  const tone = (key: string) =>
+    key === 'cancelled' || key === 'refunded'
+      ? { dot: '#b3261e', ring: 'rgba(179,38,30,.16)' }
+      : { dot: '#E11D74', ring: 'rgba(225,29,116,.14)' };
+
+  return (
+    <ol className="relative">
+      {events.map((event, i) => {
+        const last = i === events.length - 1;
+        const { dot, ring } = tone(event.key);
+        // The newest event is where the order stands right now.
+        const current = last && !['cancelled', 'refunded', 'completed'].includes(status);
+
+        return (
+          <li key={`${event.key}-${event.date}-${i}`} className="flex gap-3 pb-5 last:pb-0 relative">
+            {/* Connector */}
+            {!last && (
+              <span
+                className="absolute left-[7px] top-4 bottom-0 w-px"
+                style={{ background: '#FFE9DD' }}
+                aria-hidden
+              />
+            )}
+
+            <span
+              className="relative z-10 mt-1 w-[15px] h-[15px] rounded-full grid place-items-center flex-shrink-0"
+              style={{ background: ring }}
+            >
+              <span className="w-[7px] h-[7px] rounded-full" style={{ background: dot }} />
+            </span>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <p className="text-[13px] font-bold" style={{ color: '#2A0A22' }}>{event.label}</p>
+                {current && (
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded"
+                    style={{ background: '#FFE9DD', color: '#E11D74' }}>
+                    Now
+                  </span>
+                )}
+              </div>
+              {event.description && (
+                <p className="text-[12.5px] leading-relaxed mt-0.5" style={{ color: 'rgba(42,10,34,.65)' }}>
+                  {event.description}
+                </p>
+              )}
+              <p className="text-[11px] mt-0.5" style={{ color: 'rgba(42,10,34,.4)' }}>
+                {formatDateTime(event.date)}
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
 }
 
 export default function Dashboard() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const newOrderId = Number(searchParams.get('order') || 0);
-  const { user, loading: authLoading, logout } = useAuth();
+  const { user, loading: authLoading, logout, refresh } = useAuth();
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [ordersError, setOrdersError] = useState('');
   const [expandedOrder, setExpandedOrder] = useState<number | null>(newOrderId || null);
+
+  /** Full order payloads (line items, addresses, timeline), fetched on expand. */
+  const [details, setDetails] = useState<Record<number, Order>>({});
+  const [detailLoading, setDetailLoading] = useState<number | null>(null);
+
   const newOrderRef = useRef<HTMLDivElement>(null);
 
-  // Profile edit state
   const [editingProfile, setEditingProfile] = useState(false);
-  const [profileLoading, setProfileLoading] = useState(false);
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileError, setProfileError] = useState('');
   const [profileSuccess, setProfileSuccess] = useState('');
@@ -116,479 +210,415 @@ export default function Dashboard() {
     address_1: '', city: '', state: '', postcode: '',
   });
 
-  // Modal state
-  const [modal, setModal] = useState<{ type: ModalType; orderId: number } | null>(null);
-  const [refundReason, setRefundReason] = useState('');
+  const [cancelFor, setCancelFor] = useState<number | null>(null);
+  const [cancelReason, setCancelReason] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [actionError, setActionError] = useState('');
-  const [actionSuccess, setActionSuccess] = useState('');
 
+  // Not signed in → send to login and come back here afterwards.
   useEffect(() => {
-    if (!authLoading && !user) router.push('/login');
-  }, [user, authLoading, router]);
+    if (!authLoading && !user) router.replace('/login?redirect=/dashboard');
+  }, [authLoading, user, router]);
 
-  // Fetch WC customer billing profile
-  const fetchProfile = useCallback(async () => {
+  // Seed the profile form from the session user.
+  useEffect(() => {
     if (!user) return;
-    setProfileLoading(true);
-    try {
-      const auth = btoa(
-        `${process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8'}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_545794f655a7bf793ff45df324118c96a8713af2'}`
-      );
-      const res = await fetch(
-        `https://cms.thecurioshelf.com/wp-json/wc/v3/customers/${user.id}`,
-        { headers: { Authorization: `Basic ${auth}` } }
-      );
-      if (res.ok) {
-        const data = await res.json();
-        const b = data.billing || {};
-        setProfileForm({
-          first_name: data.first_name || b.first_name || user.first_name || '',
-          last_name: data.last_name || b.last_name || user.last_name || '',
-          phone: b.phone || '',
-          address_1: b.address_1 || '',
-          city: b.city || '',
-          state: b.state || '',
-          postcode: b.postcode || '',
-        });
-      }
-    } catch { /* ignore */ }
-    finally { setProfileLoading(false); }
+    const b = user.billing || {};
+    setProfileForm({
+      first_name: user.first_name || b.first_name || '',
+      last_name: user.last_name || b.last_name || '',
+      phone: b.phone || '',
+      address_1: b.address_1 || '',
+      city: b.city || '',
+      state: b.state || '',
+      postcode: b.postcode || '',
+    });
   }, [user]);
 
   const fetchOrders = useCallback(async () => {
-    if (!user) return;
     setOrdersLoading(true);
     setOrdersError('');
     try {
-      const auth = btoa(
-        `${process.env.NEXT_PUBLIC_CONSUMER_KEY || 'ck_d192213ab2889dc1f8d5a03491a2b1af8b5d0ec8'}:${process.env.NEXT_PUBLIC_CONSUMER_SECRET || 'cs_545794f655a7bf793ff45df324118c96a8713af2'}`
-      );
-      const res = await fetch(
-        `https://cms.thecurioshelf.com/wp-json/wc/v3/orders?customer=${user.id}&per_page=50&order=desc`,
-        { headers: { Authorization: `Basic ${auth}` } }
-      );
-      if (!res.ok) throw new Error(`Failed to load orders (${res.status})`);
-      setOrders(await res.json());
+      const res = await fetch('/api/account/orders', { cache: 'no-store' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || 'Could not load your orders.');
+      setOrders(data.orders || []);
     } catch (err) {
-      setOrdersError(err instanceof Error ? err.message : 'Failed to load orders');
+      setOrdersError(err instanceof Error ? err.message : 'Could not load your orders.');
     } finally {
       setOrdersLoading(false);
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
-    if (user) {
-      fetchOrders();
-      fetchProfile();
+    if (user) void fetchOrders();
+  }, [user, fetchOrders]);
+
+  /** Load the full order the first time a card is opened. */
+  const loadDetail = useCallback(async (id: number) => {
+    if (details[id]) return;
+    setDetailLoading(id);
+    try {
+      const res = await fetch(`/api/account/orders/${id}`, { cache: 'no-store' });
+      const data = await res.json();
+      if (res.ok && data.order) {
+        setDetails((prev) => ({ ...prev, [id]: data.order as Order }));
+      }
+    } catch {
+      /* the summary stays visible; the detail just won't expand */
+    } finally {
+      setDetailLoading(null);
     }
-  }, [user, fetchOrders, fetchProfile]);
+  }, [details]);
 
-  // Scroll to new order after orders load
+  const toggleOrder = (id: number) => {
+    const next = expandedOrder === id ? null : id;
+    setExpandedOrder(next);
+    if (next) void loadDetail(next);
+  };
+
+  // Auto-open and scroll to the order just placed.
   useEffect(() => {
-    if (!ordersLoading && newOrderId && newOrderRef.current) {
-      setTimeout(() => {
+    if (!ordersLoading && newOrderId) {
+      void loadDetail(newOrderId);
+      const t = setTimeout(() => {
         newOrderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 300);
+      return () => clearTimeout(t);
     }
-  }, [ordersLoading, newOrderId]);
+  }, [ordersLoading, newOrderId, loadDetail]);
 
   const handleProfileSave = async () => {
-    if (!user) return;
     setProfileSaving(true);
     setProfileError('');
     setProfileSuccess('');
     try {
-      const res = await fetch('/api/profile/update', {
-        method: 'PUT',
+      const res = await fetch('/api/account/me', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customerId: user.id, ...profileForm }),
+        body: JSON.stringify(profileForm),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Update failed');
-      setProfileSuccess('Profile updated successfully!');
+      if (!res.ok) throw new Error(data?.message || 'Could not save your details.');
+      setProfileSuccess('Saved.');
       setEditingProfile(false);
+      await refresh();
       setTimeout(() => setProfileSuccess(''), 3000);
     } catch (err) {
-      setProfileError(err instanceof Error ? err.message : 'Failed to update profile');
+      setProfileError(err instanceof Error ? err.message : 'Could not save your details.');
     } finally {
       setProfileSaving(false);
     }
   };
 
-  const openModal = (type: ModalType, orderId: number) => {
-    setModal({ type, orderId });
-    setActionError('');
-    setActionSuccess('');
-    setRefundReason('');
-  };
-
-  const closeModal = () => {
-    setModal(null);
-    setActionError('');
-    setActionSuccess('');
-  };
-
   const handleCancel = async () => {
-    if (!modal || !user) return;
+    if (!cancelFor) return;
     setActionLoading(true);
     setActionError('');
     try {
-      const res = await fetch('/api/orders/cancel', {
+      const res = await fetch(`/api/account/orders/${cancelFor}/cancel`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: modal.orderId, userId: user.id }),
+        body: JSON.stringify({ reason: cancelReason }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to cancel order');
-      setActionSuccess('Order cancelled successfully.');
-      setOrders((prev) =>
-        prev.map((o) => (o.id === modal.orderId ? { ...o, status: 'cancelled' } : o))
-      );
-      setTimeout(closeModal, 1500);
+      if (!res.ok) throw new Error(data?.message || 'Could not cancel this order.');
+
+      const updated = data.order as Order;
+      setOrders((prev) => prev.map((o) => (o.id === updated.id ? { ...o, ...updated } : o)));
+      setDetails((prev) => ({ ...prev, [updated.id]: updated }));
+      setCancelFor(null);
+      setCancelReason('');
     } catch (err) {
-      setActionError(err instanceof Error ? err.message : 'Failed to cancel order');
+      setActionError(err instanceof Error ? err.message : 'Could not cancel this order.');
     } finally {
       setActionLoading(false);
     }
   };
 
-  const handleRefund = async () => {
-    if (!modal || !user) return;
-    if (!refundReason.trim()) { setActionError('Please provide a reason for the refund.'); return; }
-    setActionLoading(true);
-    setActionError('');
-    try {
-      const res = await fetch('/api/orders/refund', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: modal.orderId, userId: user.id, reason: refundReason }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to submit refund request');
-      setActionSuccess('Refund request submitted! Our team will contact you within 2-3 business days.');
-      setTimeout(closeModal, 2500);
-    } catch (err) {
-      setActionError(err instanceof Error ? err.message : 'Failed to submit refund');
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  if (authLoading) {
+  if (authLoading || !user) {
     return (
-      <div className="min-h-screen bg-[#FFF6EF] flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#2A0A22]/50 text-sm">Loading...</p>
-        </div>
-      </div>
+      <main className="min-h-screen flex items-center justify-center" style={{ background: '#FFF6EF' }}>
+        <div className="w-10 h-10 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin" />
+      </main>
     );
   }
 
-  if (!user) return null;
-
-  const inputCls = 'w-full px-4 py-2.5 border-2 border-[#FFE9DD] rounded-xl bg-[#FFE9DD]/30 text-sm text-[#2A0A22] focus:outline-none focus:border-[#E11D74] focus:ring-2 focus:ring-[#E11D74]/10 focus:bg-white transition-all placeholder:text-[#2A0A22]/40';
+  const displayName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username;
 
   return (
-    <div className="min-h-screen bg-[#FFF6EF]">
-      <div className="max-w-4xl mx-auto px-4 py-10">
+    <main className="min-h-screen px-4 py-8 sm:py-12" style={{ background: '#FFF6EF', color: '#2A0A22' }}>
+      <div className="max-w-4xl mx-auto space-y-6">
 
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        {/* ── HEADER ── */}
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-[#2A0A22] font-serif">My Account</h1>
-            <p className="text-sm text-[#2A0A22]/50 mt-0.5">Welcome back, {profileForm.first_name || user.first_name || user.username}!</p>
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold">My Account</h1>
+            <p className="text-[13px] mt-0.5" style={{ color: 'rgba(42,10,34,.5)' }}>
+              Welcome back, {displayName}
+            </p>
           </div>
-          <div className="flex gap-3">
-            <Link href="/" className="px-4 py-2 border border-[#FFE9DD] text-[#2A0A22] rounded-xl hover:bg-[#FFE9DD] transition-all text-sm font-medium flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4" /> Shop
-            </Link>
-            <button onClick={logout} className="px-4 py-2 mag-btn text-white rounded-xl transition-all text-sm font-medium flex items-center gap-2">
-              <LogOut className="w-4 h-4" /> Logout
-            </button>
-          </div>
+          <button
+            onClick={async () => { await logout(); router.push('/'); }}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 text-[13px] font-semibold transition-colors hover:bg-[#FFE9DD]"
+            style={{ borderColor: '#FFE9DD' }}
+          >
+            <LogOut className="w-4 h-4" /> Sign out
+          </button>
         </div>
 
-        {/* ── PROFILE CARD ── */}
-        <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-6 mb-6">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-sm font-bold text-[#2A0A22]/50 uppercase tracking-wide font-serif">Account Details</h2>
+        {/* ── PROFILE ── */}
+        <section className="bg-white rounded-2xl border p-5 sm:p-6" style={{ borderColor: '#FFE9DD' }}>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-serif text-lg font-bold flex items-center gap-2">
+              <User className="w-4 h-4" style={{ color: '#E11D74' }} /> Details
+            </h2>
             {!editingProfile && (
               <button
-                onClick={() => { setEditingProfile(true); setProfileError(''); setProfileSuccess(''); }}
-                className="flex items-center gap-1.5 text-xs font-semibold text-[#E11D74] hover:text-[#E11D74]/80 transition-colors"
+                onClick={() => setEditingProfile(true)}
+                className="inline-flex items-center gap-1.5 text-[13px] font-semibold"
+                style={{ color: '#E11D74' }}
               >
-                <Edit2 className="w-3.5 h-3.5" /> Edit Profile
+                <Edit2 className="w-3.5 h-3.5" /> Edit
               </button>
             )}
           </div>
 
+          {profileError && (
+            <p className="mb-3 text-[13px] flex items-center gap-1.5 text-red-600">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />{profileError}
+            </p>
+          )}
           {profileSuccess && (
-            <div className="mb-4 flex items-center gap-2 p-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-700">
-              <CheckCircle className="w-4 h-4 shrink-0" /> {profileSuccess}
-            </div>
+            <p className="mb-3 text-[13px] flex items-center gap-1.5 text-green-700">
+              <CheckCircle className="w-4 h-4 flex-shrink-0" />{profileSuccess}
+            </p>
           )}
 
-          {!editingProfile ? (
-            /* ── READ MODE ── */
-            profileLoading ? (
-              <div className="flex items-center gap-2 text-sm text-[#2A0A22]/40 py-4">
-                <Loader2 className="w-4 h-4 animate-spin" /> Loading profile...
-              </div>
-            ) : (
-              <div className="grid sm:grid-cols-2 gap-4">
-                <InfoRow icon={<User className="w-5 h-5 text-[#E11D74]" />} label="Name"
-                  value={profileForm.first_name || profileForm.last_name
-                    ? `${profileForm.first_name} ${profileForm.last_name}`.trim()
-                    : user.username}
-                />
-                <InfoRow icon={<Mail className="w-5 h-5 text-[#E11D74]" />} label="Email" value={user.email} />
-                <InfoRow icon={<Phone className="w-5 h-5 text-[#E11D74]" />} label="Phone" value={profileForm.phone || '—'} />
-                <InfoRow icon={<Package className="w-5 h-5 text-[#E11D74]" />} label="Total Orders" value={String(orders.length)} />
-                {profileForm.address_1 && (
-                  <div className="sm:col-span-2">
-                    <InfoRow
-                      icon={<MapPin className="w-5 h-5 text-[#E11D74]" />}
-                      label="Saved Address"
-                      value={[profileForm.address_1, profileForm.city, profileForm.state, profileForm.postcode].filter(Boolean).join(', ')}
-                    />
-                  </div>
-                )}
-              </div>
-            )
-          ) : (
-            /* ── EDIT MODE ── */
-            <div className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">First Name</label>
+          {editingProfile ? (
+            <div className="grid sm:grid-cols-2 gap-3">
+              {([
+                ['first_name', 'First name'], ['last_name', 'Last name'],
+                ['phone', 'Phone'], ['address_1', 'Address'],
+                ['city', 'City'], ['postcode', 'PIN code'],
+              ] as const).map(([key, label]) => (
+                <label key={key} className="block">
+                  <span className="block text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'rgba(42,10,34,.5)' }}>{label}</span>
                   <input
-                    value={profileForm.first_name}
-                    onChange={(e) => setProfileForm((p) => ({ ...p, first_name: e.target.value }))}
-                    className={inputCls} placeholder="First name"
+                    value={profileForm[key]}
+                    onChange={(e) => setProfileForm({ ...profileForm, [key]: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border-2 text-sm focus:outline-none focus:border-[#E11D74] transition-colors"
+                    style={{ borderColor: '#FFE9DD', background: '#FFF6EF' }}
                   />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Last Name</label>
-                  <input
-                    value={profileForm.last_name}
-                    onChange={(e) => setProfileForm((p) => ({ ...p, last_name: e.target.value }))}
-                    className={inputCls} placeholder="Last name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Phone Number</label>
-                <input
-                  type="tel"
-                  value={profileForm.phone}
-                  onChange={(e) => setProfileForm((p) => ({ ...p, phone: e.target.value }))}
-                  className={inputCls} placeholder="10-digit mobile number"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Address</label>
-                <textarea
-                  value={profileForm.address_1}
-                  onChange={(e) => setProfileForm((p) => ({ ...p, address_1: e.target.value }))}
-                  className={`${inputCls} resize-none`} rows={2}
-                  placeholder="House no., Street, Landmark..."
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">City</label>
-                  <input
-                    value={profileForm.city}
-                    onChange={(e) => setProfileForm((p) => ({ ...p, city: e.target.value }))}
-                    className={inputCls} placeholder="City"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">State</label>
-                  <select
-                    value={profileForm.state}
-                    onChange={(e) => setProfileForm((p) => ({ ...p, state: e.target.value }))}
-                    className={inputCls}
-                  >
-                    <option value="">Select State</option>
-                    {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-[#2A0A22]/50 uppercase tracking-wide mb-1.5">Pincode</label>
-                  <input
-                    value={profileForm.postcode}
-                    onChange={(e) => setProfileForm((p) => ({ ...p, postcode: e.target.value }))}
-                    className={inputCls} placeholder="6-digit"
-                  />
-                </div>
-              </div>
-
-              {profileError && (
-                <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600">
-                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> {profileError}
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-1">
-                <button
-                  onClick={() => { setEditingProfile(false); setProfileError(''); fetchProfile(); }}
-                  className="flex-1 py-2.5 border border-[#FFE9DD] text-[#2A0A22] rounded-xl text-sm font-semibold hover:bg-[#FFE9DD]/30 transition-all"
+                </label>
+              ))}
+              <label className="block">
+                <span className="block text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'rgba(42,10,34,.5)' }}>State</span>
+                <select
+                  value={profileForm.state}
+                  onChange={(e) => setProfileForm({ ...profileForm, state: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border-2 text-sm focus:outline-none focus:border-[#E11D74] transition-colors"
+                  style={{ borderColor: '#FFE9DD', background: '#FFF6EF' }}
                 >
-                  Cancel
-                </button>
+                  <option value="">Select state</option>
+                  {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </label>
+
+              <div className="sm:col-span-2 flex flex-wrap gap-2 pt-1">
                 <button
                   onClick={handleProfileSave}
                   disabled={profileSaving}
-                  className="flex-1 py-2.5 mag-btn disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
+                  className="mag-btn text-[14px] px-6 py-3 disabled:opacity-60"
                 >
-                  {profileSaving
-                    ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</>
-                    : <><Save className="w-4 h-4" /> Save Changes</>
-                  }
+                  {profileSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  {profileSaving ? 'Saving…' : 'Save'}
+                </button>
+                <button
+                  onClick={() => { setEditingProfile(false); setProfileError(''); }}
+                  className="px-6 py-3 rounded-full border-2 text-[14px] font-semibold"
+                  style={{ borderColor: '#FFE9DD' }}
+                >
+                  Cancel
                 </button>
               </div>
             </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+              <InfoRow icon={<Mail className="w-3.5 h-3.5" />} label="Email" value={user.email} />
+              <InfoRow icon={<Phone className="w-3.5 h-3.5" />} label="Phone" value={profileForm.phone || '—'} />
+              <InfoRow
+                icon={<MapPin className="w-3.5 h-3.5" />}
+                label="Address"
+                value={[profileForm.address_1, profileForm.city, profileForm.state, profileForm.postcode].filter(Boolean).join(', ') || '—'}
+              />
+            </div>
           )}
-        </div>
+        </section>
 
-        {/* ── ORDERS SECTION ── */}
-        <div className="bg-white rounded-2xl border border-[#FFE9DD] shadow-sm p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-base font-bold text-[#2A0A22] font-serif">My Orders</h2>
+        {/* ── ORDERS ── */}
+        <section className="bg-white rounded-2xl border overflow-hidden" style={{ borderColor: '#FFE9DD' }}>
+          <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b" style={{ borderColor: '#FFE9DD' }}>
+            <h2 className="font-serif text-lg font-bold flex items-center gap-2">
+              <ShoppingBag className="w-4 h-4" style={{ color: '#E11D74' }} /> Orders
+            </h2>
             <button
-              onClick={fetchOrders}
+              onClick={() => void fetchOrders()}
               disabled={ordersLoading}
-              className="text-xs text-[#2A0A22]/40 hover:text-[#E11D74] flex items-center gap-1 transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 text-[13px] font-semibold disabled:opacity-50"
+              style={{ color: '#E11D74' }}
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${ordersLoading ? 'animate-spin' : ''}`} />
-              Refresh
+              <RefreshCw className={`w-3.5 h-3.5 ${ordersLoading ? 'animate-spin' : ''}`} /> Refresh
             </button>
           </div>
 
           {ordersLoading ? (
-            <div className="text-center py-16">
-              <div className="w-10 h-10 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin mx-auto mb-3" />
-              <p className="text-sm text-[#2A0A22]/50">Loading orders...</p>
+            <div className="py-14 grid place-items-center">
+              <div className="w-8 h-8 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin" />
             </div>
           ) : ordersError ? (
-            <div className="text-center py-12">
-              <XCircle className="w-10 h-10 text-red-400 mx-auto mb-3" />
-              <p className="text-sm text-red-600 mb-4">{ordersError}</p>
-              <button onClick={fetchOrders} className="px-5 py-2 mag-btn text-white rounded-xl text-sm font-medium transition-all">Retry</button>
+            <div className="py-10 px-6 text-center">
+              <AlertCircle className="w-8 h-8 mx-auto mb-3" style={{ color: '#E11D74' }} />
+              <p className="text-sm mb-4" style={{ color: 'rgba(42,10,34,.6)' }}>{ordersError}</p>
+              <button onClick={() => void fetchOrders()} className="mag-btn text-[14px] px-6 py-3">Try again</button>
             </div>
           ) : orders.length === 0 ? (
-            <div className="text-center py-16">
-              <Package className="w-14 h-14 text-[#FFE9DD] mx-auto mb-4" />
-              <p className="text-[#2A0A22] font-medium mb-1">No orders yet</p>
-              <p className="text-sm text-[#2A0A22]/40 mb-6">Start shopping and your orders will appear here.</p>
-              <Link href="/" className="inline-block px-6 py-2.5 mag-btn text-white rounded-xl text-sm font-bold transition-all">
-                Start Shopping
-              </Link>
+            <div className="py-14 px-6 text-center">
+              <div className="w-14 h-14 rounded-2xl grid place-items-center mx-auto mb-4" style={{ background: '#FFE9DD' }}>
+                <Package className="w-6 h-6" style={{ color: '#E11D74' }} />
+              </div>
+              <h3 className="font-serif text-lg font-bold mb-1">No orders yet</h3>
+              <p className="text-sm mb-6" style={{ color: 'rgba(42,10,34,.5)' }}>
+                Once you order something, it&apos;ll show up here with live updates.
+              </p>
+              <Link href="/collections" className="mag-btn text-[14px] px-7 py-3.5">Start shopping</Link>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="divide-y" style={{ borderColor: '#FFE9DD' }}>
               {orders.map((order) => {
-                const canCancel = ['pending', 'processing', 'on-hold'].includes(order.status);
-                const canRefund = ['completed', 'processing'].includes(order.status);
-                const isExpanded = expandedOrder === order.id;
-                const isNew = order.id === newOrderId;
+                const open = expandedOrder === order.id;
+                const detail = details[order.id];
 
                 return (
                   <div
                     key={order.id}
-                    ref={isNew ? newOrderRef : undefined}
-                    className={`border rounded-xl overflow-hidden transition-all ${
-                      isNew
-                        ? 'border-[#E11D74] shadow-md shadow-[#E11D74]/10 ring-1 ring-[#E11D74]/20'
-                        : 'border-[#FFE9DD] hover:border-[#FFE9DD]/80'
-                    }`}
+                    ref={order.id === newOrderId ? newOrderRef : undefined}
+                    style={order.id === newOrderId ? { background: 'rgba(255,233,221,.35)' } : undefined}
                   >
-                    <div
-                      className="flex items-center justify-between p-4 cursor-pointer select-none"
-                      onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
+                    <button
+                      onClick={() => toggleOrder(order.id)}
+                      className="w-full px-5 sm:px-6 py-4 text-left hover:bg-[#FFF6EF] transition-colors"
+                      aria-expanded={open}
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isNew ? 'bg-[#E11D74]/10' : 'bg-[#FFF6EF]'}`}>
-                          <Package className={`w-4 h-4 ${isNew ? 'text-[#E11D74]' : 'text-[#2A0A22]/30'}`} />
-                        </div>
+                      <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-sm font-bold text-[#2A0A22]">#{order.id}</span>
+                          <div className="flex flex-wrap items-center gap-2 mb-1">
+                            <span className="font-bold text-[14px]">Order #{order.number}</span>
                             <StatusBadge status={order.status} />
-                            {isNew && (
-                              <span className="text-[10px] font-bold text-[#E11D74] bg-[#E11D74]/10 px-2 py-0.5 rounded-full">New Order</span>
-                            )}
                           </div>
-                          <p className="text-xs text-[#2A0A22]/40 mt-0.5">{formatDate(order.date_created)}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3 shrink-0 ml-2">
-                        <div className="text-right hidden sm:block">
-                          <p className="text-[11px] text-[#2A0A22]/40">Total</p>
-                          <p className="text-sm font-bold text-[#2A0A22]">₹{parseFloat(order.total).toLocaleString('en-IN')}</p>
-                        </div>
-                        {isExpanded ? <ChevronUp className="w-4 h-4 text-[#2A0A22]/30" /> : <ChevronDown className="w-4 h-4 text-[#2A0A22]/30" />}
-                      </div>
-                    </div>
-
-                    {isExpanded && (
-                      <div className="border-t border-[#FFE9DD] p-4 bg-[#FFF6EF]/50 space-y-4">
-                        <div>
-                          <p className="text-[11px] font-bold text-[#2A0A22]/40 uppercase tracking-wide mb-2">Items Ordered</p>
-                          <div className="space-y-1.5">
-                            {order.line_items.map((item) => (
-                              <div key={item.id} className="flex justify-between text-sm">
-                                <span className="text-[#2A0A22]/80">{item.name} <span className="text-[#2A0A22]/40">×{item.quantity}</span></span>
-                                <span className="font-semibold text-[#2A0A22] shrink-0 ml-2">₹{parseFloat(item.total).toLocaleString('en-IN')}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <p className="text-[11px] font-bold text-[#2A0A22]/40 uppercase tracking-wide mb-1">Delivery Address</p>
-                          <p className="text-sm text-[#2A0A22]/80">
-                            {order.billing.first_name} {order.billing.last_name}
-                            {order.billing.address_1 && `, ${order.billing.address_1}`}
-                            {order.billing.city && `, ${order.billing.city}`}
-                            {order.billing.state && ` - ${order.billing.state}`}
-                            {order.billing.postcode && ` ${order.billing.postcode}`}
+                          <p className="text-[12px]" style={{ color: 'rgba(42,10,34,.5)' }}>
+                            {formatDate(order.date_created)} · {order.item_count} item{order.item_count === 1 ? '' : 's'} · {money(order.total)}
                           </p>
-                          {order.billing.phone && (
-                            <p className="text-xs text-[#2A0A22]/40 mt-0.5 flex items-center gap-1.5"><Phone className="w-3 h-3 flex-shrink-0" strokeWidth={2} />{order.billing.phone}</p>
-                          )}
                         </div>
+                        <span className="flex-shrink-0 mt-1" style={{ color: 'rgba(42,10,34,.4)' }}>
+                          {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                        </span>
+                      </div>
+                    </button>
 
-                        <div className="sm:hidden">
-                          <p className="text-[11px] font-bold text-[#2A0A22]/40 uppercase tracking-wide mb-1">Order Total</p>
-                          <p className="text-base font-bold text-[#2A0A22]">₹{parseFloat(order.total).toLocaleString('en-IN')}</p>
-                          <p className="text-xs text-[#2A0A22]/40">{order.payment_method_title}</p>
-                        </div>
+                    {open && (
+                      <div className="px-5 sm:px-6 pb-6 -mt-1">
+                        {detailLoading === order.id && !detail ? (
+                          <div className="py-8 grid place-items-center">
+                            <div className="w-6 h-6 border-2 border-[#FFE9DD] border-t-[#E11D74] rounded-full animate-spin" />
+                          </div>
+                        ) : (
+                          <div className="grid md:grid-cols-2 gap-6">
+                            {/* Items + totals */}
+                            <div>
+                              <h4 className="text-[11px] font-bold uppercase tracking-wider mb-3" style={{ color: 'rgba(42,10,34,.45)' }}>
+                                Items
+                              </h4>
+                              <ul className="space-y-2.5 mb-4">
+                                {(detail?.line_items || order.line_items || []).map((item) => (
+                                  <li key={item.id} className="flex items-center gap-3">
+                                    <div className="w-11 h-11 rounded-lg overflow-hidden flex-shrink-0" style={{ background: '#FFE9DD' }}>
+                                      {item.image && <img src={item.image} alt="" className="w-full h-full object-cover" />}
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                      {item.slug ? (
+                                        <Link href={`/product/${item.slug}`} className="text-[13px] font-semibold leading-snug line-clamp-2 hover:text-[#E11D74] transition-colors">
+                                          {item.name}
+                                        </Link>
+                                      ) : (
+                                        <p className="text-[13px] font-semibold leading-snug line-clamp-2">{item.name}</p>
+                                      )}
+                                      <p className="text-[11.5px]" style={{ color: 'rgba(42,10,34,.45)' }}>Qty {item.quantity}</p>
+                                    </div>
+                                    <span className="text-[13px] font-bold whitespace-nowrap">{money(item.total)}</span>
+                                  </li>
+                                ))}
+                              </ul>
 
-                        <div className="flex flex-wrap gap-2 pt-2 border-t border-[#FFE9DD]">
-                          {canCancel && (
-                            <button
-                              onClick={() => openModal('cancel', order.id)}
-                              className="px-4 py-2 border border-red-200 text-red-600 hover:bg-red-50 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5"
-                            >
-                              <XCircle className="w-3.5 h-3.5" /> Cancel Order
-                            </button>
-                          )}
-                          {canRefund && (
-                            <button
-                              onClick={() => openModal('refund', order.id)}
-                              className="px-4 py-2 border border-orange-200 text-orange-600 hover:bg-orange-50 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5"
-                            >
-                              <RotateCcw className="w-3.5 h-3.5" /> Request Refund
-                            </button>
-                          )}
-                        </div>
+                              <div className="rounded-xl p-3.5 space-y-1.5 text-[12.5px]" style={{ background: '#FFF6EF' }}>
+                                {detail && (
+                                  <>
+                                    <Row label="Subtotal" value={money(detail.subtotal)} />
+                                    {Number(detail.discount_total) > 0 && (
+                                      <Row label="Discount" value={`− ${money(detail.discount_total)}`} />
+                                    )}
+                                    <Row label="Shipping" value={Number(detail.shipping_total) > 0 ? money(detail.shipping_total) : 'Free'} />
+                                  </>
+                                )}
+                                <div className="flex items-center justify-between pt-1.5 border-t font-bold" style={{ borderColor: '#FFE9DD' }}>
+                                  <span>Total</span><span>{money(order.total)}</span>
+                                </div>
+                                {order.payment_method_title && (
+                                  <p className="flex items-center gap-1.5 pt-1" style={{ color: 'rgba(42,10,34,.5)' }}>
+                                    <CreditCard className="w-3.5 h-3.5" />{order.payment_method_title}
+                                  </p>
+                                )}
+                              </div>
+
+                              {detail?.billing && (
+                                <div className="mt-4">
+                                  <h4 className="text-[11px] font-bold uppercase tracking-wider mb-2" style={{ color: 'rgba(42,10,34,.45)' }}>
+                                    Delivering to
+                                  </h4>
+                                  <p className="text-[12.5px] leading-relaxed" style={{ color: 'rgba(42,10,34,.65)' }}>
+                                    {[detail.billing.first_name, detail.billing.last_name].filter(Boolean).join(' ')}<br />
+                                    {[detail.billing.address_1, detail.billing.address_2].filter(Boolean).join(', ')}<br />
+                                    {[detail.billing.city, detail.billing.state, detail.billing.postcode].filter(Boolean).join(', ')}
+                                    {detail.billing.phone && <><br />{detail.billing.phone}</>}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Timeline */}
+                            <div>
+                              <h4 className="text-[11px] font-bold uppercase tracking-wider mb-3" style={{ color: 'rgba(42,10,34,.45)' }}>
+                                Timeline
+                              </h4>
+                              {detail
+                                ? <OrderTimeline events={detail.timeline || []} status={detail.status} />
+                                : <p className="text-xs flex items-center gap-1.5" style={{ color: 'rgba(42,10,34,.45)' }}>
+                                    <Circle className="w-3 h-3" /> Loading updates…
+                                  </p>
+                              }
+
+                              {(detail?.can_cancel ?? order.can_cancel) && (
+                                <button
+                                  onClick={() => { setCancelFor(order.id); setActionError(''); setCancelReason(''); }}
+                                  className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border-2 text-[13px] font-semibold transition-colors hover:bg-red-50"
+                                  style={{ borderColor: '#f3c9c7', color: '#b3261e' }}
+                                >
+                                  <XCircle className="w-4 h-4" /> Cancel this order
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -596,96 +626,92 @@ export default function Dashboard() {
               })}
             </div>
           )}
-        </div>
+        </section>
       </div>
 
-      {/* ── MODAL ── */}
-      {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-[#2A0A22]/40 backdrop-blur-sm" onClick={closeModal} />
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 z-10 border border-[#FFE9DD]">
-            <button onClick={closeModal} className="absolute top-4 right-4 text-[#2A0A22]/30 hover:text-[#2A0A22]/60">
-              <X className="w-5 h-5" />
-            </button>
+      {/* ── CANCEL CONFIRMATION ── */}
+      {cancelFor !== null && (
+        <div
+          className="fixed inset-0 z-[1000] grid place-items-center px-4"
+          style={{ background: 'rgba(42,10,34,.55)' }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Cancel order"
+        >
+          <div className="bg-white rounded-2xl w-full max-w-md p-6">
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <h3 className="font-serif text-lg font-bold">Cancel order #{cancelFor}?</h3>
+              <button onClick={() => setCancelFor(null)} aria-label="Close" style={{ color: 'rgba(42,10,34,.4)' }}>
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
-            {modal.type === 'cancel' ? (
-              <>
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                    <XCircle className="w-5 h-5 text-red-500" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-[#2A0A22] font-serif">Cancel Order #{modal.orderId}</h3>
-                    <p className="text-xs text-[#2A0A22]/40">This action cannot be undone.</p>
-                  </div>
-                </div>
-                <p className="text-sm text-[#2A0A22]/70 mb-5">
-                  Are you sure you want to cancel this order? An SMS and email confirmation will be sent to you. If you paid online, refund will be processed within 5–7 business days.
-                </p>
-                {actionError && <div className="mb-4 flex items-start gap-2 p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600"><AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionError}</div>}
-                {actionSuccess && <div className="mb-4 flex items-start gap-2 p-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-700"><CheckCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionSuccess}</div>}
-                <div className="flex gap-3">
-                  <button onClick={closeModal} className="flex-1 py-2.5 border border-[#FFE9DD] text-[#2A0A22] rounded-xl text-sm font-semibold hover:bg-[#FFE9DD]/30 transition-all">Keep Order</button>
-                  <button
-                    onClick={handleCancel}
-                    disabled={actionLoading || !!actionSuccess}
-                    className="flex-1 py-2.5 bg-red-500 hover:bg-red-600 disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
-                  >
-                    {actionLoading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Cancelling...</> : 'Yes, Cancel'}
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                    <RotateCcw className="w-5 h-5 text-orange-500" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-[#2A0A22] font-serif">Refund Request — Order #{modal.orderId}</h3>
-                    <p className="text-xs text-[#2A0A22]/40">We&apos;ll review within 2–3 business days.</p>
-                  </div>
-                </div>
-                <div className="mb-5">
-                  <label className="block text-xs font-bold text-[#2A0A22]/60 uppercase tracking-wide mb-2">Reason for Refund *</label>
-                  <textarea
-                    value={refundReason}
-                    onChange={(e) => setRefundReason(e.target.value)}
-                    rows={4}
-                    className="w-full px-4 py-3 border-2 border-[#FFE9DD] rounded-xl bg-[#FFE9DD]/30 text-sm text-[#2A0A22] focus:outline-none focus:border-[#E11D74] focus:ring-2 focus:ring-[#E11D74]/10 focus:bg-white transition-all placeholder:text-[#2A0A22]/40 resize-none"
-                    placeholder="e.g. Wrong item received, Item damaged, Changed my mind..."
-                  />
-                </div>
-                {actionError && <div className="mb-4 flex items-start gap-2 p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600"><AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionError}</div>}
-                {actionSuccess && <div className="mb-4 flex items-start gap-2 p-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-700"><CheckCircle className="w-4 h-4 shrink-0 mt-0.5" /> {actionSuccess}</div>}
-                <div className="flex gap-3">
-                  <button onClick={closeModal} className="flex-1 py-2.5 border border-[#FFE9DD] text-[#2A0A22] rounded-xl text-sm font-semibold hover:bg-[#FFE9DD]/30 transition-all">Cancel</button>
-                  <button
-                    onClick={handleRefund}
-                    disabled={actionLoading || !!actionSuccess}
-                    className="flex-1 py-2.5 mag-btn disabled:opacity-60 text-white rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
-                  >
-                    {actionLoading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Submitting...</> : 'Submit Request'}
-                  </button>
-                </div>
-              </>
+            <p className="text-[13px] leading-relaxed mb-4" style={{ color: 'rgba(42,10,34,.6)' }}>
+              This can&apos;t be undone. If you already paid, the refund is processed
+              separately within 5–7 business days.
+            </p>
+
+            <label className="block mb-4">
+              <span className="block text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: 'rgba(42,10,34,.5)' }}>
+                Reason (optional)
+              </span>
+              <textarea
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                rows={3}
+                placeholder="Changed my mind, ordered the wrong size…"
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 text-sm focus:outline-none focus:border-[#E11D74] transition-colors"
+                style={{ borderColor: '#FFE9DD', background: '#FFF6EF' }}
+              />
+            </label>
+
+            {actionError && (
+              <p className="mb-3 text-[13px] flex items-center gap-1.5 text-red-600">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />{actionError}
+              </p>
             )}
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={handleCancel}
+                disabled={actionLoading}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-white text-[14px] font-bold disabled:opacity-60"
+                style={{ background: '#b3261e' }}
+              >
+                {actionLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                {actionLoading ? 'Cancelling…' : 'Yes, cancel it'}
+              </button>
+              <button
+                onClick={() => setCancelFor(null)}
+                className="px-5 py-3 rounded-full border-2 text-[14px] font-semibold"
+                style={{ borderColor: '#FFE9DD' }}
+              >
+                Keep order
+              </button>
+            </div>
           </div>
         </div>
       )}
+    </main>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span style={{ color: 'rgba(42,10,34,.5)' }}>{label}</span>
+      <span>{value}</span>
     </div>
   );
 }
 
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 bg-[#E11D74]/10 rounded-full flex items-center justify-center shrink-0">
-        {icon}
-      </div>
+    <div className="flex items-start gap-2.5">
+      <span className="mt-0.5 flex-shrink-0" style={{ color: '#E11D74' }}>{icon}</span>
       <div className="min-w-0">
-        <p className="text-[11px] text-[#2A0A22]/40 uppercase tracking-wide">{label}</p>
-        <p className="text-sm font-semibold text-[#2A0A22] truncate">{value}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: 'rgba(42,10,34,.45)' }}>{label}</p>
+        <p className="text-[13.5px] break-words">{value}</p>
       </div>
     </div>
   );

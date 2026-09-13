@@ -19,6 +19,7 @@ import ImageGallery from '../../../../components/ImageGallery'
 import { Tab } from '@headlessui/react'
 import ProductFAQ from '../../../../components/ProductFaq'
 import ProductReviews from '../../../../components/ProductReviews'
+import ProductFamilySelector from '../../../../components/ProductFamilySelector'
 import {
   Heart,
   Star,
@@ -480,6 +481,11 @@ export default function ProductClient({
               className="text-sm text-[#2A0A22]/70 leading-relaxed prose prose-sm max-w-none"
               dangerouslySetInnerHTML={{ __html: product.short_description }}
             />
+          )}
+
+          {/* ── COLOUR / SIZE FAMILY (separate linked products) ── */}
+          {product.tcs_family && (
+            <ProductFamilySelector family={product.tcs_family} currentId={product.id} />
           )}
 
           {/* ── VARIATION SELECTORS ── */}

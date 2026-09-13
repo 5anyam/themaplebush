@@ -71,6 +71,8 @@ export interface Product {
   stock_status?: 'instock' | 'outofstock' | 'onbackorder';
   /** False when WooCommerce will not sell it — most often a missing price. */
   purchasable?: boolean;
+  /** Added by the "Curio Shelf — Product Families" WordPress plugin. */
+  tcs_family?: ProductFamily | null;
   categories?: WCCategoryRef[];
   /** Added by the "Curio Shelf — Product Panel" WordPress plugin. */
   tcs_specifications?: ProductSpecification[];
@@ -81,6 +83,42 @@ export interface Product {
 export interface ProductSpecification {
   label: string;
   value: string;
+}
+
+/* ── "Product Families" plugin ─────────────────────────────────────────── */
+
+export interface FamilyOption {
+  value: string;
+  /** Hex colour for colour options; empty for text options. */
+  swatch: string;
+}
+
+export interface FamilyAxis {
+  id: string;
+  name: string;
+  type: 'color' | 'text';
+  options: FamilyOption[];
+}
+
+export interface FamilyMember {
+  id: number;
+  name: string;
+  slug: string;
+  price: string;
+  regular_price: string;
+  stock_status: 'instock' | 'outofstock' | 'onbackorder';
+  purchasable: boolean;
+  image: string;
+  /** Axis id → value, e.g. { ax_k3m9: 'Blue' }. */
+  values: Record<string, string>;
+}
+
+export interface ProductFamily {
+  id: number;
+  name: string;
+  slug: string;
+  axes: FamilyAxis[];
+  members: FamilyMember[];
 }
 
 export interface Category {

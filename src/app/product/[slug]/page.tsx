@@ -199,6 +199,9 @@ export default async function Page({ params }: Props) {
 
   return (
     <ProductClient
+      // Remount per product: switching to a sibling colour must not carry over
+      // the previous product's quantity, gallery position or loaded variations.
+      key={slug}
       initialProduct={productForClient}
       allProductsInitial={productsForClient}
       slug={slug}

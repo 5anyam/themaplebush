@@ -4,7 +4,7 @@ Tags: woocommerce, headless, rest api, customer accounts, orders
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 Token-authenticated REST endpoints so the headless storefront can offer sign-in,
@@ -77,6 +77,11 @@ Cancelling does not refund automatically — refunds stay a manual decision in
 WooCommerce or Razorpay.
 
 == Changelog ==
+
+= 1.0.1 =
+* Account responses are marked uncacheable. Storefront calls arrive from the
+  host's servers without a login cookie, so a page cache keyed on the URL could
+  otherwise hand one customer's profile or orders to another.
 
 = 1.0.0 =
 * First release: register, login, password reset, profile, orders, order

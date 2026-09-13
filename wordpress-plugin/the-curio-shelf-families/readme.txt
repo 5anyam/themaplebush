@@ -4,7 +4,7 @@ Tags: woocommerce, swatches, colour, size, linked products, headless
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 Group separate products into colour / size families. Every option is its own
@@ -82,6 +82,11 @@ cached per family and flushed whenever a member is saved, published, trashed,
 restored, changes stock, or joins or leaves the family.
 
 == Changelog ==
+
+= 1.0.1 =
+* LiteSpeed Cache no longer stores the product responses the storefront reads.
+  It had been serving an old product list without the family, so swatches never
+  appeared on the site.
 
 = 1.0.0 =
 * First release: families, options with ordered values and colour swatches,

@@ -3,7 +3,7 @@
  * Plugin Name:       The Curio Shelf — Product Families
  * Plugin URI:        https://www.thecurioshelf.in
  * Description:       Group separate products into colour / size families. Every option is its own product with its own page, price, images and stock; the storefront links the family together with swatches.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            The Curio Shelf
  * License:           GPL-2.0-or-later
  * Text Domain:       tcs-families
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TCS_FAM_VERSION', '1.0.0' );
+define( 'TCS_FAM_VERSION', '1.0.1' );
 define( 'TCS_FAM_TAX', 'tcs_family' );
 define( 'TCS_FAM_AXES_META', 'tcs_family_axes' );
 define( 'TCS_FAM_VALUES_META', '_tcs_family_values' );
@@ -449,6 +449,35 @@ function tcs_fam_add_to_wc_response( $response, $product ) {
 	return $response;
 }
 add_filter( 'woocommerce_rest_prepare_product_object', 'tcs_fam_add_to_wc_response', 10, 2 );
+
+/**
+ * Keep page caches away from the product data the storefront reads.
+ *
+ * The storefront authenticates with keys in the query string, which LiteSpeed
+ * Cache treats as a guest request and caches for up to 30 minutes. A family set
+ * up after that copy was stored stayed invisible on the site — swatches never
+ * appeared. Marking these responses uncacheable makes changes show at once.
+ *
+ * @param WP_HTTP_Response|WP_Error $response Response about to be sent.
+ * @param WP_REST_Server            $server   Server.
+ * @param WP_REST_Request           $request  Request.
+ * @return WP_HTTP_Response|WP_Error
+ */
+function tcs_fam_no_cache_rest( $response, $server, $request ) {
+	$route = $request->get_route();
+
+	if ( 0 === strpos( $route, '/wc/v3/products' ) || 0 === strpos( $route, '/' . TCS_FAM_NS ) ) {
+		if ( $response instanceof WP_HTTP_Response ) {
+			$response->header( 'X-LiteSpeed-Cache-Control', 'no-cache' );
+			$response->header( 'Cache-Control', 'no-store, private' );
+		}
+		// LiteSpeed Cache's own API; a no-op when that plugin is not installed.
+		do_action( 'litespeed_control_set_nocache', 'tcs-families: storefront product data must stay fresh' );
+	}
+
+	return $response;
+}
+add_filter( 'rest_post_dispatch', 'tcs_fam_no_cache_rest', 10, 3 );
 
 add_action( 'rest_api_init', 'tcs_fam_register_routes' );
 

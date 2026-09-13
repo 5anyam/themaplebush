@@ -4,7 +4,7 @@ Tags: woocommerce, product, specifications, care instructions, headless
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 Adds per-product Specifications and Care Instructions, exposed over the REST API
@@ -60,6 +60,10 @@ custom fields box.
   reactivating does not lose anything.
 
 == Changelog ==
+
+= 1.0.1 =
+* Product responses are marked uncacheable so new specifications and care
+  instructions appear straight away instead of after LiteSpeed's cache expires.
 
 = 1.0.0 =
 * First release: specifications, care instructions, control panel, REST exposure.

@@ -3,7 +3,7 @@
  * Plugin Name:       The Curio Shelf — Product Panel
  * Plugin URI:        https://www.thecurioshelf.in
  * Description:       Adds per-product Specifications and Care Instructions that the thecurioshelf.in storefront renders on the product page. Includes a control panel showing which products still need content.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            The Curio Shelf
  * License:           GPL-2.0-or-later
  * Text Domain:       tcs-panel
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TCS_PANEL_VERSION', '1.0.0' );
+define( 'TCS_PANEL_VERSION', '1.0.1' );
 define( 'TCS_META_SPECS', '_tcs_specifications' );
 define( 'TCS_META_CARE', '_tcs_care_instructions' );
 define( 'TCS_OPTION_DEFAULT_CARE', 'tcs_default_care_instructions' );
@@ -495,6 +495,33 @@ function tcs_register_rest_fields() {
 	);
 }
 add_action( 'rest_api_init', 'tcs_register_rest_fields' );
+
+/**
+ * Keep page caches away from the product data the storefront reads, so newly
+ * saved specifications and care instructions appear without waiting for
+ * LiteSpeed Cache (which treats the storefront's key-authenticated requests as
+ * cacheable guest traffic) to expire its copy.
+ *
+ * @param WP_HTTP_Response|WP_Error $response Response about to be sent.
+ * @param WP_REST_Server            $server   Server.
+ * @param WP_REST_Request           $request  Request.
+ * @return WP_HTTP_Response|WP_Error
+ */
+function tcs_panel_no_cache_rest( $response, $server, $request ) {
+	$route = $request->get_route();
+
+	if ( 0 === strpos( $route, '/wc/v3/products' ) || 0 === strpos( $route, '/tcs/v1' ) ) {
+		if ( $response instanceof WP_HTTP_Response ) {
+			$response->header( 'X-LiteSpeed-Cache-Control', 'no-cache' );
+			$response->header( 'Cache-Control', 'no-store, private' );
+		}
+		// LiteSpeed Cache's own API; a no-op when that plugin is not installed.
+		do_action( 'litespeed_control_set_nocache', 'tcs-panel: storefront product data must stay fresh' );
+	}
+
+	return $response;
+}
+add_filter( 'rest_post_dispatch', 'tcs_panel_no_cache_rest', 10, 3 );
 
 /**
  * A small public endpoint the storefront can call directly if it ever needs

@@ -3,7 +3,7 @@
  * Plugin Name:       The Curio Shelf — Customer Accounts
  * Plugin URI:        https://www.thecurioshelf.in
  * Description:       Token-authenticated REST endpoints for the headless storefront: register, login, profile, order history with a delivery timeline, and customer-initiated cancellation.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            The Curio Shelf
  * License:           GPL-2.0-or-later
  * Text Domain:       tcs-accounts
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'TCS_ACCOUNTS_VERSION', '1.0.0' );
+define( 'TCS_ACCOUNTS_VERSION', '1.0.1' );
 define( 'TCS_AUTH_NS', 'tcsauth/v1' );
 define( 'TCS_AUTH_SECRET_OPTION', 'tcs_auth_signing_secret' );
 
@@ -445,6 +445,35 @@ function tcs_auth_get_own_order( $order_id, $user ) {
  * ====================================================================== */
 
 add_action( 'rest_api_init', 'tcs_auth_register_routes' );
+
+/**
+ * Never let a page cache store an account response.
+ *
+ * Every storefront call reaches WordPress from the hosting provider's servers,
+ * with the customer's token in a header and no login cookie. Page caches such
+ * as LiteSpeed key on the URL and see those calls as guests, so a cached
+ * `/me` or `/orders` could be handed to the next customer to ask. These
+ * responses are personal and must always be generated fresh.
+ *
+ * @param WP_HTTP_Response|WP_Error $response Response about to be sent.
+ * @param WP_REST_Server            $server   Server.
+ * @param WP_REST_Request           $request  Request.
+ * @return WP_HTTP_Response|WP_Error
+ */
+function tcs_auth_no_cache_rest( $response, $server, $request ) {
+	if ( 0 === strpos( $request->get_route(), '/' . TCS_AUTH_NS ) ) {
+		if ( $response instanceof WP_HTTP_Response ) {
+			$response->header( 'X-LiteSpeed-Cache-Control', 'no-cache' );
+			$response->header( 'Cache-Control', 'no-store, private' );
+			$response->header( 'Vary', 'Authorization' );
+		}
+		// LiteSpeed Cache's own API; a no-op when that plugin is not installed.
+		do_action( 'litespeed_control_set_nocache', 'tcs-accounts: personal account data' );
+	}
+
+	return $response;
+}
+add_filter( 'rest_post_dispatch', 'tcs_auth_no_cache_rest', 10, 3 );
 
 function tcs_auth_register_routes() {
 	$public = '__return_true';
